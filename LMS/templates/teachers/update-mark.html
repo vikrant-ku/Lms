@@ -1,0 +1,112 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Update Mark {% endblock %}
+
+ {% block head %}
+
+{% endblock %}
+
+	{% block style %}
+	<style type="text/css">
+		.remove{
+			display: none;
+		}
+		.error p{
+              font-size: 12px;
+              padding: 6px 0 4px;
+              color: red;
+              display: block
+                }
+	</style>
+
+
+	 {% endblock %}
+
+{% block search %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="error-pagewrap">
+		<div class="error-page-int">
+			<div class="text-center m-b-md custom-login">
+				<h3>Update Marks</h3>
+
+			</div>
+			<div class="content-error">
+				<div class="hpanel">
+                    <div class="panel-body">
+                        <form id="stdmark" action="/teacher/update_mark/{{mark.id}}/{{ mark.student.username }}" method="post">{% csrf_token %}
+                            <div class="form-group">
+                                <label class="control-label" for="name">Student Name</label>
+                                <input type="text" disabled  value="{{ mark.student.first_name }} {{ mark.student.last_name }}" id="name" class="form-control">
+                            </div>
+                          <div class="form-group">
+                                <label class="control-label" for="class">Class</label>
+                                <input type="text" disabled  value="{{ mark.class_name }}" id="class" class="form-control">
+                            </div>
+                          <div class="form-group">
+                                <label class="control-label" for="section">Section</label>
+                                <input type="text" disabled  value="{{ mark.section }}" id="section" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="type">Exam Type</label>
+                                <input type="text" disabled  value="{{ mark.exam_type }}" id="type" class="form-control">
+                            </div>
+                          <div class="form-group">
+                                <label class="control-label" for="subject">Subject</label>
+                                <input type="text" disabled  value="{{ mark.subject }}" id="subject" class="form-control">
+                            </div>
+                          <div class="form-group">
+                                <label class="control-label" for="obtain">Obtain Marks</label>
+                                <input type="number" name="obtain" required value="{{ mark.obtain_marks }}" id="obtain" class="form-control">
+
+                            </div>
+                          <div class="form-group">
+                                <label class="control-label" for="total">Total Marks</label>
+                                <input type="number" name="total" required value="{{ mark.total_marks }}" id="total" class="form-control">
+                                <span class="error"><p id="error"></p></span>
+                            </div>
+                            <button type="button" class="btn btn-success btn-block loginbtn" onclick="validatemarks()">Submit</button>
+                        </form>
+                    </div>
+                </div>
+			</div>
+
+		</div>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+<script>
+    function validatemarks(){
+        let obtain = $('#obtain')
+        let total = $('#total')
+
+        if (obtain.val()==""){
+            obtain.css({'border': '1px solid red'})
+            total.css({'border': '1px solid red'})
+            $('#error').html('Enter obtain Marks.')
+
+        }else if (total.val()==""){
+            obtain.css({'border': '1px solid red'})
+            total.css({'border': '1px solid red'})
+            $('#error').html('Enter Total Marks')
+
+        }else if (obtain.val()>total.val() ){
+            obtain.css({'border': '1px solid red'})
+            total.css({'border': '1px solid red'})
+            $('#error').html('Obtain marks should be smaller or equal to Total Marks.')
+
+        }else{
+            $('#stdmark').submit()
+        }
+    }
+</script>
+
+
+
+{% endblock %}

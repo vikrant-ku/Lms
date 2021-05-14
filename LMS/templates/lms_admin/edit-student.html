@@ -1,0 +1,230 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Add Student {% endblock %}
+
+ {% block head %}
+
+
+
+{% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block search %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top:90px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-payment-inner-st">
+                            <ul id="myTabedu1" class="tab-review-design">
+                                <li class="active"><a href="#description">Basic Information</a></li>
+
+                            </ul>
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                <div class="product-tab-list tab-pane fade active in" id="description">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="review-content-section">
+                                                <div id="dropzone1" class="pro-ad">
+                                                    <form action="/edit_student/{{student.id}}/" class="dropzone dropzone-custom needsclick add-professors" method="post" name="addstud">{% csrf_token %}
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <input name="firstname" value="{{student.first_name}}" type="text" required onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)) ' class="form-control" placeholder="First Name">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="lastname" type="text" value="{{student.last_name}}"  onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)) ' class="form-control" placeholder="Last Name">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <input name="fathername" required type="text" value="{{student.father_name}}" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)) ' class="form-control" placeholder="Father Name">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <input name="mothername" required type="text" value="{{student.mother_name}}" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)) ' class="form-control" placeholder="Mother Name">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <input name="admno" type="number" value="{{student.admission_no}}" required class="form-control" placeholder="Admission no.">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <input name="address" type="text" value="{{student.address}}" class="form-control" required placeholder="Address">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="mobileno" maxlength=10 value="{{student.phone}}" onKeyPress="return numbersonly(this, event)"  name="phone" placeholder="Enter Phone Number" class="form-control" id="phone" required />
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="dob" id="finish" type="text" value="{{student.dob}}" required class="form-control" placeholder="Date of Birth">
+                                                                </div>
+
+
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <select name="class" required class="form-control" id="cls" onChange="getsection()">
+																			<option value="{{student.class_name}}" selected disabled>{{student.class_name}}</option>
+                                                                            {% for class in classes %}
+																			<option value="{{class}}">{{class}}</option>
+                                                                            {% endfor %}
+
+																		</select>
+                                                                </div>
+                                                                 <div class="form-group">
+                                                                    <select name="section" required class="form-control" id="section">
+																			<option value="{{student.section}}" selected="" disabled="">{{student.section}}</option>
+																		</select>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <select name="gender" id="gender" required class="form-control">
+																		<option value="{{student.gender}}" selected="" disabled="">{{student.gender}}</option>
+																		<option value="Male">Male</option>
+																		<option value="Female">Female</option>
+																	</select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                     <input type="text"  name="country" value="{{student.country}}" class="form-control" placeholder="Country">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="text"  name="state" value="{{student.state}}" class="form-control" placeholder="State">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="text" name="city" value="{{student.city}}" class="form-control" placeholder="City">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="postcode" id="postcode" type="text" value="{{student.zipcode}}" class="form-control" placeholder="Postcode">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <input name="image" type="file" class="form-control" accept="image/png,image/jpeg">
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="payment-adress">
+                                                                    <button type="submit" class="btn btn-primary waves-effect waves-light" onclick="Validate()">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+console.log($('#cls').val())
+	$('#password, #confirm_password').on('keyup', function () {
+  	if ($('#password').val() == $('#confirm_password').val()) {
+    $('#message').html('Matching').css('color', 'green');
+  	} else
+    $('#message').html('Not Matching').css('color', 'red');
+	});
+	function Validate(){
+	    alert("Hello")
+		let pass1, pass2 , gender, clss , sec;
+		pass1 = $('#password').val()
+		pass2 = $('#confirm_password').val()
+		gender = $('#gender').val()
+		clss = $('#cls').val()
+		sec = $('#section').val()
+
+		if (pass1 != pass2){
+		alert("password do not match");
+			return false;
+		}
+		 else if (clss == null) {
+			alert("Select class");
+			return false;
+		}
+		else if(sec == null){
+			alert("Select Section");
+			return false;
+		}
+		else if (gender == null){
+			alert("Select Gender");
+			return false;
+		}
+
+		else{
+			retutn true;
+		}
+
+	}
+</script>
+<script>
+
+    function getsection(){
+
+    var select = document.getElementById("section");
+
+    // for remove all option from select
+    var length = select.options.length;
+    for (i = length-1; i >= 1; i--) {
+    select.options[i] = null;
+    }
+
+
+    let section = new Array();
+    // get the class name
+    let cls = $('#cls :selected').text();
+    // get class name from backend
+    {% for class in classes %}
+    if (cls == "{{class.class_name}}"){
+
+        section.push("{{class.section_a}}")
+        if ("{{class.section_b}}" != "None"){
+        section.push("{{class.section_b}}")
+        }
+        else if ("{{class.section_c}}" != "None"){
+        section.push("{{class.section_c}}")
+        }
+        else if ("{{class.section_d}}" != "None"){
+        section.push("{{class.section_d}}")
+        }
+        else if ("{{class.section_e}}" != "None"){
+        section.push("{{class.section_e}}")
+        }
+
+
+        // add option according to class name in section
+        let option, i
+
+        for (i=0; i<section.length; i++)
+        {
+        option = document.createElement( 'option' );
+        option.value = option.text = section[i];
+        select.add( option );
+        }
+
+
+    }
+
+    {% endfor %}
+    }
+
+
+</script>
+
+{% endblock %}

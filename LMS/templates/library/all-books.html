@@ -1,0 +1,145 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| All Books {% endblock %}
+
+{% block head %}
+
+<script>
+    var count = {{count}}
+    function srno(e){
+
+
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+
+    }
+</script>
+
+{% endblock %}
+
+{% block style %}
+<style>
+    .dz-default.dz-message {
+    display: none;
+}
+</style>
+
+{% endblock %}
+
+{% block search %}
+
+    <div class="breadcome-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="breadcome-list">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="breadcome-heading">
+                                    <form role="search" url="{url 'all_books'}" class="sr-input-func">
+                                        <input type="text" name="q" placeholder="Search..." class="search-int form-control">
+                                        <a href="#"><i class="fa fa-search"></i></a>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <ul class="breadcome-menu">
+                                    <li><a href="{% url 'library_index' %}">Home</a> <span class="bread-slash">/</span>
+                                    </li>
+                                    <li><span class="bread-blod">All Book</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
+
+{% block body %}
+
+        <div class="product-status mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap">
+                            <h4>All Books</h4>
+                            <div class="add-product">
+                                <a href="{% url 'add_books' %}">Add Books</a>
+                            </div>
+                            <div class="asset-inner">
+                                <table>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Book Name</th>
+                                        <th>Author Name</th>
+                                        <th>Publishing Year</th>
+                                        <th>Publication</th>
+                                        <th>Edition</th>
+                                        <th>Subject</th>
+                                        <th>Cupbord No.</th>
+                                        <th>Rack No.</th>
+                                        <th>Setting</th>
+                                    </tr>
+                                    {% for book in books %}
+                                    <tr>
+                                       <td id="{{book.id}}"><script>srno({{book.id}})</script></td>
+                                        <td>{{book.book_name}}</td>
+                                        <td>{{book.auther_name}}</td>
+                                        <td>{{book.publishing_year}}</td>
+                                        <td>{{book.publication}}</td>
+                                        <td>{{book.edition}}</td>
+                                        <td>{{book.subject}}</td>
+                                        <td>{{book.cupbord_number}}</td>
+                                        <td>{{book.rack_number}}</td>
+
+                                        <td>
+                                            <a href="/library/edit_book/{{book.id}}/"> <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                                            <a href="/library/delete_book/{{book.id}}/"> <button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                        </td>
+                                        {% endfor %}
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <div class="custom-pagination">
+                                {% if q != 'None' %}
+								<nav aria-label="Page navigation example">
+
+                                    {% if books.has_previous or books.has_next %}
+
+                                    <ul class="pagination">
+                                         {% if books.has_previous %}
+
+                                        <li class="page-item"><a class="page-link" href="{% url 'all_books' %}?page={{books.previous_page_number}}">Previous</a></li>
+
+                                        {% endif %}
+                                        {% for p in page_range %}
+                                        {% if books.number == p %}
+                                        <li class="page-item active"><a class="page-link" href="{% url 'all_books' %}?page={{p}}">{{p}}</a></li>
+                                        {% else %}
+                                        <li class="page-item"><a class="page-link" href="{% url 'all_books' %}?page={{p}}">{{p}}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% if books.has_next %}
+                                        <li class="page-item"><a class="page-link" href="{% url 'all_books' %}?page={{books.next_page_number}}">Next</a></li>
+                                        {% endif %}
+                                    </ul>
+                                    {% endif %}
+                                </nav>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

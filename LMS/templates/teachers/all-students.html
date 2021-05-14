@@ -1,0 +1,77 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| All Students {% endblock %}
+
+ {% block head %}
+<script>
+    var count = 1
+    function srno(e){
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+{% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block search %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="product-status mg-b-15" style="margin-top:90px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>All Students</h4>
+                            <div class="add-product">
+                            </div>
+                            <div class="asset-inner">
+                                <table>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>User Name</th>
+                                        <th>first Name</th>
+                                        <th>Last Name</th>
+                                        <th>class</th>
+                                        <th>section</th>
+                                        <th>Contact</th>
+                                        <th>Setting</th>
+
+
+                                    </tr>
+                                    {% for stud in students %}
+                                    <tr>
+                                        <td id="{{stud.id}}"><script>srno({{stud.id}})</script></td>
+                                        <td>{{ stud.username }}</td>
+                                        <td>{{ stud.first_name }}</td>
+                                        <td>{{ stud.last_name }}</td>
+                                        <td>{{ stud.class_name }}</td>
+                                        <td>{{ stud.section }}</td>
+                                        <td>{{ stud.phone }}</td>
+
+                                        <td>
+                                            <a href="/teacher/student_info/{{ stud.username }}/"><button data-toggle="tooltip" title="View All Info" class="pd-setting-ed"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}

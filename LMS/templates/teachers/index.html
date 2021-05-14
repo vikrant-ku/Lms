@@ -1,0 +1,182 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Home {% endblock %}
+
+ {% block head %}
+
+{% endblock %}
+
+{% block style %}   {% endblock %}
+
+{% block search %}
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top:90px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="profile-info-inner">
+                            <div class="profile-img">
+                                {% if user.image %}
+                                <img src="{{user.image.url}}" alt="" />
+                                {% endif %}
+                                <img src="img/profile/1.jpg" alt="" />
+                            </div>
+                            <div class="profile-details-hr">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>First Name</b><br /> {{user.first_name}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Last Name</b><br />{{user.last_name}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Gender</b><br />{{user.gender}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Email ID</b><br /> {{user.email}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Phone</b><br /> {{user.phone}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Designation</b><br />{{user.designation}}</p>
+                                        </div>
+
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>D.O.B</b><br /> {{user.dob}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Pin Code</b><br /> {{user.zipcode}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>House No.</b><br /> +01962067309</p>
+                                        </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Address</b><br /> {{user.address}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>City</b><br /> {{user.city}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>State</b><br /> {{user.state}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>IFSC Code</b><br />
+                                            <h3>{{user.ifsc_code}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Account No.</b><br />
+                                            <h3>{{user.account_number}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Bank Name</b><br />
+                                            <h3>{{user.bankname}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Branch Name</b><br />
+                                            <h3>{{user.branch_name}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Pan No.</b><br />
+                                            <h3>{{user.pan_number}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Aadhar number </b><br />
+                                            <h3>{{user.aadhar_number}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Join date</b><br />
+                                            <h3>{{user.date_joined}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Basic Salary</b><br />
+                                            <h3>{{user.basic_salery}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Bank Name</b><br />
+                                            <h3>{{user.bank_name}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}
+
+

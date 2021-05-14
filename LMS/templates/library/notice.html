@@ -1,0 +1,113 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Notice {% endblock %}
+
+ {% block head %}
+<script>
+    var count = 1
+    console.log(count)
+    function srno(e){
+
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+{% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block search %}
+
+    <div class="breadcome-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="breadcome-list">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="breadcome-heading">
+                                    <form action="{% url 'library_notice' %}" role="search" class="sr-input-func">
+                                        <input type="text" name="q" placeholder="Search..." class="search-int form-control">
+                                        <a href="#"><i class="fa fa-search"></i></a>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <ul class="breadcome-menu">
+                                    <li><a href="#">Home</a> <span class="bread-slash">/</span>
+                                    </li>
+                                    <li><span class="bread-blod">Dashboard V.1</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="product-status mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>Notice</h4>
+
+                            <div class="asset-inner">
+                                <table>
+                                    <tr>
+                                        <th>Sr No</th>
+                                        <th>Recipient</th>
+                                        <th>Notice Type</th>
+                                        <th>Notice</th>
+                                        <th>Date</th>
+
+
+                                    </tr>
+                                    {% for notice in all_notice %}
+                                    <tr>
+                                        <td id="{{notice.id}}"><script>srno({{notice.id}})</script></td>
+                                        <td>{{notice.recipient}}</td>
+                                        <td>{{notice.type}}</td>
+                                        <td>{{notice.notice}}</td>
+                                        <td>{{notice.date}}</td>
+
+                                    </tr>
+                                    {% endfor %}
+
+                                </table>
+                            </div>
+                            <div class="custom-pagination">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                         {% if all_stud.has_previous %}
+                                        <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{all_stud.previous_page_number}}">Previous</a></li>
+                                        {% endif %}
+                                        {% for p in all_stud.paginator.page_range %}
+                                        <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}">{{p}}</a></li>
+                                        {% endfor %}
+                                        {% if all_stud.has_next %}
+                                        <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{all_stud.next_page_number}}">Next</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}
+

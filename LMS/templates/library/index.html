@@ -1,0 +1,69 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| 404 Error {% endblock %}
+
+ {% block head %}    {% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block body %}
+
+<div class="widgets-programs-area mg-tb-30" style="margin-top:90px">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="hpanel widget-int-shape responsive-mg-b-30">
+                            <div class="panel-body">
+                                <div class="stats-title pull-left">
+                                    <h4>All Books</h4>
+                                </div>
+                                <div class="stats-icon pull-right">
+                                    <i class="educate-icon educate-professor"></i>
+                                </div>
+                                <div class="m-t-xl widget-cl-2">
+                                    <h1 class="text-info">{{book_count}}</h1>
+                                    <small>
+												Lorem Ipsum is simply dummy text of the printing and Lorem <strong>typesetting industry</strong> spa.
+											</small>
+                                     <div class="text-center mg-t-30">
+                                        <a href="{% url 'all_books' %}"><button class="btn btn-success widget-btn-1 btn-sm">View All Books</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="hpanel widget-int-shape responsive-mg-b-30">
+                            <div class="panel-body">
+                                <div class="stats-title pull-left">
+                                    <h4>All Issue Books</h4>
+                                </div>
+                                <div class="stats-icon pull-right">
+                                    <i class="educate-icon educate-professor"></i>
+                                </div>
+                                <div class="m-t-xl widget-cl-1">
+                                    <h1 class="text-success">{{issue_book_count}}</h1>
+                                    <small>
+												Lorem Ipsum is simply dummy text of the printing and Lorem <strong>typesetting industry</strong> spa.
+											</small>
+                                    <div class="text-center mg-t-30">
+                                         <a href="{% url 'all_issue_book' %}"><button class="btn btn-success widget-btn-1 btn-sm">View All Issue Books</button></a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

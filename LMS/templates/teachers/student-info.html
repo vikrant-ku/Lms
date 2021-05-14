@@ -1,0 +1,118 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Home {% endblock %}
+
+ {% block head %}
+
+{% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block search %}
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top:90px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="profile-info-inner">
+                            <div class="profile-img">
+                                {% if student.image %}
+                                <img src="{{student.image.url}}" alt="" />
+                                {% endif %}
+                            </div>
+                            <div class="profile-details-hr">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>First Name</b><br /> {{student.first_name}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Last Name</b><br />{{student.last_name}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Class</b><br />{{student.class_name}}{{student.section}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Email ID</b><br /> hk@gmail.com</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Phone</b><br /> +01962067309</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Addmission Number</b><br />{{student.admission_no}}</p>
+                                        </div>
+
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>D.O.B</b><br /> {{student.dob}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Father Name</b><br /> {{student.father_name}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Mother Name</b><br /> {{student.mother_name}}</p>
+                                        </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>PIN Code</b><br />{{student.zipcode}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>House No.</b><br /> E104, catn-2, Chandlodia Ahmedabad Gujarat, UK.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Address</b><br />{{student.address}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}
+
+

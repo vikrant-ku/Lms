@@ -1,0 +1,133 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| All Events {% endblock %}
+
+ {% block head %}
+<script>
+    let count=1
+        function srno(e){
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+{% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block search %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="product-status mg-b-15" style="margin-top:90px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>Teachers Role</h4>
+                            <div class="add-product">
+                                <a href="{% url 'all_teachers' %}">Add Role</a>
+                            </div>
+                            <div class="asset-inner">
+                                <table>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>User ID</th>
+                                        <th>Name</th>
+                                        <th>Role</th>
+                                        <th>Class</th>
+                                        <th>Section</th>
+
+                                        <th>Setting</th>
+
+
+                                    </tr>
+                                    {% for role in all_role %}
+                                    <tr>
+                                        <td id="{{role.id}}"><script>srno({{role.id}})</script></td>
+                                        <td>{{ role.user.username }}</td>
+                                        <td>{{ role.user.first_name }}</td>
+                                        <td>{{ role.role }}</td>
+                                        {% if role.class_name is None %}
+                                        <td>-</td>
+                                         <td>-</td>
+                                        {% else %}
+
+                                        <td>{{ role.class_name }}</td>
+                                         <td>{{ role.section }}</td>
+                                        {% endif %}
+
+
+
+
+                                        <td>
+                                            <a class="Danger danger-color" href="#" onclick="function" data-toggle="modal" data-target="#{{ role.id }}"><button data-toggle="tooltip" title="delete" class="pd-setting-ed"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                        </td>
+                                    </tr>
+                                                <!--  Modal start   "> -->
+                        <div id="{{ role.id }}" class="modal modal-edu-general FullColor-popup-DangerModal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-close-area modal-close-df">
+                                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                                    </div>
+                                    <div class="modal-body">
+                                        <span class="educate-icon educate-danger modal-check-pro information-icon-pro"></span>
+                                        <h3>Warning!</h3>
+                                      <p><b>Are you sure you want to delete it ?</b></p>
+                                    </div>
+                                    <div class="modal-footer danger-md">
+                                        <a data-dismiss="modal" href="#">No</a>
+                                        <a href="{% url 'view_role' %}{{ role.id }}">Yes</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                    <!--  Modal end      -->
+                                    {% endfor %}
+
+
+                                </table>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+                                </div>
+                            <div class="custom-pagination">
+                                <nav aria-label="Page navigation example">
+                                    {% if not q %}
+                                    <ul class="pagination">
+                                         {% if all_stud.has_previous %}
+                                        <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{all_stud.previous_page_number}}">Previous</a></li>
+                                        {% endif %}
+                                        {% for p in all_stud.paginator.page_range %}
+                                        <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}">{{p}}</a></li>
+                                        {% endfor %}
+                                        {% if all_stud.has_next %}
+                                        <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{all_stud.next_page_number}}">Next</a></li>
+                                        {% endif %}
+                                    </ul>
+                                    {% endif %}
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Maek Arrandance {% endblock %}
+
+ {% block head %}
+<script>
+    let count=1
+    console.log('count', count)
+    function srno(e){
+
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+
+
+{% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block search %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="product-status mg-b-15" style="margin-top:90px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>Mark Attandance</h4>
+                            <br>
+                                <h6>Today {{date}}</h6>
+
+                            <div class="asset-inner">
+                                <form action="{% url 'admin_mark_attandance' %}" method="post">{% csrf_token %}
+                                <table>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Teacher Id</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Attandance</th>
+                                    </tr>
+
+                                    {% for teacher in teachers %}
+                                    <tr>
+                                        <td id="{{teacher.id}}"><script>srno({{teacher.id}})</script></td>
+                                        <td>{{ teacher.username }}</td>
+                                        <td>{{ teacher.first_name }}</td>
+                                        <td>{{ teacher.last_name }}</td>
+
+                                        <td>
+
+                                                <select name="attandance" class="form-control col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                        <option value="A">Absent</option>
+                                                        <option value="P">Present</option>
+                                                        <option value="SL">Sick Leave</option>
+                                                        <option value="UL">Unpaid Leave</option>
+                                                        <option value="PL">Paid Leave</option>
+                                                        <option value="HD">Half Day</option>
+                                                </select>
+
+                                        </td>
+                                        <input type="hidden" value="{{teacher.id}}" name="id">
+
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                                    {% if marked %}
+                                    <h6>You Already marked Today Attandance</h6>
+                                    {% else %}
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    </div>
+                                    {% endif %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

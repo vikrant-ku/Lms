@@ -1,0 +1,129 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| View Attandance {% endblock %}
+
+ {% block head %}
+<script>
+    let count=1
+
+    function srno(e){
+
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+<script>
+    function getmonth(){
+
+    let year = $('#year').val()
+    let today = parseInt({{year}})
+    if(year == ""){
+        alert('Please Enter Year')
+        return false;
+        }
+    else if(parseInt(year)>today || parseInt(year)<2000){
+            alert('Please Enter Valid Date')
+            return false;
+        }
+    else{
+        document.month.submit()
+    }
+
+    }
+    </script>
+
+
+{% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block search %}
+
+ <div class="breadcome-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="breadcome-list row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                    <form action="{% url 'library_view_attandance' %}" method="get" name="month" >
+                                        <div class="container">
+                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 form-group">
+                                              <input type="text" name="year" id="year" placeholder="Enter Year" value="" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="4" >
+                                        </div>
+                                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 form-group">
+                                          <div class="form-group">
+                                              <select name="month" required class="form-control" >
+                                                  <option value="none" selected="" disabled="">Select Month</option>
+                                                  <option value="1">January</option>
+                                                  <option value="2">February</option>
+                                                  <option value="3">March</option>
+                                                  <option value="4">April</option>
+                                                  <option value="5">May</option>
+                                                  <option value="6">June</option>
+                                                  <option value="7">July</option>
+                                                  <option value="8">August</option>
+                                                  <option value="9">September</option>
+                                                  <option value="10">October</option>
+                                                  <option value="11">November</option>
+                                                  <option value="12">December</option>
+                                              </select>
+                                          </div>
+                                      </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 form-group">
+                                            <button type="button" onclick="getmonth()" class="btn btn-success form-control"><span class="educate-icon educate-search icon-wrap" aria-hidden="true"></span>Search</button>
+                                        </div>
+                                        </div>
+
+                                    </form>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
+
+{% block body %}
+{% if attandance %}
+<div class="product-status mg-b-15" >
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>Mark Attandance</h4>
+
+                            <div class="asset-inner">
+
+                                <table>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Date</th>
+                                        <th>Attandance</th>
+                                    </tr>
+
+                                    {% for attand in attandance %}
+                                    <tr>
+                                        <td id="{{attand.id}}"><script>srno({{attand.id}})</script></td>
+                                         <td>{{attand.datetime.date|date:"D"}} - {{attand.datetime.date|date:"d/m/Y"}}</td>
+                                        <td>{{attand.attandance}}</td>
+                                    </tr>
+                                     {% endfor %}
+
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endif %}
+
+
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

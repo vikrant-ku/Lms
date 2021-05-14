@@ -1,0 +1,164 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Students Fee {% endblock %}
+
+ {% block head %}
+<script>
+    var count = 1
+    function srno(e){
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+{% endblock %}
+
+{% block style %} {% endblock %}
+
+{% block search %} {% endblock %}
+
+{% block body %}
+
+<div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top: 90px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-payment-inner-st">
+                            <ul id="myTabedu1" class="tab-review-design">
+                                <li class="active"><a href="#description">View Fee</a></li>
+                            </ul>
+
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                <div class="product-tab-list tab-pane fade active in" id="description">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="review-content-section">
+                                                <div id="dropzone1" class="pro-ad">
+                                                    <form action="{% url 'teacher_view_fee' %}" class="dropzone dropzone-custom needsclick add-professors" method="post" name="fee">{% csrf_token %}
+                                                        <div class="row">
+
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                    <div class="form-group">
+                                                                        <label>Month</label>
+                                                                        <select name="month" id="month" required class="form-control">
+                                                                            <option value="none" selected="" disabled="">Select Month</option>
+                                                                            <option value="JUL">JULY</option>
+                                                                            <option value="AUG">AUGUST</option>
+                                                                            <option value="SEP">SEPTEMBER</option>
+                                                                            <option value="OCT">OCTOBER</option>
+                                                                            <option value="NOV">NOVEMBER</option>
+                                                                            <option value="DEC">DECEMBER</option>
+                                                                            <option value="JAN">JANUARY</option>
+                                                                            <option value="FEB">FEBRARY</option>
+                                                                            <option value="MAR">MARCH</option>
+                                                                            <option value="APR">APRIL</option>
+                                                                            <option value="MAY">MAY</option>
+                                                                            <option value="JUN">JUNE</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                    <div class="form-group">
+                                                                        <label>&nbsp</label>
+                                                                        <button type="button" class="btn btn-success form-control" onclick="validate()">Submit</button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% if students_fee %}
+<div class="product-status mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>Students Fee</h4>
+
+
+                            <div class="asset-inner">
+
+                                <table>
+                                    <tr>
+                                        <th>Sr No.</th>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Submit Date</th>
+                                        <th>Fee Status</th>
+
+
+                                    </tr>
+
+                                    {% for  fee in students_fee %}
+                                    {% if fee.1 %}
+                                    <tr>
+                                        <td id="{{fee.1.id}}"><script>srno({{fee.1.id}})</script></td>
+
+                                        <td>{{fee.1.student}}</td>
+                                        <td>{{fee.0.first_name}} {{fee.0.last_name}}</td>
+
+                                        <td>{{fee.1.submit_date}}</td>
+                                        <td><button class="btn btn-success">Paid</button></td>
+
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                     <td id="{{fee.0.id}}"><script>srno({{fee.0.id}})</script></td>
+
+                                        <td>{{fee.0}}</td>
+                                        <td>{{fee.0.first_name}} {{fee.0.last_name}}</td>
+
+                                        <td>-</td>
+                                        <td><button class="btn btn-danger">Unpaid</button></td>
+                                     </tr>
+
+                                    {% endif %}
+
+                                    {% endfor %}
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+<script>
+    function validate(){
+    let month = $('#month :selected').val();
+    if(month == 'none'){
+    alert('Plese Select Month')
+    $('#month').css({"border": "solid 2px red"})
+    }
+    else{
+        document.fee.submit()
+    }
+
+        }
+</script>
+
+
+{% endblock %}

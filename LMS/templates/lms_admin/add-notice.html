@@ -1,0 +1,93 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Add Notice {% endblock %}
+
+ {% block head %}    {% endblock %}
+
+	{% block style %}   {% endblock %}
+
+
+{% block search %}
+
+
+{% endblock %}
+
+{% block body %}
+
+      <div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top: 90px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-payment-inner-st">
+                            <ul id="myTabedu1" class="tab-review-design">
+                                <li class="active"><a href="#description">Add Notice</a></li>
+
+                            </ul>
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                <div class="product-tab-list tab-pane fade active in" id="description">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="review-content-section">
+                                                <div id="dropzone1" class="pro-ad">
+                                                    <form action="{% url 'add_notice' %}" method="post" class="dropzone dropzone-custom needsclick add-professors">{% csrf_token %}
+                                                        <div class="row">
+
+                                                            <div class="col-lg- col-md-12 col-sm-6 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <select name="recipient" required class="form-control">
+																		<option value="none" selected="" disabled="">Select Recipient</option>
+																		<option value="Teacher">Teachers</option>
+																		<option value="Students">Students</option>
+																		<option value="All">All</option>
+																	</select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <select name="type" required class="form-control">
+																		<option value="none" selected="" disabled="">Select Type</option>
+																		<option value=Event>Event</option>
+																		<option value="Meeting">Meeting</option>
+																		<option value="Holidays">Holidays</option>
+																		<option value="Exams">Exams</option>
+																		<option value="Fees">Fees</option>
+																	</select>
+                                                                </div>
+
+                                                                    <div class="form-group">
+                                                                    <input type="date" name="date" required value="" class="form-control">
+
+                                                                </div>
+                                                                <div class="form-group res-mg-t-15">
+                                                                    <textarea name="notice" required placeholder="Notice"></textarea>
+                                                                </div>
+
+
+
+                                                        </div>
+                                                                <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="payment-adress">
+                                                                    <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

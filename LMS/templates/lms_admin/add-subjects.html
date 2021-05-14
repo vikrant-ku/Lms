@@ -1,0 +1,197 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Add Subjects {% endblock %}
+
+ {% block head %}
+<style>
+    .input-group {
+    margin-top: 10px;
+    }
+</style>
+
+<script>
+    let count=1, input;
+    function addsubject(){
+
+        input = `<div class="input-group custom-go-button" id="`+count+`">
+                                                   <input type="text" name="subject" class="form-control">
+                                                   <span class="input-group-btn"><button type="button" class="btn btn-primary" onclick="remove(`+count+`)"><span class="glyphicon glyphicon-remove"></span> </button></span>
+                                                </div>`
+
+
+	    $('#subject').append(input)
+	    count = count+1
+    }
+    function remove(e){
+    $('#'+e+'').remove();
+    }
+
+</script>
+<script>
+    let prev
+    function getsection(e){
+    <!--    change btn class   -->
+
+        $('#'+prev+'').removeClass('btn-primary');
+        $('#'+prev+'').addClass('btn-default');
+
+         $('#'+e+'').removeClass('btn-default');
+        $('#'+e+'').addClass('btn-primary');
+        prev = e
+
+        $(".sec").empty();
+        $('#cls_name').val(e)
+        $('#sec_name').val("")
+        let section = new Array()
+        {% for class in all_cls %}
+
+            if (e == "{{class.class_name}}"){
+
+                section.push("{{class.section_a}}")
+                if ("{{class.section_b}}" != "None"){
+                section.push("{{class.section_b}}")
+                }
+                else if ("{{class.section_c}}" != "None"){
+                section.push("{{class.section_c}}")
+                }
+                else if ("{{class.section_d}}" != "None"){
+                section.push("{{class.section_d}}")
+                }
+                else if ("{{class.section_e}}" != "None"){
+                section.push("{{class.section_e}}")
+                }
+
+                // add option according to class name in section
+                let option, i
+
+                for (i=0; i<section.length; i++)
+                {
+                let button = `<button type="button" class="btn btn-custon-two btn-default" onclick="setsection('`+section[i]+`')" id="`+section[i]+`">Section-`+section[i]+`</button><br><br>`
+                $('.sec').append(button)
+                }
+
+
+            }
+
+
+        {% endfor %}
+    }
+
+        let preval=""
+    function setsection(e){
+        $('#sec_name').val(e)
+
+        $('#'+preval+'').removeClass('btn-primary');
+        $('#'+preval+'').addClass('btn-default');
+
+         $('#'+e+'').removeClass('btn-default');
+        $('#'+e+'').addClass('btn-primary');
+        preval=e
+
+       }
+
+
+    function validate(){
+        let cls = $('#cls_name').val()
+        let sec = $('#sec_name').val()
+        if(cls == ""){
+        alert("Please select class");
+			return false;
+		}
+		else if(sec == ""){
+		alert("Please select section");
+			return false;
+		}
+		else{
+		document.subject.submit()
+		}
+
+    }
+</script>
+
+
+{% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block search %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top: 90px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="profile-info-inner">
+
+                            <div class="profile-details-hr">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <div class="button-style-four btn-mg-b-10">
+                                            <h3>Class</h3><br>
+                                            {% for class in all_cls %}
+                                            <button type="button" class="btn btn-custon-two btn-default" id="{{class.class_name}}" onclick="getsection('{{class.class_name}}')">{{class.class_name}}</button><br>
+                                            <br>
+                                            {% endfor %}
+
+
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <h3>Section</h3><br>
+                                        <div class="button-style-four btn-mg-b-10 sec">
+
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <form action="{% url 'add_subjects' %}" method="post" name="subject">{% csrf_token %}
+                                            <h3>Subject</h3><br>
+                                            <div class="form-group" id="subject">
+
+                                                    <input name="subject" type="text" class="form-control " placeholder="Subject"><br>
+                                                    <input name="subject" type="text" class="form-control mt-3" placeholder="Subject"><br>
+                                                    <input name="subject" type="text" class="form-control" placeholder="Subject">
+                                                </div>
+
+                                                <input type="hidden" name="class" id="cls_name">
+                                                <input type="hidden" name="section" id="sec_name">
+
+                                                    <button type="button" class="btn btn-custon-four btn-primary" onclick="addsubject()">
+                                                    <i class="glyphicon glyphicon-plus" aria-hidden="true" ></i> New Subject</button>
+                                                    <div class="payment-adress">
+                                                    <button type="button" class="btn btn-primary waves-effect waves-light" onclick="validate()">Save</button>
+                                                </div>
+                                        </form>
+
+                                        </div>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+</div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+
+
+{% endblock %}
+
+

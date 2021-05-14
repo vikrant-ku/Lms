@@ -1,0 +1,329 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Upload Marks {% endblock %}
+
+ {% block head %}
+<script>
+    var count = 1
+    function srno(e){
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+{% endblock %}
+
+{% block style %} {% endblock %}
+
+{% block search %} {% endblock %}
+
+{% block body %}
+
+<div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top: 90px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-payment-inner-st">
+                            <ul id="myTabedu1" class="tab-review-design">
+                                <li class="active"><a href="#description">Upload Marks</a></li>
+                            </ul>
+
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                <div class="product-tab-list tab-pane fade active in" id="description">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="review-content-section">
+                                                <div id="dropzone1" class="pro-ad">
+                                                    <form action="{% url 'upload_marks' %}" class="dropzone dropzone-custom needsclick add-professors" enctype="multipart/form-data" method="post" name="assign">{% csrf_token %}
+                                                        <div class="row">
+
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                    <div class="form-group">
+                                                                    <label>Class</label>
+                                                                    <select name="class" required class="form-control" id="cls" onChange="getsection(); getsubject()">
+																			<option value="none" selected="" disabled="">Select Class</option>
+                                                                            {% for class in classes %}
+																			<option value="{{class}}">{{class}}</option>
+                                                                            {% endfor %}
+
+																		</select>
+                                                                </div>
+                                                                </div>
+
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                    <div class="form-group">
+                                                                     <label>Section</label>
+                                                                    <select name="section" required class="form-control" id="section" onChange="getsubject()">
+																			<option value="none" selected="" disabled="">Select Section</option>
+                                                                    </select>
+                                                                </div>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                    <div class="form-group">
+                                                                    <label>Subject</label>
+                                                                    <select name="subject" required class="form-control" id="sub">
+																			<option value="none" selected="" disabled="">Select Subject</option>
+                                                                    </select>
+                                                                </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                                    <div class="form-group">
+                                                                        <label></label>
+                                                                        <button type="button" class="btn btn-success form-control" onclick="validate()">Submit</button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% if subject %}
+<div class="product-status mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>Upload Marks</h4>
+
+
+                            <div class="asset-inner">
+                                <form action="{% url 'save_upload_marks' %}" method="post">{% csrf_token %}
+
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><br>
+                                       <div class="form-group">
+                                                                        <label>Exam Type</label>
+                                                                        <select name="type" required class="form-control" id="exm">
+                                                                                <option value="none" disabled="">Select Exam</option>
+                                                                                <option value="Half Yearly" >Half Yearly</option>
+                                                                                <option value="Annualy">Annualy</option>
+                                                                        </select>
+                                                                    </div>
+
+                                   </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><br>
+                                       <div class="form-group">
+                                           <label for="total">Total Marks</label>
+                                           <input type="number" id="total" name="total" class="form-control" required min="0" max="100.00" placeholder="Total Marks">
+
+
+                                   </div>
+                                    </div>
+                                <table>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Student Id</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Obtained Marks</th>
+                                        <th>Remarks</th>
+                                        <th></th>
+                                    </tr>
+
+                                    {% for student in students %}
+                                    <tr>
+                                        <td id="{{student.id}}"><script>srno({{student.id}})</script></td>
+                                        <td>{{ student.username }}<input type="hidden" value="{{student.id}}" name="id"></td>
+                                        <td>{{ student.first_name }}</td>
+                                        <td>{{ student.last_name }}</td>
+                                        <td>
+                                            <input type="number" name="obtain" class="form-control" required id="{{student.username}}" onfocusout="validatemarks('{{student.username}}')"  min="0" max="100.00" placeholder="Obtain Marks">
+
+                                        </td>
+
+
+
+                                        <td>
+
+                                            <input type="text" name="remarks" class="form-control" placeholder="Remark"></td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+
+                                    <input type="hidden" value="{{subject}}" name="subject">
+                                    <input type="hidden" value="{{class}}" name="class">
+                                    <input type="hidden" value="{{section}}" name="section">
+
+
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><br>
+                                       {% if marked %}
+                                       <h6>You Already Submit Marks</h6>
+                                       {% else %}
+
+                                       <div class="form-group">
+                                           <label></label>
+                                           <button type="submit" class="btn btn-success form-control">Submit</button>
+                                       </div>
+
+                                       {% endif %}
+                                   </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endif %}
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+    function getsection(){
+
+    var select = document.getElementById("section");
+
+    // for remove all option from select
+
+    var length = select.options.length;
+    for (i = length-1; i >= 1; i--) {
+    select.options[i] = null;
+    }
+
+    let section = new Array();
+    let cls = $('#cls :selected').val();
+    {% for class in classes %}
+    if (cls == "{{class.class_name}}"){
+
+        section.push("{{class.section_a}}")
+        if ("{{class.section_b}}" != "None"){
+        section.push("{{class.section_b}}")
+        }
+        else if ("{{class.section_c}}" != "None"){
+        section.push("{{class.section_c}}")
+        }
+        else if ("{{class.section_d}}" != "None"){
+        section.push("{{class.section_d}}")
+        }
+        else if ("{{class.section_e}}" != "None"){
+        section.push("{{class.section_e}}")
+        }
+
+
+        // add option according to class name in section
+        let option, i
+
+        for (i=0; i<section.length; i++)
+        {
+        option = document.createElement( 'option' );
+        option.value = option.text = section[i];
+        select.add( option );
+        }
+
+    }
+
+    {% endfor %}
+    }
+
+</script>
+<script>
+    function getsubject(){
+     var sub = document.getElementById("sub");
+
+     // for remove all option from select
+
+    var length = sub.options.length;
+    for (let i = length-1; i >= 1; i--) {
+    sub.options[i] = null;
+    }
+     let cls = $('#cls :selected').val();
+     let sec = $('#section :selected').val();
+     let subject = new Array()
+        {% for subj in subjects %}
+
+            if (cls == "{{subj.class_name}}" && sec == "{{subj.section}}"){
+
+                if ("{{subj.subject_1}}" != "None" && "{{subj.subject_1}}" != "" ){
+                    subject.push("{{subj.subject_1}}")
+                }if ("{{subj.subject_2}}" != "None" && "{{subj.subject_2}}" != "" ){
+                    subject.push("{{subj.subject_2}}")
+                }if ("{{subj.subject_3}}" != "None" && "{{subj.subject_3}}" != "" ){
+                    subject.push("{{subj.subject_3}}")
+                }if ("{{subj.subject_4}}" != "None" && "{{subj.subject_4}}" != "" ){
+                    subject.push("{{subj.subject_4}}")
+                }if ("{{subj.subject_5}}" != "None" && "{{subj.subject_5}}" != "" ){
+                    subject.push("{{subj.subject_5}}")
+                }if ("{{subj.subject_6}}" != "None" && "{{subj.subject_6}}" != "" ){
+                    subject.push("{{subj.subject_6}}")
+                }if ("{{subj.subject_7}}" != "None" && "{{subj.subject_7}}" != "" ){
+                    subject.push("{{subj.subject_7}}")
+                }if ("{{subj.subject_8}}" != "None" && "{{subj.subject_8}}" != "" ){
+                    subject.push("{{subj.subject_8}}")
+                }if ("{{subj.subject_9}}" != "None" && "{{subj.subject_9}}" != "" ){
+                    subject.push("{{subj.subject_9}}")
+                }if ("{{subj.subject_10}}" != "None" && "{{subj.subject_10}}" != "" ){
+                    subject.push("{{subj.subject_10}}")
+                }if ("{{subj.subject_11}}" != "None" && "{{subj.subject_11}}" != "" ){
+                    subject.push("{{subj.subject_11}}")
+                }if ("{{subj.subject_12}}" != "None" && "{{subj.subject_12}}" != "" ){
+                    subject.push("{{subj.subject_12}}")
+                }if ("{{subj.subject_13}}" != "None" && "{{subj.subject_13}}" != "" ){
+                    subject.push("{{subj.subject_13}}")
+                }if ("{{subj.subject_14}}" != "None" && "{{subj.subject_14}}" != "" ){
+                    subject.push("{{subj.subject_14}}")
+                }if ("{{subj.subject_15}}" != "None" && "{{subj.subject_15}}" != "" ){
+                    subject.push("{{subj.subject_15}}")
+                }
+            }
+        {% endfor %}
+
+        let option, i
+        for (i=0; i<subject.length; i++)
+        {
+        option = document.createElement( 'option' );
+        option.value = option.text = subject[i];
+        sub.add( option );
+        }
+
+     }
+
+     function validate(){
+     let cls = $('#cls :selected').val();
+     let sec = $('#section :selected').val();
+     let sub = $('#sub :selected').val();
+     if(cls == "none"){
+     alert("Please Select Class")
+     return false;
+     }else if(sec == "none"){
+     alert("Please Select Section")
+     return false;
+     }else if(sub == "none"){
+     alert("Please Select Subject")
+     return false;
+     }else{
+     document.assign.submit()
+     }
+     }
+
+</script>
+<script>
+    var count = 0
+    function validatemarks(obt){
+        let obtain = $('#'+obt+'')
+        let total = $('#total')
+        if (Number(obtain.val())>Number(total.val())){
+            obtain.css({'border': '2px solid red'})
+            count = count+1
+        }else if(count > 0){
+        obtain.css({'border': '2px solid green'})
+        count =0
+        }
+    }
+</script>
+
+{% endblock %}

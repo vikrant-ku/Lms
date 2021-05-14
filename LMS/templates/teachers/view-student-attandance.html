@@ -1,0 +1,151 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Students Attandance {% endblock %}
+
+ {% block head %}
+<script>
+    let count=1
+    function srno(e){
+
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+<script>
+    function getmonth(){
+    let year = parseInt($('#year').val())
+    let today = parseInt({{year}})
+    if(year == ""){
+        alert('Please Enter Year')
+        return false;
+        }
+    else if(year>today || year<2000){
+            alert('Please Enter Valid Date')
+            return false;
+        }
+    else{
+        document.month.submit()
+        }
+
+    }
+    </script>
+<script>
+    function validate(evt) {
+  var theEvent = evt || window.event;
+
+  // Handle paste
+  if (theEvent.type === 'paste') {
+      key = event.clipboardData.getData('text/plain');
+  } else {
+  // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode(key);
+  }
+  var regex = /[0-9]|\./;
+  if( !regex.test(key) ) {
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }
+}
+
+</script>
+
+{% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block search %}
+
+ <div class="breadcome-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="breadcome-list row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <form action="{% url 'view_student_attandnce' %}" method="get" name="month" >
+
+                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                              <input type="text" name="year" id="year" placeholder="Enter Year" class="form-control" onkeypress='validate(event)' maxlength="4" >
+                                      </div>
+                                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                          <div class="form-group">
+                                              <select name="month" required class="form-control"  onChange="getmonth()">
+                                                  <option value="none" selected="" disabled="">Select Month</option>
+                                                  <option value="1">January</option>
+                                                  <option value="2">February</option>
+                                                  <option value="3">March</option>
+                                                  <option value="4">April</option>
+                                                  <option value="5">May</option>
+                                                  <option value="6">June</option>
+                                                  <option value="7">July</option>
+                                                  <option value="8">August</option>
+                                                  <option value="9">September</option>
+                                                  <option value="10">October</option>
+                                                  <option value="11">November</option>
+                                                  <option value="12">December</option>
+                                              </select>
+                                          </div>
+                                      </div>
+
+                                    </form>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
+
+{% block body %}
+{% if allattandance %}
+<div class="product-status mg-b-15" >
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>Mark Attandance</h4>
+                            <br>
+                                <h6>Today {{date}}</h6>
+
+                            <div class="asset-inner">
+
+                                <table>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Student Id</th>
+                                        <th>Name</th>
+                                        {% for dat in dates %}
+                                        <th>{{ dat.day }}/{{ dat.month }}</th>
+                                        {% endfor %}
+
+
+                                    </tr>
+
+                                    {% for i,j in allattandance.items %}
+                                    <tr>
+
+                                        <td id="{{i.id}}"><script>srno({{i.id}})</script></td>
+                                        <td>{{i}}</td>
+                                        <td>{{i.first_name}} {{i.last_name}}</td>
+                                        {% for att in j %}
+                                        <td>{{att.0}}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endif %}
+
+
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

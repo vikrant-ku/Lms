@@ -1,0 +1,32 @@
+{% extends './base.html' %}
+{% load static %}
+{% block mainbody %}
+
+
+    <!--[if lt IE 8]>
+		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+    <div class="error-pagewrap">
+		<div class="error-page-int">
+			<div class="content-error">
+				<h1><span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span></h1>
+				<h1>ERROR</h1>
+				<p>You Are Already Login in Another Device..!!</p>
+				<a href="/login/">Back To Login</a>
+				<a href="javascript:logout()">Logout from All Devices</a>
+				<form action="{% url 'logout_all_devices' %}" method="post" name="logout">{% csrf_token %}
+				<input type="hidden" name="username" value="{{user.username}}">
+				</form>
+			</div>
+			<div class="text-center login-footer">
+				<p>Copyright © 2018. All rights reserved. Template by <a href="http://www.rohartech.com/">Rohar Technology</a></p>
+			</div>
+		</div>
+    </div>
+
+<script>
+	function logout(){
+	document.logout.submit()
+	}
+</script>
+{% endblock %}

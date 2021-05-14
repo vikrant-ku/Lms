@@ -1,0 +1,91 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| View Leave {% endblock %}
+
+ {% block head %}
+
+
+{% endblock %}
+
+{% block style %}
+
+
+
+{% endblock %}
+
+{% block search %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<div id="content" class="pmd-content inner-page admin" style="margin-top: 90px; margin-left:30px">
+
+    <!-- Title -->
+    <h1 id="leave">Leave</h1>
+    <!-- End Title -->
+    <!--breadcrum start-->
+
+    <!--breadcrum end-->
+
+    <section class="component-section" id="employee">
+        <table class="table pmd-table table-hover pmd-table-card">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Employee</th>
+                        <th>Leave Type</th>
+                        <th>Half Day</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for leave in all_leaves %}
+                    <tr>
+
+                        <td data-title="Employee">{{leave.teacher.first_name}}</td>
+
+                        <td data-title="Leave Type">{{leave.type}}</td>
+                        {% if leave.halfday == True %}
+                        <td data-title="Half Day">Yes</td>
+                        {% else %}
+                        <td data-title="Half Day">No</td>
+                        {% endif %}
+                        <td data-title="Start Date">{{leave.start_date}}</td>
+                        <td data-title="End Date">{{leave.end_date}}</td>
+                        <td data-title="Reason">{{leave.reason}}</td>
+
+
+                        <td data-title="Status">{{leave.status}}</td>
+                        <td data-title="">
+                            {% if leave.status == "Pending" %}
+                            <a href="/admin/leave_status/{{leave.id}}/Accept/" title="Accept" class="pmd-btn-fab btn-xs btn-outline-secondary btn mr-2 pmd-ripple-effect">
+                                <i class="material-icons">Accept</i>
+                            </a>
+                            <a href="/admin/leave_status/{{leave.id}}/Reject/" title="Reject" class="pmd-btn-fab btn-xs btn-outline-danger btn pmd-ripple-effect">
+                                <i class="material-icons">Reject</i>
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+        </table>
+    </section>
+</div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}
+
+

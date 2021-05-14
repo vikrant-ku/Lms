@@ -1,0 +1,142 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| All Classess {% endblock %}
+
+ {% block head %}
+<style>
+    .input-group {
+    margin-top: 10px;
+    }
+    .hide{
+    displey:none;
+    }
+
+</style>
+
+
+<script>
+    let prev
+    function getsection(e){
+    <!--    change btn class   -->
+
+        $('#'+prev+'').removeClass('btn-primary');
+        $('#'+prev+'').addClass('btn-default');
+
+         $('#'+e+'').removeClass('btn-default');
+        $('#'+e+'').addClass('btn-primary');
+        prev = e
+
+        $(".sec").empty();
+        $('#cls_name').val(e)
+        $('#sec_name').val("")
+        let section = new Array()
+        {% for class in all_cls %}
+
+            if (e == "{{class.class_name}}"){
+
+                section.push("{{class.section_a}}")
+                if ("{{class.section_b}}" != "None"){
+                section.push("{{class.section_b}}")
+                }
+                if ("{{class.section_c}}" != "None"){
+                section.push("{{class.section_c}}")
+                }
+                if ("{{class.section_d}}" != "None"){
+                section.push("{{class.section_d}}")
+                }
+                if ("{{class.section_e}}" != "None"){
+                section.push("{{class.section_e}}")
+                }
+
+                // add option according to class name in section
+                let option, i
+
+                for (i=0; i<section.length; i++)
+                {
+                let button = `<button type="button" class="btn btn-custon-two btn-primary" >Section-`+section[i]+`</button><br><br>`
+                $('.sec').append(button)
+                }
+            }
+
+        {% endfor %}
+      }
+
+
+</script>
+
+
+{% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block search %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top: 90px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="profile-info-inner">
+                                <div class="profile-details-hr">
+                                    <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <div class="button-style-four btn-mg-b-10">
+                                            <h3>Class</h3><br>
+                                            {% for class in all_cls %}
+                                            <button type="button" class="btn btn-custon-two btn-default" id="{{class.class_name}}" onclick="getsection('{{class.class_name}}')">{{class.class_name}}</button><br>
+                                            <br>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                        <div class=" col-md-6 col-sm-6 col-xs-6">
+                                        <h3>Section</h3><br>
+                                        <div class="button-style-four btn-mg-b-10 sec">
+                                                {% if all_cls.first.section_a  %}
+                                                <button type="button" class="btn btn-custon-two btn-default">Section-{{all_cls.first.section_a}}</button><br>
+                                                {% endif %}
+                                                {% if all_cls.first.section_b  %}
+                                                <button type="button" class="btn btn-custon-two btn-default">Section-{{all_cls.first.section_b}}</button><br>
+                                                {% endif %}
+                                                {% if all_cls.first.section_c  %}
+                                                <button type="button" class="btn btn-custon-two btn-default">Section-{{all_cls.first.section_c}}</button><br>
+                                                {% endif %}
+                                                {% if all_cls.first.section_d  %}
+                                                <button type="button" class="btn btn-custon-two btn-default">Section-{{all_cls.first.section_d}}</button><br>
+                                                {% endif %}
+                                                {% if all_cls.first.section_e  %}
+                                                <button type="button" class="btn btn-custon-two btn-default">Section-{{all_cls.first.section_e}}</button><br>
+                                                {% endif %}
+                                            <br>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+
+
+{% endblock %}
+
+

@@ -1,0 +1,182 @@
+{% extends 'lms_admin/base.html' %}
+{% load static %}
+
+{% block mainbody %}
+   <!-- Start Left menu area -->
+<div class="left-sidebar-pro">
+    <nav id="sidebar" class="">
+        <div class="sidebar-header">
+            <a href="https://www.alpenstockworldschool.com/"><img class="main-logo" src="{% static 'img/logo/logo.png' %}" alt="" /></a>
+            <strong><a href="https://www.alpenstockworldschool.com/"><img src="{% static 'img/logo/logosn.png' %}" alt="" /></a></strong>
+        </div>
+        <div class="left-custom-menu-adp-wrap comment-scrollbar">
+            <nav class="sidebar-nav left-sidebar-menu-pro">
+                <ul class="metismenu" id="menu1">
+
+                    <li>
+                        <a title="Landing Page" href="{% url 'student_events' %}" aria-expanded="false"><span class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Event</span></a>
+                    </li>
+                    <li>
+                        <a title="Landing Page" href="{% url 'student_notice' %}" aria-expanded="false"><span class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Notice</span></a>
+                    </li>
+                     <li>
+                        <a href="{% url 'classess' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Classess</span></a>
+                    </li>
+                     <li>
+                        <a title="Landing Page" href="{% url 'view_assignment' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Assignments</span></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'view_marks' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View Marks</span></a>
+                    </li>
+
+                    <li>
+                        <a title="Issue Books" href="{% url 'issue_books' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View Issue Books</span></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'view_fee' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Fee Info</span></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'view_attandance' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View Attandance</span></a>
+                    </li>
+                     <li>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Leaves</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="All Professors" href="{% url 'apply_leave' %}"><span class="mini-sub-pro">Apply leave</span></a></li>
+                            <li><a title="Add Professor" href="{% url 'view_leave' %}"><span class="mini-sub-pro">View leave</span></a></li>
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </nav>
+        </div>
+    </nav>
+</div>
+
+<!-- End Left menu area -->
+    <!-- Start Welcome area -->
+    <div class="all-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col- md-12 col-sm-12 col-xs-12">
+                    <div class="logo-pro">
+                        <a href="https://www.alpenstockworldschool.com/"><img class="main-logo1" src="{% static 'img/logo/logo.png' %}" alt="" /></a>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- start header -->
+        <div class="header-advance-area">
+    <div class="header-top-area">
+<!--   aleart  start    -->
+{% for message in messages %}
+
+            <div class="alert alert-{{message.tags}} alert-mg-b alert-success-style4 alert-st-bg3 alert-st-bg14">
+                                <button type="button" class="close sucess-op" data-dismiss="alert" aria-label="Close">
+										<span class="icon-sc-cl" aria-hidden="true">&times;</span>
+									</button>
+                                <p><strong>message! </strong>{{message}}</p>
+                            </div>
+{% endfor %}
+
+
+
+
+<!--   end aleart   -->
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="header-top-wraper">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-0 col-sm-1 col-xs-12">
+                                <div class="menu-switcher-pro">
+                                    <button type="button" id="sidebarCollapse" class="btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
+                                            <i class="educate-icon educate-nav"></i>
+                                        </button>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
+                                <div class="header-top-menu tabl-d-n">
+                                    <ul class="nav navbar-nav mai-top-nav">
+                                        <li class="nav-item"><a href="{% url 'student_home' %}" class="nav-link">Home</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <div class="header-right-info"style="margin-right:10%">
+                                    <ul class="nav navbar-nav mai-top-nav header-right-menu">
+
+                                        <li class="nav-item">
+                                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+
+                                                    <span class="admin-name">{{ request.session.name }}</span>
+                                                    <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
+                                                </a>
+                                            <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
+
+                                                <li><a href="{% url 'change_password' %}"><span class="edu-icon edu-locked author-log-ic"></span>Change Password</a>
+                                                <li><a href="/logout/"><span class="edu-icon edu-locked author-log-ic"></span>Log Out</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Menu start -->
+    <div class="mobile-menu-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="mobile-menu">
+                        <nav id="dropdown">
+                            <ul class="mobile-menu-nav">
+                                <li><a href="{% url 'student_events' %}">Event</a></li>
+                                <li><a href="{% url 'student_notice' %}">Notice</a></li>
+                                <li><a href="{% url 'view_assignment' %}">Assignments</a></li>
+                                <li><a href="{% url 'issue_books' %}">View Issue Books</a></li>
+                                <li><a href="{% url 'view_attandance' %}">View Attandance</a></li>
+                                <li><a href="{% url 'apply_leave' %}">Apply leave</a></li>
+                                <li><a href="{% url 'view_leave' %}">View leave</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Menu end -->
+
+    {% block search %}    {% endblock %}
+</div>
+        <!-- end header -->
+        {% block body %}{% endblock %}
+        <!--   footer start   -->
+        <div class="footer-copyright-area">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer-copy-right">
+                             <p>Copyright © 2021. All rights reserved By <a href="#">Rohar Technology</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--   end footer   -->
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| 404 Error {% endblock %}
+
+ {% block head %}    {% endblock %}
+
+{% block style %}
+
+<script>
+    var count = 1
+    console.log(count)
+    function srno(e){
+
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+
+
+{% endblock %}
+
+
+{% block search %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="product-status mg-b-15" style="margin-top:90px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>Issue Books</h4>
+
+                            <div class="asset-inner">
+                                <table>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Book Name</th>
+                                        <th>Edition</th>
+                                        <th>Publisher</th>
+                                        <th>Issue To</th>
+                                        <th>Issue Date</th>
+                                        <th>Return Date</th>
+
+                                    </tr>
+                                    {% for issuebook in all_issue_book %}
+                                    <tr>
+                                        <td id="{{issuebook.id}}"><script>srno({{issuebook.id}})</script></td>
+                                        <td>{{ issuebook.book.book_name }}</td>
+                                        <td>{{ issuebook.book.edition }}</td>
+                                        <td>{{ issuebook.book.publication }}</td>
+                                        <td>{{ issuebook.teacher }}</td>
+                                        <td>{{ issuebook.issue_date }}</td>
+                                        <td>{{ issuebook.return_date }}</td>
+
+
+
+                                    </tr>
+                                    {% endfor %}
+
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}

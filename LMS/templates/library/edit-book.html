@@ -1,0 +1,140 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Edit Book {% endblock %}
+
+ {% block head %}
+
+{% endblock %}
+
+{% block style %}
+
+<style>
+    .dz-default.dz-message {
+    display: none;
+}
+</style>
+
+{% endblock %}
+
+{% block search %}
+
+<div class="breadcome-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="breadcome-list">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="breadcome-heading">
+                                    <form role="search" class="sr-input-func">
+                                        <input type="text" placeholder="Search..." class="search-int form-control">
+                                        <a href="#"><i class="fa fa-search"></i></a>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <ul class="breadcome-menu">
+                                    <li><a href="{% url 'library_index' %}">Home</a> <span class="bread-slash">/</span>
+                                    </li>
+                                    <li><a href="{% url 'all_books' %}">All books</a> <span class="bread-slash">/</span>
+                                    </li>
+                                    <li><span class="bread-blod">Edit Books</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
+
+{% block body %}
+
+
+<div class="single-pro-review-area mt-t-30 mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-payment-inner-st">
+                            <ul id="myTabedu1" class="tab-review-design">
+                                <li class="active"><a href="#description">Library Assets</a></li>
+
+                            </ul>
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                <div class="product-tab-list tab-pane fade active in" id="description">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="review-content-section">
+                                                <div id="dropzone1" class="pro-ad addcoursepro">
+                                                    <form action="/library/edit_book/{{book.id}}/" method="post" class="dropzone dropzone-custom needsclick addlibrary"> {% csrf_token %}
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <input name="book_name" type="text" value="{{book.book_name}}" required class="form-control" placeholder="Book Name">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="author_name" type="text" value="{{book.auther_name}}" required class="form-control" placeholder="Author Name">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="publish_year" type="text" value="{{book.publishing_year}}" maxlength="4" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control" placeholder="Publishing Year">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="isbn_num" type="text" value="{{book.isbn_number}}" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control" placeholder="ISBN Number">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="publication" type="text" value="{{book.publication}}"  onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' class="form-control" placeholder="Publication">
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <input name="edition" type="number" value="{{book.edition}}" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" placeholder="Edition">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="subject" type="text" value="{{book.subject}}" class="form-control"  placeholder="Subject">
+                                                                </div>
+                                                                <div class="form-group res-mg-t-15">
+                                                                    <input name="no_of_copies" type="text" value="{{book.number_of_copies}}" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control" placeholder="Number Of Copies">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="price" type="text" value="{{book.price}}" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)|| event.charCode == 46 || event.charCode == 0 " placeholder="Book Price">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="cupbord" type="number" value="{{book.cupbord_number}}" class="form-control" placeholder="Cupboard Number">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="rack" type="text" value="{{book.rack_number}}" class="form-control" placeholder="Rack Number">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="payment-adress">
+                                                                    <button type="submit" class="btn btn-primary waves-effect waves-light my-6">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}

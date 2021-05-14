@@ -1,0 +1,78 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Pay Fee {% endblock %}
+
+ {% block head %}
+
+
+
+
+{% endblock %}
+
+	{% block style %}  
+	<style type="text/css">
+		.remove{
+			display: none;
+		}
+	</style>
+
+
+	 {% endblock %}
+
+{% block search %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="error-pagewrap">
+		<div class="error-page-int">
+			<div class="text-center m-b-md custom-login">
+				<h3>Pay Fee</h3>
+
+			</div>
+			<div class="content-error">
+				<div class="hpanel">
+                    <div class="panel-body">
+                        <form action="{% url 'pay_fee' %}" id="loginForm" method="post">{% csrf_token %}
+                            <div class="form-group">
+                                <label class="control-label">Month</label>
+                                <select name="month" required class="form-control">
+                                    <option value="none" selected="" disabled="">Select Month</option>
+                                    <option value="JUL">JULY</option>
+                                    <option value="AUG">AUGUST</option>
+                                    <option value="SEP">SEPTEMBER</option>
+                                    <option value="OCT">OCTOBER</option>
+                                    <option value="NOV">NOVEMBER</option>
+                                    <option value="DEC">DECEMBER</option>
+                                    <option value="JAN">JANUARY</option>
+                                    <option value="FEB">FEBRARY</option>
+                                    <option value="MAR">MARCH</option>
+                                    <option value="APR">APRIL</option>
+                                    <option value="MAY">MAY</option>
+                                    <option value="JUN">JUNE</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="section">
+                                <label class="control-label" >Amount</label>
+                                <input type="number" value="{{monthly}}" required name="amount" class="form-control">
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-block loginbtn">Pay Now</button>
+
+                        </form>
+                    </div>
+                </div>
+			</div>
+
+		</div>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+
+{% endblock %}

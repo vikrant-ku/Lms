@@ -1,0 +1,145 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Issue Books {% endblock %}
+
+ {% block head %}    {% endblock %}
+
+{% block style %}
+
+<script>
+    var count = {{count}}
+    function srno(e){
+
+
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+
+    }
+</script>
+
+
+{% endblock %}
+
+
+{% block search %}
+
+    <div class="breadcome-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="breadcome-list">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="breadcome-heading">
+                                    <form role="search" action="{% url 'all_issue_book' %}" class="sr-input-func">
+                                        <input type="text" name="q" placeholder="Search..." class="search-int form-control">
+                                        <a href="#"><i class="fa fa-search"></i></a>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <ul class="breadcome-menu">
+                                    <li><a href="#">Home</a> <span class="bread-slash">/</span>
+                                    </li>
+                                    <li><span class="bread-blod">Issue Books</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="product-status mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            {% if msg %}
+                            <h1>{{msg}}</h1>
+                            {% else %}
+                              <h4>All Issue Books</h4>
+                             <div class="asset-inner">
+                                <table>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Book Name</th>
+                                        <th>Edition</th>
+                                        <th>Publisher</th>
+                                        <th>Issue To</th>
+                                        <th>Issue Date</th>
+                                        <th>Return Date</th>
+                                        <th>Setting</th>
+
+
+
+
+                                    </tr>
+                                    {% for issuebook in all_issue_book %}
+                                    <tr>
+                                        <td id="{{issuebook.id}}"><script>srno({{issuebook.id}})</script></td>
+                                        <td>{{ issuebook.book.book_name }}</td>
+                                        <td>{{ issuebook.book.edition }}</td>
+                                        <td>{{ issuebook.book.publication }}</td>
+                                        {% if issuebook.student != None %}
+                                        <td>{{ issuebook.student }}</td>
+                                        {% else %}
+                                        <td>{{ issuebook.teacher }}</td>
+                                        {% endif %}
+                                        <td>{{ issuebook.issue_date }}</td>
+                                        <td>{{ issuebook.return_date }}</td>
+
+
+                                        <td>
+                                            <a href="/library/delete_issue_book/{{ issuebook.id }}/"><button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+
+                                </table>
+                            </div>
+                            <div class="custom-pagination">
+                                {% if all_issue_book.has_previous or all_issue_book.has_next %}
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                         {% if all_issue_book.has_previous %}
+                                        <li class="page-item"><a class="page-link" href="{% url 'all_issue_book' %}?page={{all_issue_book.previous_page_number}}">Previous</a></li>
+                                        {% endif %}
+                                        {% for p in page_range %}
+                                        {% if all_issue_book.number == p %}
+                                        <li class="page-item active"><a class="page-link" href="{% url 'all_issue_book' %}?page={{p}}">{{p}}</a></li>
+                                        {% else %}
+                                        <li class="page-item"><a class="page-link" href="{% url 'all_issue_book' %}?page={{p}}">{{p}}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% if all_issue_book.has_next %}
+                                        <li class="page-item"><a class="page-link" href="{% url 'all_issue_book' %}?page={{all_issue_book.next_page_number}}">Next</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            <div class="add-product">
+                                <a href="{% url 'issue_book' %}">Issue Book</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}

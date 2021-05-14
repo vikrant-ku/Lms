@@ -1,0 +1,143 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Apply Leave {% endblock %}
+
+ {% block head %}
+
+
+{% endblock %}
+
+{% block style %}
+    <style>
+div#content {
+    /* width: 705.3px; */
+    margin-right: 56px;
+    margin-left: 56px;
+}
+.card-footer {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+    </style>
+
+
+{% endblock %}
+
+{% block search %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<div id="content" class="pmd-content admin section-container" style="margin-top: 90px;">
+    <!-- Title -->
+    <h1>Apply Leave</h1>
+    <!-- End Title -->
+
+    <div class="page-content" style="margin-top:30px">
+        <!-- Apply Leave Form -->
+        <div class="card pmd-card single-col-form">
+            <form id="apply-leave" method="post" action="{% url 'apply_leave' %}" novalidate="novalidate">{% csrf_token %}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group pmd-textfield pmd-textfield-floating-label ">
+                                <label for="leave-type">Leave Type</label>
+                                <select name="leave-type" id="leave-type" class="form-control" title="Please select a Leave Type" require>
+                                    <option></option>
+                                    <option>Sick Leave</option>
+                                    <option>Casual Leave</option>
+
+                                </select><span class="pmd-textfield-focused"></span>
+                            </div>
+                        </div>
+                        <div >
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                                <label class="control-label" for="datepickerstart">Start Date</label>
+                                <input type="date" class="form-control" id="datepickerstart" name="start_date"><span class="pmd-textfield-focused"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                                <label class="control-label" for="datepickerend">End Date</label>
+                                <input type="date" class="form-control" id="datepickerend" name="end_date"><span class="pmd-textfield-focused"></span>
+                            </div>
+                        </div>
+                            </div>
+                        <div class="col-12">
+                            <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                                <label>Reason</label>
+                                <textarea class="form-control" id="reason"  name="reason" require></textarea><span class="pmd-textfield-focused"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="custom-control custom-checkbox pmd-checkbox">
+                                <input class="custom-control-input" type="checkbox" name="halfday" value="True" id="inverse_defaultCheck1">
+                                <label class="custom-control-label" for="inverse_defaultCheck1">
+                                    Is it a Half Day?
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary" onclick="validate()">Apply Leave</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block js %}
+<script>
+
+    $(function(){
+    var dtToday = new Date();
+
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;
+    $('#datepickerstart').attr('min', maxDate);
+    $('#datepickerend').attr('min', maxDate);
+});
+
+</script>
+<script>
+function validate(){
+
+    let type = $('#leave-type').val()
+    let reason = $('#reason').val()
+    let date = $('#datepickerstart').val()
+    if(type == ""){
+    alert("Select Leave Type")
+    return false;
+    }else if(date == ""){
+    alert("Select Leave date")
+    return false;
+    }else if(reason == ""){
+    alert("Please Enter valid Reason")
+    return false;
+    }
+    else{
+    $('#apply-leave').submit()
+    }
+
+}
+</script>
+
+
+{% endblock %}
+
+
