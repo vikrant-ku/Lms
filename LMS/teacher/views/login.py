@@ -30,6 +30,7 @@ class Login(View):
                     request.session['user'] = superuser.username
                     request.session['name'] = superuser.first_name
                     return redirect('admin_home')
+                messages.error(request, "User Name or Password is Invalid.")
                 return redirect('teacher_login')
             except:
                 return redirect('teacher_login')
