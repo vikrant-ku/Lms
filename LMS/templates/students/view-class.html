@@ -50,11 +50,11 @@
                                         <td>{{sch_cls.date}}</td>
                                         <td>{{sch_cls.start_time}}</td>
                                         <td>{{sch_cls.end_time}}</td>
-                                        {% if sch_cls|check_date %}
+
                                         <td><a href="{{sch_cls.link}}" target="_blank" >Join</a></td>
-                                        {% else %}
-                                        <td>-</td>
-                                        {% endif %}
+
+
+
                                     </tr>
                                     {% endfor %}
 
