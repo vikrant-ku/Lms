@@ -32,9 +32,11 @@
                     <li>
                         <a title="Issue Books" href="{% url 'issue_books' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View Issue Books</span></a>
                     </li>
+                    {% if False %}
                     <li>
                         <a href="{% url 'view_fee' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Fee Info</span></a>
                     </li>
+                    {% endif %}
                     <li>
                         <a href="{% url 'view_attandance' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View Attandance</span></a>
                     </li>
@@ -147,7 +149,9 @@
                                 <li><a href="{% url 'student_notice' %}">Notice</a></li>
                                 <li><a href="{% url 'view_assignment' %}">Assignments</a></li>
                                 <li><a href="{% url 'issue_books' %}">View Issue Books</a></li>
+                                {% if False %}
                                 <li><a href="{% url 'view_attandance' %}">View Attandance</a></li>
+                                {% endif %}
                                 <li><a href="{% url 'apply_leave' %}">Apply leave</a></li>
                                 <li><a href="{% url 'view_leave' %}">View leave</a></li>
                             </ul>

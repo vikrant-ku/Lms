@@ -14,6 +14,7 @@ class Index(View):
         if validate_user(request):
             username = request.session.get('user')
             user = get_object_or_404(Students, username = username)
+
             data = {'user':user}
             return render(request, 'students/index.html', data)
         else:

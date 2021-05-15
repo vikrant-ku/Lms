@@ -78,15 +78,16 @@
 
                         </ul>
                     </li>
+                    {% if False %}
                     <li>
                         <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-charts icon-wrap"></span> <span class="mini-click-non">Fees</span></a>
                         <ul class="submenu-angle" aria-expanded="false">
                             <li><a title="All Professors" href="{% url 'add_fees' %}"><span class="mini-sub-pro">Add Fees</span></a></li>
                             <li><a title="Add Professor" href="{% url 'admin_view_fees' %}"><span class="mini-sub-pro">View Fees</span></a></li>
                             <li><a href="{% url 'admin_students_fee' %}"><span class="mini-sub-pro">Students Fees</span></a></li>
-
                         </ul>
                     </li>
+                    {% endif %}
                     <li>
                          <a title="Leave Applications" href="{% url 'teachers_leave' %}" aria-expanded="false"><span class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Leave Applications</span></a>
                     </li>

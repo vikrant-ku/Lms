@@ -25,9 +25,11 @@
                     <li>
                         <a href="{% url 'teacher_all_students' %}" aria-expanded="false"><span class="educate-icon educate-student icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View All Students</span></a>
                     </li>
+                    {% if False %}
                     <li>
                         <a href="{% url 'teacher_view_fee' %}" aria-expanded="false"><span class="educate-icon educate-student icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View Students Fee</span></a>
                     </li>
+                    {% endif %}
                     {% endif %}
 
                     <li>
@@ -90,7 +92,7 @@
             <div class="row">
                 <div class="col-lg-12 col- md-12 col-sm-12 col-xs-12">
                     <div class="logo-pro">
-                        <a href="https://www.alpenstockworldschool.com/"><img class="main-logo1" src="{% static 'img/logo/logo.png' %}" alt="" /></a>
+                        <a href="#"><img class="main-logo1" src="{% static 'img/logo/logo.png' %}" alt="" /></a>
                     </div>
 
 
@@ -176,13 +178,48 @@
                                 <li><a href="{% url 'teacher_event' %}">Event</a></li>
                                 <li><a href="{% url 'teacher_notice' %}">Notice</a></li>
                                 <li><a href="{% url 'issue_books' %}">View Issue Books</a></li>
-                                <li><a href="#">Upload Assignments</a></li>
-                                <li><a href="#">Mark Attandance</a></li>
+                                {% if is_ct %}
+                                <li><a href="{% url 'teacher_all_students' %}">View All Students</a></li>
+                                {% if False %}
+                                <li><a href="{% url 'teacher_view_fee' %}">View Students Fee</a></li>
+                                {% endif %}
+                                {% endif %}
+                                <li><a data-toggle="collapse" data-target="#Class" href="#">Class <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul id="Class" class="collapse dropdown-header-top">
+                                        <li><a href="{% url '{% url 'schedule_class' %}' %}">Schedule Class</a></li>
+                                        <li><a href="{% url '{% url 'view_schedule_class' %}' %}">View Schedule Class</a></li>
+                                    </ul>
+                                </li>
+                                <li><a data-toggle="collapse" data-target="#Marks" href="#">Marks <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul id="Marks" class="collapse dropdown-header-top">
+                                        <li><a href="{% url 'upload_marks' %}">Upload Marks</a></li>
+                                        <li><a href="{% url 'view_students_marks' %}">View Marks</a></li>
+                                    </ul>
+                                </li>
+                                <li><a data-toggle="collapse" data-target="#Assignments" href="#">Assignments <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul id="Assignments" class="collapse dropdown-header-top">
+                                        <li><a href="{% url 'upload_assignment' %}">Upload Assignments</a></li>
+                                        <li><a href="{% url 'assignment' %}">View Assignments</a></li>
+                                    </ul>
+                                </li>
+                                <li><a data-toggle="collapse" data-target="#Attandance" href="#">Attandance <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul id="Attandance" class="collapse dropdown-header-top">
+                                         {% if is_ct %}
+                                        <li><a href="{% url 'mark_attandnce' %}">Mark Attandance</a></li>
+                                        <li><a href="{% url 'view_student_attandnce' %}">Students Attandance</a></li>
+                                        <li><a href="{% url 'update_student_attandnce' %}">Update Students Attandance</a></li>
+                                        {% endif %}
+                                        <li><a href="{% url 'view_teacher_attandnce' %}">View Attandance</a></li>
+                                    </ul>
+                                </li>
+
                                 <li><a data-toggle="collapse" data-target="#demoevent" href="#">Leaves <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                     <ul id="demoevent" class="collapse dropdown-header-top">
                                         <li><a href="{% url 'teacher_apply_leave' %}">Apply Leave</a></li>
                                         <li><a href="{% url 'teacher_view_leave' %}">View Leaves</a></li>
+                                        {% if is_ct %}
                                         <li><a href="{% url 'teacher_students_leave' %}">View Students Leave</a></li>
+                                        {% endif %}
                                     </ul>
                                 </li>
 
