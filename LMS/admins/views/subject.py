@@ -8,7 +8,7 @@ from .login import validate_user
 class Add_subjects(View):
     def get(self, request):
         if validate_user(request):
-            all_cls = Class.objects.all()
+            all_cls = Class.objects.all().order_by('class_name')
             data = {'all_cls': all_cls}
             return render(request, 'lms_admin/add-subjects.html', data)
         return redirect('login')
@@ -64,7 +64,7 @@ class All_subjects(View):
     def get(self, request):
         if validate_user(request):
             requesturl = request.META['PATH_INFO']
-            all_cls = Class.objects.all()
+            all_cls = Class.objects.all().order_by('class_name')
             subjects = Class_subjects.objects.all()
             data = {'all_cls': all_cls, 'subjects': subjects, 'requesturl':requesturl}
             return render(request, 'lms_admin/view-subjects.html', data)

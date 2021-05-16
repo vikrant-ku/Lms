@@ -50,7 +50,7 @@ class All_class(View):
     def get(self, request):
         if validate_user(request):
             requesturl= request.META['PATH_INFO']
-            all_cls = Class.objects.all()
+            all_cls = Class.objects.all().order_by('class_name')
             subjects = Class_subjects.objects.all()
             data = {'all_cls': all_cls, 'subjects':subjects, 'requesturl':requesturl}
             return render(request, 'lms_admin/view-class.html', data)
