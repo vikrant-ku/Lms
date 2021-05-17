@@ -78,15 +78,19 @@ class View_teacher_attand(View):
     def get(self, request):
         if validate_user(request):
             today = datetime.date.today()
+            print(f"today {today}")
             data = {'year': today.year}
+            print(f"data {data}")
             months = [str(i) for i in range(1, 13)]
             month = request.GET.get('month')
             year = request.GET.get('year')
+            print(f"year {year} {month}  {months}")
             if month in months:
                 # get all dates when attandance marked
-                date = Teacher_Attandance.objects.filter(datetime__year=year, datetime__month=int(month)).order_by('datetime__day').values_list('datetime', flat=True).distinct()
+                date = Teacher_Attandance.objects.filter(datetime__year=year,datetime__month=int(month)).order_by('datetime__day').values_list('datetime', flat=True).distinct()
 
-                teachers = Teacher_Attandance.objects.filter(datetime__year=year, datetime__month=int(month)).values_list('teacher', flat=True).distinct()
+                teachers = Teacher_Attandance.objects.filter(datetime__year=year,datetime__month=int(month)).values_list('teacher', flat=True).distinct()
+
                 allattandance = dict()
                 for i in teachers:
                     attand = []
@@ -101,7 +105,6 @@ class View_teacher_attand(View):
                     teacher = get_object_or_404(Teacher, pk=i)
                     # add teacher object as a key and add attandane list as a value
                     allattandance[teacher] = attand
-
                 data['dates'] = date
                 data['allattandance'] = allattandance
 

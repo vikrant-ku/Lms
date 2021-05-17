@@ -103,7 +103,7 @@ class View_assignment(View):
                 all_assig = Assignment.objects.filter(teacher=user.id)
 
             # paginator
-            paginator = Paginator(all_assig, 1)
+            paginator = Paginator(all_assig, 10)
             page = request.GET.get('page')
 
             try:
@@ -115,9 +115,9 @@ class View_assignment(View):
 
             if page is None:
                 start_index = 0
-                end_index = 7
+                end_index = 5
             else:
-                (start_index, end_index) = proper_pagination(all_assign, index=1)
+                (start_index, end_index) = proper_pagination(all_assign, index=3)
             page_range = list(paginator.page_range)[start_index:end_index]
             if page is None or page == 1:
                 count = 1
@@ -126,6 +126,7 @@ class View_assignment(View):
             data = {'is_ct': True, 'all_assign': all_assign, 'page_range': page_range, 'count': count}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
+            data['q']= q
             return render(request,'teachers/assignment.html', data)
         else:
             return redirect('teacher_login')

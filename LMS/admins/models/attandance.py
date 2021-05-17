@@ -20,7 +20,7 @@ class Student_Attandance(models.Model):
 class Teacher_Attandance(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     attandance = models.CharField(max_length=2, default='A')
-    datetime = models.DateTimeField(default=datetime.now(), blank=True)
+    datetime = models.DateTimeField(default=timezone.now(), blank=True)
 
     def __str__(self):
         return self.teacher.username

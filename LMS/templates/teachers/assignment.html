@@ -36,7 +36,7 @@
                                 <ul class="breadcome-menu">
                                     <li><a href="{% url 'teacher_home' %}">Home</a> <span class="bread-slash">/</span>
                                     </li>
-                                    <li><span class="bread-blod">Dashboard V.1</span>
+                                    <li><span class="bread-blod"><a href="{% url 'assignment' %}">Assignments</a></span>
                                     </li>
                                 </ul>
                             </div>
@@ -56,7 +56,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="product-status-wrap drp-lst">
-                            <h4>Notice</h4>
+                            <h4>Assignments</h4>
 
                             <div class="asset-inner">
                                 <table>
@@ -94,8 +94,12 @@
                                          {% if all_assign.has_previous %}
                                         <li class="page-item"><a class="page-link" href="{% url 'assignment' %}?page={{all_assign.previous_page_number}}">Previous</a></li>
                                         {% endif %}
-                                        {% for p in all_assign.paginator.page_range %}
+                                        {% for p in page_range %}
+                                        {% if all_assign.number == p %}
+                                        <li class="page-item active"><a class="page-link" href="{% url 'assignment' %}?page={{p}}">{{p}}</a></li>
+                                        {% else %}
                                         <li class="page-item"><a class="page-link" href="{% url 'assignment' %}?page={{p}}">{{p}}</a></li>
+                                        {% endif %}
                                         {% endfor %}
                                         {% if all_assign.has_next %}
                                         <li class="page-item"><a class="page-link" href="{% url 'assignment' %}?page={{all_assign.next_page_number}}">Next</a></li>

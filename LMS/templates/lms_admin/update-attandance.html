@@ -15,10 +15,7 @@
 <script>
     function attand(e,c){
     let att = $('#'+e+'').val()
-    console.log(att)
     $('#'+c+'').val(att)
-
-
     }
 
 
@@ -105,7 +102,7 @@
                                         <td>{{ attandance.teacher.first_name }}</td>
                                         <td>{{ attandance.teacher.last_name }}</td>
                                         <td>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                 <select class="form-control" onchange="attand('{{ attandance.teacher.username }}','{{attandance.id}}')" id="{{ attandance.teacher.username }}">
                                                     {% ifequal attandance.attandance 'A' %}
                                                     <option value="none" selected="" disabled="">Absent</option>
@@ -119,6 +116,9 @@
                                                     {% ifequal attandance.attandance 'UL' %}
                                                     <option value="none" selected="" disabled="">Unpaid Leave</option>
                                                     {% endifequal %}
+                                                    {% ifequal attandance.attandance 'PL' %}
+                                                    <option value="none" selected="" disabled="">Paid Leave</option>
+                                                    {% endifequal %}
                                                     {% ifequal attandance.attandance 'HD' %}
                                                     <option value="none" selected="" disabled="">Half Day</option>
                                                     {% endifequal %}
@@ -126,17 +126,18 @@
                                                         <option value="P">Present</option>
                                                         <option value="SL">Sick Leave</option>
                                                         <option value="UL">Unpaid Leave</option>
+                                                        <option value="PL">Unpaid Leave</option>
                                                         <option value="HD">Half Day</option>
                                                 </select>
                                             </div>
                                         </td>
                                         <input type="hidden" value="{{attandance.id}}" name="id">
-                                        <input type="hi" name="attandance" value="{{attandance.attandance}}" id="{{attandance.id}}">
+                                        <input type="hidden" name="attandance" value="{{attandance.attandance}}" id="{{attandance.id}}">
                                     </tr>
 
                                 </table>
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 form-group">
-                                        <button type="submit" class="btn btn-success form-control ">Submit</button>
+                                        <button type="submit" class="btn btn-success form-control">Submit</button>
                                     </div>
                                 </form>
                             </div>

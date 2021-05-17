@@ -11,6 +11,23 @@ from .index import is_class_teacher, validate_user
 import datetime
 import decimal
 
+class All_students(View):
+    def get(self, request):
+        if validate_user(request):
+            if is_class_teacher(request):
+                user_name = request.session.get('user')
+                user = get_object_or_404(Teacher, username=user_name)
+                teacher_role = get_object_or_404(Role, user=user.id)
+                students = Students.objects.filter(class_name=teacher_role.class_name, section=teacher_role.section)
+                data = {'students':students}
+                is_ct = is_class_teacher(request)
+                data['is_ct'] = is_ct
+                return render(request, 'teachers/all-students.html', data )
+            else:
+                return redirect('teacher_home')
+        else:
+            return redirect('teacher_login')
+
 class Attandance(View):
     def get(self, request):
         if validate_user(request):
@@ -61,6 +78,40 @@ class Attandance(View):
         else:
             return redirect('teacher_login')
 
+class View_attandance(View):
+    def get(self, request):
+        if validate_user(request):
+            today = datetime.datetime.today()
+            username = request.session.get('user')
+            user = get_object_or_404(Teacher, username=username)
+            year = request.GET.get('year')
+            month = request.GET.get('month')
+
+            mnth = [str(i) for i in range(1, 13)]
+            if month in mnth:
+                attandance = Teacher_Attandance.objects.filter(teacher=user.id, datetime__year=year,
+                                                           datetime__month=int(month))
+            else:
+                attandance = None
+            data = {'year':today.year, 'attandance':attandance}
+            is_ct = is_class_teacher(request)
+            data['is_ct'] = is_ct
+            return render(request, 'teachers/view-attandance.html', data)
+        else:
+            return redirect('teacher_login')
+
+class Student_info(View):
+    def get(self, request,username):
+        if validate_user(request):
+            if is_class_teacher(request):
+                student = get_object_or_404(Students, username=username)
+                data = {'student':student, 'is_ct':True}
+                return render(request, 'teachers/student-info.html', data)
+            else:
+                messages.error(request, 'Yo are not a class teacher')
+                return redirect('teacher_home')
+        return redirect('teacher_login')
+
 class View_students_attandance(View):
     def get(self, request):
         if validate_user(request):
@@ -98,23 +149,6 @@ class View_students_attandance(View):
                 return render(request, 'teachers/view-student-attandance.html', data)
             else:
                 messages.error(request, 'Yo are not a class teacher')
-                return redirect('teacher_home')
-        else:
-            return redirect('teacher_login')
-
-class All_students(View):
-    def get(self, request):
-        if validate_user(request):
-            if is_class_teacher(request):
-                user_name = request.session.get('user')
-                user = get_object_or_404(Teacher, username=user_name)
-                teacher_role = get_object_or_404(Role, user=user.id)
-                students = Students.objects.filter(class_name=teacher_role.class_name, section=teacher_role.section)
-                data = {'students':students}
-                is_ct = is_class_teacher(request)
-                data['is_ct'] = is_ct
-                return render(request, 'teachers/all-students.html', data )
-            else:
                 return redirect('teacher_home')
         else:
             return redirect('teacher_login')
@@ -162,40 +196,6 @@ class Update_student_attandance(View):
                 return redirect('teacher_home')
         else:
             return redirect('teacher_login')
-
-class View_attandance(View):
-    def get(self, request):
-        if validate_user(request):
-            today = datetime.datetime.today()
-            username = request.session.get('user')
-            user = get_object_or_404(Teacher, username=username)
-            year = request.GET.get('year')
-            month = request.GET.get('month')
-
-            mnth = [str(i) for i in range(1, 13)]
-            if month in mnth:
-                attandance = Teacher_Attandance.objects.filter(teacher=user.id, datetime__year=year,
-                                                           datetime__month=int(month))
-            else:
-                attandance = None
-            data = {'year':today.year, 'attandance':attandance}
-            is_ct = is_class_teacher(request)
-            data['is_ct'] = is_ct
-            return render(request, 'teachers/view-attandance.html', data)
-        else:
-            return redirect('teacher_login')
-
-class Student_info(View):
-    def get(self, request,username):
-        if validate_user(request):
-            if is_class_teacher(request):
-                student = get_object_or_404(Students, username=username)
-                data = {'student':student, 'is_ct':True}
-                return render(request, 'teachers/student-info.html', data)
-            else:
-                messages.error(request, 'Yo are not a class teacher')
-                return redirect('teacher_home')
-        return redirect('teacher_login')
 
 class Upload_marks(View):
     def get(self, request):

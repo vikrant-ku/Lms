@@ -9,8 +9,6 @@ from .index import validate_user,is_class_teacher
 from django.db.models import Q
 
 
-
-
 class Events(View):
     def get(self, request):
         if validate_user(request):
