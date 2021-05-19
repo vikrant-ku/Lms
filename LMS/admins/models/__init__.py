@@ -1,4 +1,4 @@
-from .classes import Class, Class_subjects
+from .classes import Class, Class_subjects, Syllabus
 from .students import Students
 from .professor import Teacher, Role
 from .notice import Notices, Event

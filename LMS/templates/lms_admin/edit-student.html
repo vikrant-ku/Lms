@@ -33,7 +33,7 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="review-content-section">
                                                 <div id="dropzone1" class="pro-ad">
-                                                    <form action="/edit_student/{{student.id}}/" class="dropzone dropzone-custom needsclick add-professors" method="post" name="addstud">{% csrf_token %}
+                                                    <form action="/admin/edit_student/{{student.id}}/" class="dropzone dropzone-custom needsclick add-professors" method="post" name="addstud">{% csrf_token %}
                                                         <div class="row">
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                 <div class="form-group">
@@ -56,7 +56,7 @@
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <input name="address" type="text" value="{{student.address}}" class="form-control" required placeholder="Address">
+                                                                    <input name="address" type="text" value="{{student.address}}" class="form-control" placeholder="Address">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <input name="mobileno" maxlength=10 value="{{student.phone}}" onKeyPress="return numbersonly(this, event)"  name="phone" placeholder="Enter Phone Number" class="form-control" id="phone" required />

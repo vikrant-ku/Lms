@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from admins.models.classes import Class, Class_subjects
+from admins.models.classes import Class, Class_subjects, Syllabus
 from django.contrib import messages
 from .login import validate_user
 
@@ -55,3 +55,81 @@ class All_class(View):
             data = {'all_cls': all_cls, 'subjects':subjects, 'requesturl':requesturl}
             return render(request, 'lms_admin/view-class.html', data)
         return redirect('teacher_login')
+
+class Upload_syllabus(View):
+    def get(self, request):
+        if validate_user(request):
+            classes = Class.objects.all()
+            subjects = Class_subjects.objects.all()
+            data = {'classes': classes, 'subjects': subjects}
+            data['is_admin']= True
+            return render(request, 'lms_admin/upload_syllabus.html',data)
+        else:
+            return redirect('teacher_login')
+
+    def post(self, request):
+        if validate_user(request):
+            data = request.POST
+            try:
+                file = request.FILES['syllabus']
+            except:
+                file = None
+            class_name = data.get('class')
+            section = data.get('section')
+            subject = data.get('subject')
+            cls = get_object_or_404(Class, class_name=class_name)
+            if file is not None:
+                try:
+                    syllabus = Syllabus.objects.get(class_name=cls,section=section,subject=subject)
+                    syllabus.class_name=cls
+                    syllabus.section=section
+                    syllabus.subject=subject
+                    syllabus.syllabus=file
+                    syllabus.save()
+                    messages.success(request, f'Syllabus Updated successfully')
+                except:
+                    syllabus = Syllabus(class_name = cls, section=section, subject=subject, syllabus=file)
+                    syllabus.save()
+                    messages.success(request, f'Syllabus added successfully')
+            else:
+                messages.error(request, 'Please Upload syllabus.')
+            return redirect('admin_upload_syllabus')
+        else:
+            return redirect('teacher_login')
+
+class View_syllabus(View):
+    def get(self, request):
+        if validate_user(request):
+            classes = Class.objects.all()
+            subjects = Class_subjects.objects.all()
+            data = {'classes': classes, 'subjects': subjects}
+            data['is_admin'] = True
+            return render(request, 'lms_admin/view-syllabus.html', data)
+        else:
+            return redirect('teacher_login')
+
+    def post(self, request):
+        if validate_user(request):
+            data = request.POST
+            cls = data.get('class')
+            section = data.get('section')
+            subject = data.get('subject')
+            clss = get_object_or_404(Class, class_name=cls)
+            all_syllabus = Syllabus.objects.filter(class_name=clss.id,section=section, subject=subject)
+            data = {'all_syllabus':all_syllabus}
+            data['is_admin'] = True
+            return render(request, 'lms_admin/view-syllabus.html', data)
+        else:
+            return redirect('teacher_login')
+
+class Delete_syllabus(View):
+    def get(self, request, **kwargs):
+        if validate_user(request):
+            pk = kwargs.get('pk')
+            syllabus = get_object_or_404(Syllabus, pk=pk)
+            syllabus.delete()
+            messages.success(request, "syllabus successfully delete")
+            return redirect('admin_view_syllabus')
+        else:
+            return redirect('teacher_login')
+

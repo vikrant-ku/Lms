@@ -1,5 +1,5 @@
 from django.urls import path
-from .views.index import Index, Issue_books, Upload_assignment, View_assignment, Delete_assign, Schedule_class, View_schedule_class, Delete_schedule_class
+from .views.index import Index, Issue_books, Upload_assignment, View_assignment, Delete_assign, Schedule_class, View_schedule_class, Delete_schedule_class, Upload_syllabus, View_syllabus
 from .views.event import Events, All_notice, Apply_leave, View_leave, Students_leave, student_leave_status
 from .views.login import Login, Change_password
 from .views.students import All_students,Student_info, Update_student_attandance, View_students_attandance, Attandance, View_attandance,Upload_marks, Save_student_marks, View_marks
@@ -20,6 +20,8 @@ urlpatterns = [
     path('view_issue_books', auth_middleware(Issue_books.as_view()), name="teacher_issue_books"),
     path('upload_assignment/', auth_middleware(Upload_assignment.as_view()), name="upload_assignment"),
     path('assignments/', auth_middleware(View_assignment.as_view()), name="assignment"),
+    path('upload_syllabus/', auth_middleware(Upload_syllabus.as_view()), name="teacher_upload_syllabus"),
+    path('view_syllabus/', auth_middleware(View_syllabus.as_view()), name="teacher_view_syllabus"),
     path('delete_assignment/<int:pk>/', auth_middleware(Delete_assign.as_view()), name="delete_assignment"),
     path('schedule_class/', auth_middleware(Schedule_class.as_view()), name="schedule_class"),
     path('view-schedule-class/', auth_middleware(View_schedule_class.as_view()), name="view_schedule_class"),

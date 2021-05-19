@@ -1,7 +1,5 @@
 from django.db import models
 
-
-
 class Class(models.Model):
     class_name = models.CharField(max_length=15)
     section_a = models.CharField(max_length=2, default='A')
@@ -34,6 +32,18 @@ class Class_subjects(models.Model):
 
     def __str__(self):
         return self.class_name.class_name
+
+class Syllabus(models.Model):
+    class_name = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True, blank=True)
+    section = models.CharField(max_length=2, default="A")
+    subject = models.CharField(max_length=30, null=True, blank=True)
+    syllabus = models.FileField(upload_to="syllabus", blank=True, null=True)
+
+    def __str__(self):
+        return self.class_name.class_name
+
+
+
 
 
 

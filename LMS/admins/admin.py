@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models.students import Students
 from .models.professor import Teacher, Role
-from .models.classes import Class, Class_subjects
+from .models.classes import Class, Class_subjects, Syllabus
 from .models.notice import Notices, Event
 from .models.leave import Leave
 from .models.staff import Staff
@@ -52,6 +52,12 @@ class Teachet_Attandance_Admin(admin.ModelAdmin):
     list_display = ('teacher', 'attandance', 'datetime')
     search_fields = ['teacher__username' ]
 
+class Student_fee_Admin(admin.ModelAdmin):
+    list_display = ('student', 'amount', 'month', 'status')
+    list_filter = ('month', 'status')
+    search_fields = ['student__username']
+
+
 
 
 admin.site.register(Staff, Staff_Admin)
@@ -64,6 +70,7 @@ admin.site.register(Notices, Notice_Admin)
 admin.site.register(Student_Attandance)
 admin.site.register(Teacher_Attandance, Teachet_Attandance_Admin)
 admin.site.register(Fees)
-admin.site.register(Student_fees)
+admin.site.register(Student_fees,Student_fee_Admin )
+admin.site.register(Syllabus)
 
 

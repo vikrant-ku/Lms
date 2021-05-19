@@ -1,0 +1,232 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Upload Syllabus {% endblock %}
+
+ {% block head %}
+
+{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block search %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top: 90px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-payment-inner-st">
+                            <ul id="myTabedu1" class="tab-review-design">
+                                <li class="active"><a href="#description">Upload Syllabus</a></li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                <div class="product-tab-list tab-pane fade active in" id="description">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="review-content-section">
+                                                <div id="dropzone1" class="pro-ad">
+
+                                                    <form action="{% url 'admin_upload_syllabus' %}" class="dropzone dropzone-custom needsclick add-professors" enctype="multipart/form-data" method="post" name="syllabus">
+
+                                                        {% csrf_token %}
+                                                        <div class="row">
+
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <label>Class</label>
+                                                                    <select name="class" required class="form-control" id="cls" onChange="getsection(); getsubject()">
+																			<option value="none" selected="" disabled="">Select Class</option>
+                                                                            {% for class in classes %}
+																			<option value="{{class}}">{{class}}</option>
+                                                                            {% endfor %}
+
+																		</select>
+                                                                </div>
+                                                                 <div class="form-group">
+                                                                     <label>Section</label>
+                                                                    <select name="section" required class="form-control" id="section" onChange="getsubject()">
+																			<option value="none" selected="" disabled="">Select Section</option>
+
+																		</select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Subject</label>
+                                                                    <select name="subject" required class="form-control" id="sub">
+																			<option value="none" selected="" disabled="">Select Subject</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label>Upload Syllabus</label>
+                                                                    <input type="file" required name="syllabus" id="syllabus" class="form-control" accept="application/vnd.openxmlformats-officedocument.custom-properties+xml,application/pdf">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="payment-adress">
+                                                                    <button type="button" class="btn btn-primary waves-effect waves-light" onclick="validate()">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+    function getsection(){
+
+    var select = document.getElementById("section");
+
+    // for remove all option from select
+
+    var length = select.options.length;
+    for (i = length-1; i >= 1; i--) {
+    select.options[i] = null;
+    }
+
+    let section = new Array();
+    let cls = $('#cls :selected').val();
+    {% for class in classes %}
+    if (cls == "{{class.class_name}}"){
+
+        section.push("{{class.section_a}}")
+        if ("{{class.section_b}}" != "None"){
+        section.push("{{class.section_b}}")
+        }
+        else if ("{{class.section_c}}" != "None"){
+        section.push("{{class.section_c}}")
+        }
+        else if ("{{class.section_d}}" != "None"){
+        section.push("{{class.section_d}}")
+        }
+        else if ("{{class.section_e}}" != "None"){
+        section.push("{{class.section_e}}")
+        }
+
+
+        // add option according to class name in section
+        let option, i
+
+        for (i=0; i<section.length; i++)
+        {
+        option = document.createElement( 'option' );
+        option.value = option.text = section[i];
+        select.add( option );
+        }
+
+    }
+
+    {% endfor %}
+    }
+
+</script>
+<script>
+    function getsubject(){
+     var sub = document.getElementById("sub");
+
+     // for remove all option from select
+
+    var length = sub.options.length;
+    for (let i = length-1; i >= 1; i--) {
+    sub.options[i] = null;
+    }
+
+
+     let cls = $('#cls :selected').val();
+     let sec = $('#section :selected').val();
+     let subject = new Array()
+        {% for subj in subjects %}
+
+            if (cls == "{{subj.class_name}}" && sec == "{{subj.section}}"){
+
+                if ("{{subj.subject_1}}" != "None" && "{{subj.subject_1}}" != "" ){
+                    subject.push("{{subj.subject_1}}")
+                }if ("{{subj.subject_2}}" != "None" && "{{subj.subject_2}}" != "" ){
+                    subject.push("{{subj.subject_2}}")
+                }if ("{{subj.subject_3}}" != "None" && "{{subj.subject_3}}" != "" ){
+                    subject.push("{{subj.subject_3}}")
+                }if ("{{subj.subject_4}}" != "None" && "{{subj.subject_4}}" != "" ){
+                    subject.push("{{subj.subject_4}}")
+                }if ("{{subj.subject_5}}" != "None" && "{{subj.subject_5}}" != "" ){
+                    subject.push("{{subj.subject_5}}")
+                }if ("{{subj.subject_6}}" != "None" && "{{subj.subject_6}}" != "" ){
+                    subject.push("{{subj.subject_6}}")
+                }if ("{{subj.subject_7}}" != "None" && "{{subj.subject_7}}" != "" ){
+                    subject.push("{{subj.subject_7}}")
+                }if ("{{subj.subject_8}}" != "None" && "{{subj.subject_8}}" != "" ){
+                    subject.push("{{subj.subject_8}}")
+                }if ("{{subj.subject_9}}" != "None" && "{{subj.subject_9}}" != "" ){
+                    subject.push("{{subj.subject_9}}")
+                }if ("{{subj.subject_10}}" != "None" && "{{subj.subject_10}}" != "" ){
+                    subject.push("{{subj.subject_10}}")
+                }if ("{{subj.subject_11}}" != "None" && "{{subj.subject_11}}" != "" ){
+                    subject.push("{{subj.subject_11}}")
+                }if ("{{subj.subject_12}}" != "None" && "{{subj.subject_12}}" != "" ){
+                    subject.push("{{subj.subject_12}}")
+                }if ("{{subj.subject_13}}" != "None" && "{{subj.subject_13}}" != "" ){
+                    subject.push("{{subj.subject_13}}")
+                }if ("{{subj.subject_14}}" != "None" && "{{subj.subject_14}}" != "" ){
+                    subject.push("{{subj.subject_14}}")
+                }if ("{{subj.subject_15}}" != "None" && "{{subj.subject_15}}" != "" ){
+                    subject.push("{{subj.subject_15}}")
+                }
+            }
+        {% endfor %}
+
+        let option, i
+
+        for (i=0; i<subject.length; i++)
+        {
+        option = document.createElement( 'option' );
+        option.value = option.text = subject[i];
+        sub.add( option );
+        }
+     }
+     function validate(){
+     let cls = $('#cls :selected').val();
+     let sec = $('#section :selected').val();
+     let sub = $('#sub :selected').val();
+     let syllabus = $('#syllabus').val()
+
+     if(cls == "none"){
+     alert("Please Select Class")
+     return false;
+     }else if(sec == "none"){
+     alert("Please Select Section")
+     return false;
+     }else if(sub == "none"){
+     alert("Please Select Subject")
+     return false;
+     }else if(syllabus == ""){
+     alert("Please Upload Syllabus")
+     return false;
+     }else{
+     document.syllabus.submit()
+
+     }
+
+     }
+
+</script>
+
+{% endblock %}

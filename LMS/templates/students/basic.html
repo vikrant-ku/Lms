@@ -32,19 +32,22 @@
                     <li>
                         <a title="Issue Books" href="{% url 'issue_books' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View Issue Books</span></a>
                     </li>
-                    {% if False %}
+
                     <li>
                         <a href="{% url 'view_fee' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Fee Info</span></a>
                     </li>
-                    {% endif %}
+
                     <li>
                         <a href="{% url 'view_attandance' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View Attandance</span></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'view_syllabus' %}" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View Syllabus</span></a>
                     </li>
                      <li>
                         <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Leaves</span></a>
                         <ul class="submenu-angle" aria-expanded="false">
-                            <li><a title="All Professors" href="{% url 'apply_leave' %}"><span class="mini-sub-pro">Apply leave</span></a></li>
-                            <li><a title="Add Professor" href="{% url 'view_leave' %}"><span class="mini-sub-pro">View leave</span></a></li>
+                            <li><a href="{% url 'apply_leave' %}"><span class="mini-sub-pro">Apply leave</span></a></li>
+                            <li><a href="{% url 'view_leave' %}"><span class="mini-sub-pro">View leave</span></a></li>
 
                         </ul>
                     </li>
@@ -147,13 +150,20 @@
                             <ul class="mobile-menu-nav">
                                 <li><a href="{% url 'student_events' %}">Event</a></li>
                                 <li><a href="{% url 'student_notice' %}">Notice</a></li>
+                                <li><a href="{% url 'classess' %}">Class</a></li>
                                 <li><a href="{% url 'view_assignment' %}">Assignments</a></li>
+                                <li><a href="{% url 'view_marks' %}">View Marks</a></li>
                                 <li><a href="{% url 'issue_books' %}">View Issue Books</a></li>
-                                {% if False %}
+                                <li><a href="{% url 'view_fee' %}">Fee Info</a></li>
                                 <li><a href="{% url 'view_attandance' %}">View Attandance</a></li>
-                                {% endif %}
-                                <li><a href="{% url 'apply_leave' %}">Apply leave</a></li>
-                                <li><a href="{% url 'view_leave' %}">View leave</a></li>
+                                <li><a href="{% url 'view_syllabus' %}">View Syllabus</a></li>
+                                <li><a data-toggle="collapse" data-target="#leave" href="#">Leaves <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul id="leave" class="collapse dropdown-header-top">
+                                       <li><a href="{% url 'apply_leave' %}">Apply leave</a></li>
+                                        <li><a href="{% url 'view_leave' %}">View leave</a></li>
+                                    </ul>
+                                </li>
+
                             </ul>
                         </nav>
                     </div>

@@ -95,22 +95,17 @@ class Add_Student_by_Excel(View):
             Student_resources = StudentsResources()
             data_set = Dataset()
             file = request.FILES['data']
-            print(f"{file} upload")
+
             if not file.name.endswith('xlsx'):
                 messages.error(request, "Please Upload .xlsx File")
 
             imported_data = data_set.load(file.read(),format='xlsx')
-            
+
             admission_no = [_[15] for _ in imported_data]
-            b = set(admission_no)
-            import collections
-            print([item for item, count in collections.Counter(admission_no).items() if count > 1])
+
             if len(set(admission_no))==len(admission_no) and None not in admission_no:
-                print("Success")
                 for data in imported_data:
-
                     data = tuple('' if x == None else x for x in data)
-
                     student = Students(
                         None,
                         None,

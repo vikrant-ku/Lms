@@ -39,9 +39,13 @@ class Student_fees(models.Model):
     amount = models.DecimalField(max_digits=7, decimal_places=2, default=Decimal('00.00'))
     month = models.CharField(max_length=10, choices=MONTH_CHOICES, default="", null=True, blank=True)
     payment_mode = models.CharField(max_length=30, default="" , null=True, blank=True)
-    txn_no = models.CharField(max_length=30, default="", null=True, blank=True)
+    order_id = models.CharField(max_length=50, default="", null=True, blank=True)
+    payment_id = models.CharField(max_length=50, default="", null=True, blank=True)
     status = models.BooleanField(default=False)
     submit_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.student.first_name
 
 
 

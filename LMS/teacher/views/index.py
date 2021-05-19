@@ -3,7 +3,7 @@ from django.views import View
 from django.contrib import messages
 from teacher.models import Assignment, OnlineClass
 from admins.models.professor import Teacher, Role
-from admins.models.classes import Class, Class_subjects
+from admins.models.classes import Class, Class_subjects, Syllabus
 from library.models import Issue_book
 from django.core.paginator import Paginator , PageNotAnInteger , EmptyPage
 from admins.views.student import proper_pagination
@@ -175,9 +175,6 @@ class Schedule_class(View):
             if len(schdl_cls)>0:
                 for _ in schdl_cls:
 
-                    print('database ',_.end_time)
-                    print(starttime.time())
-                    print('enter time ',starttime)
                     if _.end_time <= starttime.time():
                         messages.error(request, f"You Already Schedule Class on {starttime.time()} Time.")
                         return redirect('schedule_class')
@@ -258,6 +255,77 @@ class Delete_schedule_class(View):
             return redirect('view_schedule_class')
         else:
             return redirect('teacher_login')
+
+class Upload_syllabus(View):
+    def get(self, request):
+        if validate_user(request):
+            classes = Class.objects.all()
+            subjects = Class_subjects.objects.all()
+            data = {'classes': classes, 'subjects': subjects}
+            is_ct = is_class_teacher(request)
+            data['is_ct'] = is_ct
+            return render(request, 'teachers/upload_syllabus.html',data)
+        else:
+            return redirect('teacher_login')
+
+    def post(self, request):
+        if validate_user(request):
+            data = request.POST
+            try:
+                file = request.FILES['syllabus']
+            except:
+                file = None
+            class_name = data.get('class')
+            section = data.get('section')
+            subject = data.get('subject')
+            cls = get_object_or_404(Class, class_name=class_name)
+            if file is not None:
+                try:
+                    syllabus = Syllabus.objects.get(class_name=cls, section=section, subject=subject)
+                    syllabus.class_name = cls
+                    syllabus.section = section
+                    syllabus.subject = subject
+                    syllabus.syllabus = file
+                    syllabus.save()
+                    messages.success(request, f'Syllabus Updated successfully')
+                except:
+                    syllabus = Syllabus(class_name=cls, section=section, subject=subject, syllabus=file)
+                    syllabus.save()
+                    messages.success(request, f'Syllabus added successfully')
+            else:
+                messages.error(request, 'Please Upload syllabus.')
+            return redirect('teacher_upload_syllabus')
+        else:
+            return redirect('teacher_login')
+
+class View_syllabus(View):
+    def get(self, request):
+        if validate_user(request):
+            classes = Class.objects.all()
+            subjects = Class_subjects.objects.all()
+            data = {'classes': classes, 'subjects': subjects}
+            is_ct = is_class_teacher(request)
+            data['is_ct'] = is_ct
+            return render(request, 'teachers/view-syllabus.html', data)
+        else:
+            return redirect('teacher_login')
+
+    def post(self, request):
+        if validate_user(request):
+            data = request.POST
+            cls = data.get('class')
+            section = data.get('section')
+            subject = data.get('subject')
+            clss = get_object_or_404(Class, class_name=cls)
+            all_syllabus = Syllabus.objects.filter(class_name=clss.id,section=section, subject=subject)
+            print(all_syllabus)
+            data = {'all_syllabus':all_syllabus}
+
+            return render(request, 'teachers/view-syllabus.html', data)
+        else:
+            return redirect('teacher_login')
+
+
 
 
 def validate_user(request):

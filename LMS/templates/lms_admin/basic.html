@@ -63,6 +63,13 @@
                         </ul>
                     </li>
                     <li>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-department icon-wrap"></span> <span class="mini-click-non">Syllabus</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a href="{% url 'admin_view_syllabus' %}"><span class="mini-sub-pro">All Syllabus</span></a></li>
+                            <li><a href="{% url 'admin_upload_syllabus' %}"><span class="mini-sub-pro">Add Syllabus</span></a></li>
+                        </ul>
+                    </li>
+                    <li>
                     <a class="has-arrow" aria-expanded="false"><span class="educate-icon educate-department icon-wrap"></span> <span class="mini-click-non">Tech. Attandance</span></a>
                     <ul class="submenu-angle" aria-expanded="false">
                         <li><a href="{% url 'admin_mark_attandance' %}"><span class="mini-sub-pro">Mark Attandance</span></a></li>
@@ -78,7 +85,7 @@
 
                         </ul>
                     </li>
-                    {% if False %}
+
                     <li>
                         <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-charts icon-wrap"></span> <span class="mini-click-non">Fees</span></a>
                         <ul class="submenu-angle" aria-expanded="false">
@@ -87,7 +94,7 @@
                             <li><a href="{% url 'admin_students_fee' %}"><span class="mini-sub-pro">Students Fees</span></a></li>
                         </ul>
                     </li>
-                    {% endif %}
+
                     <li>
                          <a title="Leave Applications" href="{% url 'teachers_leave' %}" aria-expanded="false"><span class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Leave Applications</span></a>
                     </li>
@@ -240,6 +247,12 @@
                                         <li><a href="{% url 'add_class' %}">Add Classes</a></li>
                                     </ul>
                                 </li>
+                                <li><a data-toggle="collapse" data-target="#Syllabus" href="#">Syllabus <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul id="Syllabus" class="collapse dropdown-header-top">
+                                        <li><a href="{% url 'admin_view_syllabus' %}">All Syllabus</a></li>
+                                        <li><a href="{% url 'admin_upload_syllabus' %}">Add Syllabus</a></li>
+                                    </ul>
+                                </li>
 
                                 <li><a data-toggle="collapse" data-target="#Attandance" href="#">Teacher Attandance <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                     <ul id="Attandance" class="collapse dropdown-header-top">
@@ -260,7 +273,6 @@
                                         </li>
                                     </ul>
                                 </li>
-
                                 <li><a data-toggle="collapse" data-target="#Fees" href="#">Fees <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                     <ul id="Fees" class="collapse dropdown-header-top">
                                         <li><a href="{% url 'add_fees' %}">">Add Fees</a>

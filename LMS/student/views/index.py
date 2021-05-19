@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from admins.models.classes import Syllabus
 from admins.models.students import Students
 from admins.models.attandance import Student_Attandance
 from library.models import Issue_book
@@ -171,6 +172,16 @@ class View_marks(View):
             marks = Marks.objects.filter(student=user.id,class_name=user.class_name, section=user.section, exam_type=type)
             data = {'marks':marks}
             return render(request, 'students/view-marks.html', data)
+        else:
+            return redirect('login')
+
+class View_syllabus(View):
+    def get(self, request):
+        if validate_user(request):
+            user = get_object_or_404(Students, username=request.session.get('user'))
+            all_syllabus = Syllabus.objects.filter(class_name =user.class_name, section=user.section )
+            data = {'all_syllabus':all_syllabus}
+            return render(request, 'students/view-syllabus.html', data)
         else:
             return redirect('login')
 

@@ -25,11 +25,11 @@
                     <li>
                         <a href="{% url 'teacher_all_students' %}" aria-expanded="false"><span class="educate-icon educate-student icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View All Students</span></a>
                     </li>
-                    {% if False %}
+
                     <li>
                         <a href="{% url 'teacher_view_fee' %}" aria-expanded="false"><span class="educate-icon educate-student icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">View Students Fee</span></a>
                     </li>
-                    {% endif %}
+
                     {% endif %}
 
                     <li>
@@ -38,6 +38,13 @@
                         <li><a href="{% url 'schedule_class' %}"><span class="mini-sub-pro">Schedule Class</span></a></li>
                         <li><a href="{% url 'view_schedule_class' %}"><span class="mini-sub-pro">View Schedule Class</span></a></li>
                     </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" aria-expanded="false"><span class="educate-icon educate-library icon-wrap"></span> <span class="mini-click-non">Syllabus</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a href="{% url 'teacher_view_syllabus' %}"><span class="mini-sub-pro">All Syllabus</span></a></li>
+                            <li><a href="{% url 'teacher_upload_syllabus' %}"><span class="mini-sub-pro">Add Syllabus</span></a></li>
+                        </ul>
                     </li>
                     <li>
                     <a class="has-arrow" aria-expanded="false"><span class="educate-icon educate-library icon-wrap"></span> <span class="mini-click-non">Marks</span></a>
@@ -180,9 +187,8 @@
                                 <li><a href="{% url 'issue_books' %}">View Issue Books</a></li>
                                 {% if is_ct %}
                                 <li><a href="{% url 'teacher_all_students' %}">View All Students</a></li>
-                                {% if False %}
                                 <li><a href="{% url 'teacher_view_fee' %}">View Students Fee</a></li>
-                                {% endif %}
+
                                 {% endif %}
                                 <li><a data-toggle="collapse" data-target="#Class" href="#">Class <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                     <ul id="Class" class="collapse dropdown-header-top">

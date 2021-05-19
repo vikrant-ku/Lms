@@ -34,10 +34,10 @@
 			<div class="content-error">
 				<div class="hpanel">
                     <div class="panel-body">
-                        <form action="{% url 'pay_fee' %}" id="loginForm" method="post">{% csrf_token %}
+                        <form id="payment_form" method="post">{% csrf_token %}
                             <div class="form-group">
                                 <label class="control-label">Month</label>
-                                <select name="month" required class="form-control">
+                                <select name="month" required class="form-control" id="month">
                                     <option value="none" selected="" disabled="">Select Month</option>
                                     <option value="JUL">JULY</option>
                                     <option value="AUG">AUGUST</option>
@@ -72,6 +72,52 @@
 {% endblock %}
 
 {% block js %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    $('#payment_form').submit(function(event){
+        let month = $('#month').val()
+        if(month==null){
+            alert("Please select month")
+            return false;
+        }
+        else{
+
+            var formData = {
+                'month':month,
+                'amount':$('input[name=amount]').val(),
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+            };
+            $.ajax({
+            type:"POST",
+            url :"{% url 'pay_fee' %}",
+            data: formData,
+            encode:true
+            })
+            .done(function(data){
+
+            datas = JSON.parse(data)
+            let amount = datas['amount'];
+            let orderid = datas['orderid'];
+            let callback_url = datas['callback_url'];
+            let keyid = datas['keyid'];
+            var options = { "key": keyid,
+                    "amount": amount*100,
+                    "currency": "INR",
+                    "name": "St. Lamart",
+                    "description": "Test Transaction",
+                    "image": "https://example.com/your_logo",
+                    "order_id": orderid,
+                    "callback_url": callback_url
+                    };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+
+            });
+            event.preventDefault();
+        }
+    });
+
+</script>
 
 
 
