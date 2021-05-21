@@ -50,7 +50,7 @@ class Student_fees(models.Model):
     order_id = models.CharField(max_length=50, default="", null=True, blank=True)
     payment_id = models.CharField(max_length=50, default="", null=True, blank=True)
     status = models.BooleanField(default=False)
-    submit_date = models.DateTimeField(default=timezone.now())
+    submit_date = models.DateTimeField(default=timezone.now)
 
 
     def __str__(self):
