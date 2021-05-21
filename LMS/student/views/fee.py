@@ -11,13 +11,14 @@ from django.conf import settings
 keyid = settings.RAZORPAY_KEYID
 keysecret = settings.RAZORPAY_KEYSECRET
 razorpay_client = razorpay.Client(auth=(keyid, keysecret))
-academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
+
 
 
 class View_Fee(View):
     def get(self, request):
         if validate_user(request):
             submit_fee = 0
+            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
             user = get_object_or_404(Students, username=request.session.get('user'))
             class_fee = get_object_or_404(Fees, class_name=user.class_name)
             data = {'user': user, 'fee':class_fee}
@@ -49,7 +50,7 @@ class PayFee(View):
         if validate_user(request):
             user = get_object_or_404(Students, username=request.session.get('user'))
             total_fee = get_object_or_404(Fees, class_name=user.class_name)
-
+            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
             month = request.POST.get('month')
             amount = int(request.POST.get('amount'))
             print('month ',month)
@@ -106,6 +107,7 @@ class Get_invoice(View):
             submit_fee = 0
             user = get_object_or_404(Students, username=request.session.get('user'))
             class_fee = get_object_or_404(Fees, class_name=user.class_name)
+            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
             data = {'user': user, 'fee':class_fee}
             student_fee = Student_fees.objects.filter(student=user,academic_year=academic, status=True)
             if len(student_fee)>0:
