@@ -161,7 +161,7 @@
 		display:none;
 	}
 	.header-right-info .navbar-nav {
-		float: unset;
+		float: right;
 		text-align: center;
 		margin: 0 auto;
 		max-width: 300px;
@@ -344,7 +344,7 @@
 		display:none;
 	}
 	.header-right-info .navbar-nav {
-		float: unset;
+		float: right;
 		text-align: center;
 		margin: 0 auto;
 		max-width: 300px;
