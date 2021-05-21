@@ -303,11 +303,11 @@ class Assign_role(View):
             cls = Class.objects.all()
             data = {"classes":cls, 'teacher':user}
             return render(request, 'lms_admin/assign-role.html', data)
-        return redirect('login')
+        return redirect('teacher_login')
 
     def post(self,request, **kwargs):
         if validate_user(request):
-            returnUrl = request.META['PATH_INFO']
+            # returnUrl = request.META['PATH_INFO']
             data = request.POST
             user = data.get('username')
             role = data.get('role')
@@ -319,7 +319,6 @@ class Assign_role(View):
             except:
                 teacher_role= None
             if teacher_role is None:
-
                 role = Role(user=username, role=role)
                 if class_name is not None:
                     cls = get_object_or_404(Class, class_name=class_name)
@@ -329,8 +328,8 @@ class Assign_role(View):
                 messages.success(request, f"{role} role Assign to the {username.first_name} . ")
             else:
                 messages.error(request, f"User has already assigned a role. ")
-            return HttpResponseRedirect(returnUrl)
-        return redirect('login')
+            return redirect('view_role')
+        return redirect('teacher_login')
 
 class View_role(View):
     def get(self, request, **kwargs):
@@ -339,12 +338,15 @@ class View_role(View):
             if id is not None:
                 role = get_object_or_404(Role,pk=id)
                 role.delete()
+                if role.role.lower() =="admin":
+                    return redirect('teacher_login')
+
                 messages.success(request, f"{role.user.first_name}'s role deleted successfully")
                 return redirect('view_role')
             all_role = Role.objects.all()
             data = {"all_role": all_role}
             return render(request, 'lms_admin/view-role.html', data)
-        return redirect('login')
+        return redirect('teacher_login')
 
 class teacher_leave(View):
     def get(self, request):
@@ -352,7 +354,7 @@ class teacher_leave(View):
             leaves = Leave.objects.filter(is_teacher = True).order_by('-start_date')
             data = {'all_leaves':leaves}
             return render(request, 'lms_admin/view-leave.html', data)
-        return redirect('login')
+        return redirect('teacher_login')
 
 class teacher_leave_status(View):
     def get(self, request, **kwargs):
@@ -363,4 +365,4 @@ class teacher_leave_status(View):
             leave.status=status
             leave.save()
             return redirect('teachers_leave')
-        return redirect('login')
+        return redirect('teacher_login')

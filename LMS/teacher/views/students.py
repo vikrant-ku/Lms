@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.contrib import messages
 from admins.models.students import Students
-from admins.models.fees import Student_fees
+from admins.models.fees import Student_fees, Academic_Year
 from admins.models.professor import Teacher, Role
 from admins.models.classes import Class, Class_subjects
 from admins.models.attandance import Student_Attandance, Teacher_Attandance
@@ -10,6 +10,7 @@ from teacher.models import Marks
 from .index import is_class_teacher, validate_user
 import datetime
 import decimal
+
 
 class All_students(View):
     def get(self, request):
@@ -59,11 +60,13 @@ class Attandance(View):
                 data = request.POST
                 student = data.getlist('id')
                 attand = data.getlist('attandance')
+                academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
                 for _ in range(len(student)):
                     user = get_object_or_404(Students, pk=int(student[_]))
                     cls = get_object_or_404(Class, class_name=user.class_name)
                     section = user.section
                     attandance = Student_Attandance(
+                                            academic_year=academic,
                                             student=user,
                                             class_name = cls,
                                             section = section,
@@ -214,6 +217,7 @@ class Upload_marks(View):
             today = datetime.date.today()
             classes = Class.objects.all()
             subjects = Class_subjects.objects.all()
+
             data = request.POST
             cls = data.get('class')
             section = data.get('section')
@@ -221,7 +225,7 @@ class Upload_marks(View):
             clss = get_object_or_404(Class, class_name= cls)
             students = Students.objects.filter(class_name=clss.id, section=section)
             marks = Marks.objects.filter(class_name=clss.id, section=section, subject=subject,date_added__startswith=today )
-            print(marks)
+
             if len(marks) > 0:
                 messages.error(request, f'You already Submitted {subject} marks for Class {cls} {section} . ')
                 marked = True
@@ -236,7 +240,7 @@ class Upload_marks(View):
 class Save_student_marks(View):
     def post(self, request):
         if validate_user(request):
-
+            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
             teacher = get_object_or_404(Teacher, username=request.session.get('user'))
             data = request.POST
             std_id = data.getlist('id')
@@ -251,6 +255,7 @@ class Save_student_marks(View):
             for _ in range(len(std_id)):
                 student = get_object_or_404(Students, pk=int(std_id[_]))
                 marks = Marks(
+                    academic_year=academic,
                     student=student,
                     class_name =cls,
                     section =section,
@@ -284,13 +289,14 @@ class View_marks(View):
             teacher = get_object_or_404(Teacher, username=request.session.get('user'))
             classes = Class.objects.all()
             subjects = Class_subjects.objects.all()
+            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0] # get academic year
             data = request.POST
             cls = data.get('class')
             section = data.get('section')
             subject = data.get('subject')
             type = data.get('type')
             clss = get_object_or_404(Class, class_name= cls)
-            marks = Marks.objects.filter(class_name=clss.id, section=section, subject=subject, added_by=teacher.id, exam_type=type)
+            marks = Marks.objects.filter(academic_year=academic,class_name=clss.id, section=section, subject=subject, added_by=teacher.id, exam_type=type)
 
             data = {'classes': classes, 'subjects': subjects, 'marks':marks }
             is_ct = is_class_teacher(request)
@@ -342,7 +348,8 @@ class View_Fee(View):
 
     def post(self, request):
         if validate_user(request):
-            teacher = get_object_or_404(Teacher, username= request.session.get('user') )
+            teacher = get_object_or_404(Teacher, username= request.session.get('user'))
+            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
             role = get_object_or_404(Role, user=teacher.id)
             if role.role == "Class Teacher":
                 month = request.POST.get('month')
@@ -351,7 +358,7 @@ class View_Fee(View):
                 for std in students:
                     std_fee = [std]
                     try:
-                        fee = Student_fees.objects.get(student=std.id, month=month, status=True)
+                        fee = Student_fees.objects.get(student=std.id,academic_year=academic, month=month, status=True)
                         std_fee.append(fee)
                     except:
                         pass

@@ -1,0 +1,88 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Add Academic Year {% endblock %}
+
+ {% block head %}
+
+
+
+
+{% endblock %}
+
+	{% block style %}
+	<style type="text/css">
+		.remove{
+			display: none;
+		}
+	</style>
+
+
+	 {% endblock %}
+
+{% block search %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="error-pagewrap">
+		<div class="error-page-int">
+			<div class="text-center m-b-md custom-login">
+				<h3>Academic Year</h3>
+
+			</div>
+			<div class="content-error">
+				<div class="hpanel">
+                    <div class="panel-body">
+                        <form action="{% url 'add_academic_year' %}" name="session" method="post">{% csrf_token %}
+                            <div class="form-group">
+                                <label class="control-label" for="academic">Academic Year</label>
+                                <input type="text" placeholder="2020-2021" required name="academic" id="academic" class="form-control">
+                            </div>
+                            <button type="button" class="btn btn-success btn-block loginbtn" onclick="validate()">Submit</button>
+
+                        </form>
+                    </div>
+                </div>
+			</div>
+
+		</div>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+<script>
+function validate(){
+    let current_year = {{year}}
+    let year = $('#academic')
+    if(year.val().length == 9){
+        let new_val = year.val().split('-')
+        if(parseInt(new_val[0])>= current_year){
+                let count = parseInt(new_val[1])-parseInt(new_val[0])
+                if (count ==1){
+                    document.session.submit()
+                    }
+                else{
+                alert("Invalid Academic year.")
+                year.css({'border': '2px solid red'})
+                }
+            }
+        else{
+            alert("Year Must be grater or equal to {{year}} year.")
+            year.css({'border': '2px solid red'})
+            }
+        }
+    else{
+        alert("Please follow 'YYYY-YYYY' pattern.")
+        year.css({'border': '2px solid red'})
+        }
+    }
+
+
+</script>
+
+
+
+{% endblock %}

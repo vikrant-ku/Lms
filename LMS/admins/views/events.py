@@ -3,6 +3,7 @@ from django.views import View
 from django.db.models import Q
 from django.contrib import messages
 from admins.models.notice import Notices, Event
+from admins.models.fees import Academic_Year
 from .login import validate_user
 from django.core.paginator import Paginator , PageNotAnInteger , EmptyPage
 from .student import proper_pagination
@@ -142,10 +143,8 @@ class All_notice(View):
             else:
                 all_notice = Notices.objects.all().order_by('-date')
 
-
-
             data = {'all_notice':all_notice, "is_admin":True}
-            return render(request,'lms_admin/notice.html', data )
+            return render(request,'lms_admin/notice.html', data)
         return redirect('teacher_login')
 
 class Delete_notice(View):
@@ -155,6 +154,42 @@ class Delete_notice(View):
             notic = get_object_or_404(Notices, pk=id)
             notic.delete()
             return redirect('admin_notice')
+        return redirect('teacher_login')
+
+
+class Add_academic_year(View):
+    def get(self, request):
+        if validate_user(request):
+            today = datetime.date.today()
+            return render(request, 'lms_admin/add_academic_year.html', {'year':int(today.year)})
+        return redirect('teacher_login')
+
+    def post(self, request):
+        if validate_user(request):
+            today = datetime.date.today()
+            academic=request.POST.get('academic')
+            years = academic.split('-')
+            if int(today.year)>int(years[0]):
+                messages.error(request,f"Year must be grater or equal than {int(today.year)} year. {academic}" )
+                return redirect('add_academic_year')
+            elif(int(years[1])-int(years[0]))!= 1:
+                messages.error(request, f"Invalid Academic Year. {academic}")
+                return redirect('add_academic_year')
+            else:
+                acdmic = Academic_Year(academic_year=academic)
+                acdmic.save()
+                messages.success(request, f'Academic Year {academic} added successfully')
+                return redirect("view_academic_year")
+
+        return redirect('teacher_login')
+
+class All_academic_year(View):
+    def get(self, request):
+        if validate_user(request):
+            all_academics = Academic_Year.objects.all().order_by('academic_year')
+            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
+
+            return render(request, 'lms_admin/view_academic_year.html',{'all_academics':all_academics})
         return redirect('teacher_login')
 
 

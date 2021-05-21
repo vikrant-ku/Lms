@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import View
 from django.contrib import messages
 from admins.models.students import Students
-from admins.models.fees import Fees, Student_fees
+from admins.models.fees import Fees, Student_fees, Academic_Year
 from .index import validate_user
 import json
 import razorpay
@@ -11,6 +11,7 @@ from django.conf import settings
 keyid = settings.RAZORPAY_KEYID
 keysecret = settings.RAZORPAY_KEYSECRET
 razorpay_client = razorpay.Client(auth=(keyid, keysecret))
+academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
 
 
 class View_Fee(View):
@@ -20,7 +21,7 @@ class View_Fee(View):
             user = get_object_or_404(Students, username=request.session.get('user'))
             class_fee = get_object_or_404(Fees, class_name=user.class_name)
             data = {'user': user, 'fee':class_fee}
-            student_fee = Student_fees.objects.filter(student=user)
+            student_fee = Student_fees.objects.filter(student=user,academic_year=academic)
 
             if len(student_fee)>0:
                 for fee in student_fee:
@@ -57,6 +58,7 @@ class PayFee(View):
             student_fee = Student_fees(
                     student = user,
                     total_fee = total_fee,
+                    academic_year=academic,
                     amount = amount,
                     month = month,
                     payment_mode = 'Online',
@@ -105,7 +107,7 @@ class Get_invoice(View):
             user = get_object_or_404(Students, username=request.session.get('user'))
             class_fee = get_object_or_404(Fees, class_name=user.class_name)
             data = {'user': user, 'fee':class_fee}
-            student_fee = Student_fees.objects.filter(student=user, status=True)
+            student_fee = Student_fees.objects.filter(student=user,academic_year=academic, status=True)
             if len(student_fee)>0:
                 for fee in student_fee:
                     submit_fee+=fee.amount

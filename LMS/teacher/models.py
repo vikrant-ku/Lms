@@ -2,9 +2,8 @@ from django.db import models
 from admins.models.professor import Teacher
 from admins.models.classes import Class
 from admins.models.students import Students
+from admins.models.fees import Academic_Year
 from datetime import date
-
-
 
 # Create your models here.
 class Assignment(models.Model):
@@ -32,6 +31,7 @@ class OnlineClass(models.Model):
     message = models.TextField(default= "")
 
 class Marks(models.Model):
+    academic_year = models.ForeignKey(Academic_Year, on_delete=models.CASCADE, null=True, blank=True)
     student = models.ForeignKey(Students,on_delete=models.CASCADE)
     class_name = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True, blank=True)
     section = models.CharField(max_length=2, default="A")

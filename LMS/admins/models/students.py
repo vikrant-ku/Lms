@@ -16,7 +16,7 @@ class Students(models.Model):
     phone = models.CharField(max_length=30, default="")
     gender = models.CharField(max_length=6, default="")
     dob = models.CharField(max_length=20)
-    admission_no = models.CharField(max_length=30, default="", unique=True)
+    admission_no = models.CharField(max_length=30, default="", unique=True,null=True, blank=True)
     class_name = models.ForeignKey(Class, on_delete=models.CASCADE, null=True, blank=True)
     section = models.CharField(max_length=2, default="", null=True, blank=True)
     image = models.ImageField(upload_to="student", blank=True , null=True)

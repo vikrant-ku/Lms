@@ -6,7 +6,7 @@ from .models.notice import Notices, Event
 from .models.leave import Leave
 from .models.staff import Staff
 from .models.attandance import Student_Attandance, Teacher_Attandance
-from .models.fees import Fees, Student_fees
+from .models.fees import Fees, Student_fees, Academic_Year
 from import_export.admin import ImportExportModelAdmin
 
 @admin.register(Students)
@@ -70,6 +70,7 @@ admin.site.register(Notices, Notice_Admin)
 admin.site.register(Student_Attandance)
 admin.site.register(Teacher_Attandance, Teachet_Attandance_Admin)
 admin.site.register(Fees)
+admin.site.register(Academic_Year)
 admin.site.register(Student_fees,Student_fee_Admin )
 admin.site.register(Syllabus)
 

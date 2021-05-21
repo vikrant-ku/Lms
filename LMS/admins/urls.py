@@ -4,7 +4,7 @@ from .views.professor import Add_professors , All_professor , Edit_professor, De
 from .views.professor import Add_teacher_by_excel
 from .views.staff import Add_staff, All_staff, delete_staff, Edit_staff
 from .views.login import Reset_password
-from .views.events import Add_events, All_events,Delete_event, Add_notice, All_notice, Delete_notice
+from .views.events import Add_events, All_events,Delete_event, Add_notice, All_notice, Delete_notice, Add_academic_year,All_academic_year
 from .views.classes import Add_class, All_class, View_syllabus, Upload_syllabus, Delete_syllabus
 from .views.subject import Add_subjects, All_subjects
 from .views.attandance import Attandance, Update_attandance, View_teacher_attand
@@ -45,6 +45,8 @@ urlpatterns = [
     path('edit_staff/<int:pk>/<str:first_name>/', auth_middleware(Edit_staff.as_view()), name='edit_staff'),
 
     #events
+    path('add_academic_year/', auth_middleware(Add_academic_year.as_view()), name='add_academic_year'),
+    path('view_academic_year/', auth_middleware(All_academic_year.as_view()), name='view_academic_year'),
     path('events/', auth_middleware(All_events.as_view()), name='admin_events'),
     path('add_event/', auth_middleware(Add_events.as_view()), name='add_event'),
     path('delete_event/<int:pk>/', auth_middleware(Delete_event.as_view()), name='delete_event'),

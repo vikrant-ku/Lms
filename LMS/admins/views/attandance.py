@@ -3,6 +3,7 @@ from django.views import View
 from django.contrib import messages
 from admins.models.professor import Teacher, Role
 from admins.models.attandance import Teacher_Attandance
+from admins.models.fees import Academic_Year
 from .login import validate_user
 
 import datetime
@@ -28,10 +29,12 @@ class Attandance(View):
             data = request.POST
             teacher = data.getlist('id')
             attand = data.getlist('attandance')
+            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
 
             for _ in range(len(teacher)):
                 user = get_object_or_404(Teacher, pk=int(teacher[_]))
                 attandance = Teacher_Attandance(
+                                            academic_year=academic,
                                             teacher=user,
                                             attandance = attand[_]
                                             )
@@ -53,8 +56,8 @@ class Update_attandance(View):
 
                 date = date.split('-')
                 teacher = get_object_or_404(Teacher, username=user)
-
-                attandance = Teacher_Attandance.objects.filter(teacher=teacher.id, datetime__year=date[0],datetime__month=date[1], datetime__day=date[2])
+                academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
+                attandance = Teacher_Attandance.objects.filter(academic_year=academic.id,teacher=teacher.id, datetime__year=date[0],datetime__month=date[1], datetime__day=date[2])
                 if len(attandance)==1:
                     data['attandance']= attandance[0]
 
@@ -78,13 +81,12 @@ class View_teacher_attand(View):
     def get(self, request):
         if validate_user(request):
             today = datetime.date.today()
-            print(f"today {today}")
             data = {'year': today.year}
-            print(f"data {data}")
             months = [str(i) for i in range(1, 13)]
             month = request.GET.get('month')
             year = request.GET.get('year')
-            print(f"year {year} {month}  {months}")
+            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
+
             if month in months:
                 # get all dates when attandance marked
                 date = Teacher_Attandance.objects.filter(datetime__year=year,datetime__month=int(month)).order_by('datetime__day').values_list('datetime', flat=True).distinct()
