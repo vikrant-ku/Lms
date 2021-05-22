@@ -6,6 +6,7 @@ from admins.models.attandance import Teacher_Attandance
 from admins.models.fees import Academic_Year
 from .login import validate_user
 
+
 import datetime
 
 class Attandance(View):
@@ -36,7 +37,9 @@ class Attandance(View):
                 attandance = Teacher_Attandance(
                                             academic_year=academic,
                                             teacher=user,
-                                            attandance = attand[_]
+                                            attandance = attand[_],
+                                            datetime = datetime.datetime.today()
+
                                             )
                 attandance.save()
             messages.success(request,f"Attandance for {datetime.date.today()} is marked successfully")
@@ -89,16 +92,15 @@ class View_teacher_attand(View):
 
             if month in months:
                 # get all dates when attandance marked
-                date = Teacher_Attandance.objects.filter(datetime__year=year,datetime__month=int(month)).order_by('datetime__day').values_list('datetime', flat=True).distinct()
-
+                date = Teacher_Attandance.objects.filter(datetime__year=year,datetime__month=int(month)).order_by('datetime__day').values_list('datetime__date', flat=True).distinct()
                 teachers = Teacher_Attandance.objects.filter(datetime__year=year,datetime__month=int(month)).values_list('teacher', flat=True).distinct()
 
                 allattandance = dict()
                 for i in teachers:
                     attand = []
                     for d in date:
-                        dates =d.date()
-                        attand_by_date = Teacher_Attandance.objects.filter(datetime__date=dates,teacher=i).order_by('datetime__day').values_list('attandance', flat=True)
+
+                        attand_by_date = Teacher_Attandance.objects.filter(datetime__date=d,teacher=i).order_by('datetime__day').values_list('attandance', flat=True)
                         # if teacher attandance available in date then add date else set - .
                         if len(attand_by_date)>0:
                             attand.append(attand_by_date)

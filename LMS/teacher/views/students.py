@@ -70,7 +70,8 @@ class Attandance(View):
                                             student=user,
                                             class_name = cls,
                                             section = section,
-                                            attandance = attand[_]
+                                            attandance = attand[_],
+                                            datetime = datetime.datetime.today()
                                                 )
                     attandance.save()
                 messages.success(request,f"Attandance for {datetime.date.today()} is marked successfully")
@@ -126,14 +127,14 @@ class View_students_attandance(View):
                 year = request.GET.get('year')
                 if month in months:
                     #attandance = Student_Attandance.objects.filter(datetime__year=year, datetime__month=int(month))
-                    date = Student_Attandance.objects.filter(datetime__year=year, datetime__month=int(month)).order_by('datetime__day').values_list('datetime', flat=True).distinct()
+                    date = Student_Attandance.objects.filter(datetime__year=year, datetime__month=int(month)).order_by('datetime__day').values_list('datetime__date', flat=True).distinct()
                     students = Student_Attandance.objects.filter(datetime__year=year, datetime__month=int(month)).values_list('student', flat=True).distinct()
                     allattandance = dict()
                     for i in students:
                         attand = []
                         for d in date:
-                            dates = d.date()
-                            attand_by_date = Student_Attandance.objects.filter(datetime__date=dates,student=i).order_by('datetime__day').values_list('attandance', flat=True)
+
+                            attand_by_date = Student_Attandance.objects.filter(datetime__date=d,student=i).order_by('datetime__day').values_list('attandance', flat=True)
                             if len(attand_by_date) > 0:
                                 attand.append(attand_by_date)
                             else:

@@ -1,7 +1,6 @@
+import datetime
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
 from django.views import View
-from django.contrib import messages
 from admins.models.students import Students
 from admins.models.fees import Fees, Student_fees, Academic_Year
 from .index import validate_user
@@ -13,15 +12,21 @@ keysecret = settings.RAZORPAY_KEYSECRET
 razorpay_client = razorpay.Client(auth=(keyid, keysecret))
 
 
-
 class View_Fee(View):
     def get(self, request):
         if validate_user(request):
             submit_fee = 0
             academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
             user = get_object_or_404(Students, username=request.session.get('user'))
-            class_fee = get_object_or_404(Fees, class_name=user.class_name)
-            data = {'user': user, 'fee':class_fee}
+            data = {'user': user}
+            try:
+                class_fee = Fees.objects.get(class_name=user.class_name)
+                data['cls_fee'] = True
+            except:
+                class_fee = 0
+
+            data['fee'] = class_fee
+
             student_fee = Student_fees.objects.filter(student=user,academic_year=academic)
 
             if len(student_fee)>0:
@@ -29,8 +34,11 @@ class View_Fee(View):
                     submit_fee+=fee.amount
 
             data['student_fee']=student_fee
-            data['pending_fee']=class_fee.fees-submit_fee
             data['submit_fee']= submit_fee
+            if class_fee != 0:
+                data['pending_fee'] = class_fee.fees - submit_fee
+            else:
+                data['pending_fee'] = 0
 
             return render(request, 'students/fee-info.html', data)
         return redirect('login')
@@ -53,7 +61,6 @@ class PayFee(View):
             academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
             month = request.POST.get('month')
             amount = int(request.POST.get('amount'))
-            print('month ',month)
             payment = razorpay_client.order.create({'amount':amount*100, "currency":"INR", "payment_capture":"1"})
             callback_url = request.build_absolute_uri()+"handle_request/"
             student_fee = Student_fees(
@@ -64,7 +71,8 @@ class PayFee(View):
                     month = month,
                     payment_mode = 'Online',
                     order_id = payment.get('id'),
-                    status=False
+                    status=False,
+                    submit_date = datetime.datetime.now()
             )
             student_fee.save()
             data = {"amount":amount,"orderid":payment.get('id'),"callback_url":callback_url, "keyid":keyid}
@@ -116,11 +124,12 @@ class Get_invoice(View):
             data['student_fee']=student_fee
             data['pending_fee']=class_fee.fees-submit_fee
             data['submit_fee']= submit_fee
+            data['logo_path']= settings.BASE_DIR+"\static\img\logo\logo.png"
+
             pdf = render_to_pdf('payment/invoice.html', data)
             return HttpResponse(pdf, content_type='application/pdf')
             # return render(request, 'payment/invoice.html', data)
         return redirect('login')
-
 
 
 from io import BytesIO
@@ -132,10 +141,12 @@ def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)
     html  = template.render(context_dict)
     result = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)  # , link_callback=fetch_resources
+    pdf = pisa.pisaDocument(BytesIO(html.encode("utf-8")), result)  # , link_callback=fetch_resources
     if not pdf.err:
         return HttpResponse(result.getvalue(), content_type='application/pdf')
     return None
+
+
 
 
 
