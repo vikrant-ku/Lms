@@ -199,6 +199,17 @@ class All_professor(View):
         return redirect('teacher_login')
 
 
+class View_professor(View):
+    def get(self, request, **kwargs):
+        if validate_user(request):
+            id = kwargs.get('pk')
+            user = get_object_or_404(Teacher, pk=id)
+            data = {'teacher':user}
+            return render(request, 'lms_admin/view-teacher.html',data)
+        return redirect('login')
+
+
+
 class Edit_professor(View):
     def get(self, request, **kwargs):
         if validate_user(request):

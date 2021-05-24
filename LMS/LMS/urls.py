@@ -3,10 +3,10 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-admin.site.site_header = 'The Temple of Knowledge'
-admin.site.site_title = 'The Temple of Knowledge Admin'
-admin.site.site_url = 'http://127.0.0.1:8000/'
-admin.site.index_title = 'The Temple of Knowledge'
+admin.site.site_header = 'The St. Lamart Sr. Sec. School'
+admin.site.site_title = 'The St. Lamart Admin'
+admin.site.site_url = 'https://stlamartschooluk.com/'
+admin.site.index_title = 'The St. Lamart Sr. Sec. School'
 admin.empty_value_display = '**Empty**'
 
 urlpatterns = [

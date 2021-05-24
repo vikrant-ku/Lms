@@ -1,7 +1,7 @@
 from .views.index import Index
 from .views.student import Add_students, All_students , Delete_student, Edit_student, Add_fees, View_fees,Students_fee, Add_Student_by_Excel
 from .views.professor import Add_professors , All_professor , Edit_professor, Delete_professor, Assign_role,View_role, teacher_leave, teacher_leave_status
-from .views.professor import Add_teacher_by_excel
+from .views.professor import Add_teacher_by_excel, View_professor
 from .views.staff import Add_staff, All_staff, delete_staff, Edit_staff
 from .views.login import Reset_password
 from .views.events import Add_events, All_events,Delete_event, Add_notice, All_notice, Delete_notice, Add_academic_year,All_academic_year
@@ -30,6 +30,7 @@ urlpatterns = [
     path('add_teachers/', auth_middleware(Add_professors.as_view()), name="add_teacher"),
     path('add_teacher_by_excel/', auth_middleware(Add_teacher_by_excel.as_view()), name="add_teacher_excel"),
     path('all_teachers/', auth_middleware(All_professor.as_view()), name='all_teachers'),
+    path('all_teachers/professor_profile/<int:pk>/<str:info>/', auth_middleware(View_professor.as_view()), name='professor_profile'),
     path('delete_teacher/<int:pk>/', auth_middleware(Delete_professor.as_view()), name='delete_teachers'),
     path('edit_teacher/<int:pk>/', auth_middleware(Edit_professor.as_view()), name="edit_teacher"),
     path('assign_role/<int:pk>/', auth_middleware(Assign_role.as_view()), name='assign_role'),

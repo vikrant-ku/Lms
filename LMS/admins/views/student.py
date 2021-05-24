@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.views import View
-from admins.models.fees import Fees, Student_fees
+from admins.models.fees import Fees, Student_fees, Academic_Year
 from admins.models.students import Students
 from admins.models.classes import Class
 from django.db.models import Q
@@ -151,6 +151,9 @@ class All_students(View):
     def get(self, request):
         if validate_user(request):
             q = request.GET.get('q')
+            cls = request.GET.get('class')
+            section = request.GET.get('section')
+
             if q is not None:
                 all_stdnt = Students.objects.filter(Q(username__icontains=q)|
                                                    Q(first_name__icontains = q)|
@@ -161,9 +164,19 @@ class All_students(View):
                                                    )
 
             else:
-                all_stdnt = Students.objects.all()
+                if cls is not None:
+                    try:
+                        clss = Class.objects.get(class_name = cls)
+                        if section is None:
+                            all_stdnt = Students.objects.filter(class_name=clss)
+                        else:
+                            all_stdnt = Students.objects.filter(class_name=clss, section=section)
+                    except:
+                        all_stdnt = Students.objects.all()
+                else:
+                    all_stdnt = Students.objects.all()
             #paginator
-            paginator = Paginator(all_stdnt, 20)
+            paginator = Paginator(all_stdnt, 30)
             last_page = paginator.page_range[-1]
 
             page = request.GET.get('page')
@@ -187,7 +200,10 @@ class All_students(View):
             else:
                 count = allstud.start_index()
 
-            data = {'all_stud': allstud, 'page_range': page_range, 'count': count, "last_page":last_page}
+            classes = Class.objects.all()
+            data = {'classes': classes,'all_stud': allstud, 'page_range': page_range,
+                    'count': count, "last_page":last_page, 'cls': cls, 'section': section
+                    }
             if q is not None:
                 data['q'] = q
                 data['all_stud'] = all_stdnt
@@ -316,24 +332,30 @@ class View_fees(View):
 class Students_fee(View):
     def get(self, request):
         if validate_user(request):
-            return render(request, 'lms_admin/view-fee-info.html')
+            classes = Class.objects.all()
+            data = {'classes': classes}
+            return render(request, 'lms_admin/view-fee-info.html', data)
         return redirect('login')
 
     def post(self, request):
         if validate_user(request):
+            classes = Class.objects.all()
             month = request.POST.get('month')
-            students = Students.objects.all()
-            print(students)
+            cls = request.POST.get('class')
+            section = request.POST.get('section')
+            clss = get_object_or_404(Class, class_name = cls)
+            academic_year = Academic_Year.objects.all().last()
+            students = Students.objects.filter(class_name=clss, section=section)
             stud_fee = list()
             for stud in students:
                 std_fee = [stud]
                 try:
-                    fee = Student_fees.objects.get(student=stud.id, month=month, status=True)
+                    fee = Student_fees.objects.get(student=stud.id, academic_year=academic_year, month=month, status=True)
                     std_fee.append(fee)
                 except:
                     pass
                 stud_fee.append(std_fee)
-            data = {'students_fee':stud_fee, 'month':month}
+            data = {'students_fee':stud_fee, 'month':month, 'classes': classes}
             return render(request, 'lms_admin/view-fee-info.html', data)
         else:
             return redirect('teacher_login')

@@ -38,25 +38,42 @@
 
                                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-
+                                                                      <div class="form-group">
+                                                                          <label>Class</label>
+                                                                            <select name="class" required class="form-control" id="cls" onChange="getsection()">
+                                                                                    <option value="none" selected="" disabled="">Class</option>
+                                                                                    {% for class in classes %}
+                                                                                    <option value="{{class}}">{{class}}</option>
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                       <div class="form-group">
+                                                                           <label>Section</label>
+                                                                            <select name="section" class="form-control" id="section">
+                                                                                <option value="none" selected="" disabled="">Section</option>
+                                                                            </select>
+                                                                </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                                     <div class="form-group">
                                                                         <label>Month</label>
                                                                         <select name="month" id="month" required class="form-control">
                                                                             <option value="none" selected="" disabled="">Select Month</option>
-                                                                            <option value="JUL">JULY</option>
-                                                                            <option value="AUG">AUGUST</option>
-                                                                            <option value="SEP">SEPTEMBER</option>
-                                                                            <option value="OCT">OCTOBER</option>
-                                                                            <option value="NOV">NOVEMBER</option>
-                                                                            <option value="DEC">DECEMBER</option>
                                                                             <option value="JAN">JANUARY</option>
                                                                             <option value="FEB">FEBRARY</option>
                                                                             <option value="MAR">MARCH</option>
                                                                             <option value="APR">APRIL</option>
                                                                             <option value="MAY">MAY</option>
                                                                             <option value="JUN">JUNE</option>
+                                                                            <option value="JUL">JULY</option>
+                                                                            <option value="AUG">AUGUST</option>
+                                                                            <option value="SEP">SEPTEMBER</option>
+                                                                            <option value="OCT">OCTOBER</option>
+                                                                            <option value="NOV">NOVEMBER</option>
+                                                                            <option value="DEC">DECEMBER</option>
+
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -158,16 +175,71 @@
 
 {% block js %}
 <script>
+    function getsection(){
+
+    var select = document.getElementById("section");
+
+    // for remove all option from select
+
+    var length = select.options.length;
+    for (i = length-1; i >= 1; i--) {
+    select.options[i] = null;
+    }
+
+    let section = new Array();
+    let cls = $('#cls :selected').val();
+    {% for class in classes %}
+    if (cls == "{{class.class_name}}"){
+
+        section.push("{{class.section_a}}")
+        if ("{{class.section_b}}" != "None"){
+        section.push("{{class.section_b}}")
+        }
+        else if ("{{class.section_c}}" != "None"){
+        section.push("{{class.section_c}}")
+        }
+        else if ("{{class.section_d}}" != "None"){
+        section.push("{{class.section_d}}")
+        }
+        else if ("{{class.section_e}}" != "None"){
+        section.push("{{class.section_e}}")
+        }
+
+
+        // add option according to class name in section
+        let option, i
+
+        for (i=0; i<section.length; i++)
+        {
+        option = document.createElement( 'option' );
+        option.value = option.text = section[i];
+        select.add( option );
+        }
+
+    }
+
+    {% endfor %}
+    }
+
+</script>
+<script>
     function validate(){
+    let cls = $('#cls :selected').val();
+    let section = $('#section :selected').val();
     let month = $('#month :selected').val();
-    if(month == 'none'){
-    alert('Plese Select Month')
-    $('#month').css({"border": "solid 2px red"})
+    if(cls == 'none'){
+        alert('Plese Select Class')
+        $('#cls').css({"border": "solid 2px red"})
+    }else if(section == 'none'){
+        alert('Plese Select Section')
+        $('#section').css({"border": "solid 2px red"})
+    }else if(month == 'none'){
+        alert('Plese Select Month')
+        $('#month').css({"border": "solid 2px red"})
     }
     else{
         document.fee.submit()
     }
-
         }
 </script>
 
