@@ -24,6 +24,66 @@ class Index(View):
         else:
             return redirect('teacher_login')
 
+class Update_profile(View):
+    def get(self, request):
+        if validate_user(request):
+            data = dict()
+
+            user = get_object_or_404(Teacher, username = request.session.get('user'))
+            data['user'] = user
+            is_ct = is_class_teacher(request)
+            data['is_ct']=is_ct
+            return render(request, 'teachers/edit-profile.html', data)
+        else:
+            return redirect('teacher_login')
+
+    def post(self, request):
+        if validate_user(request):
+            data = request.POST
+            try:
+                image = request.FILES['image']
+            except:
+                image = None
+
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            gender = data.get('gender')
+
+            user.first_name = data.get('firstname')
+            user.last_name = data.get('lastname')
+            user.dob = data.get('dob')
+            user.address = data.get('address')
+            user.country = data.get('country')
+            user.state = data.get('state')
+            user.city = data.get('city')
+            user.zipcode = data.get('postcode')
+            user.phone = data.get('mobileno')
+            user.email = data.get('email')
+            user.designation = data.get('designation')
+            user.qualification = data.get('qualification')
+            user.basic_salary = data.get('salary')
+            user.contract_type = data.get('contract')
+            user.work_shift = data.get('shift')
+            # account info
+            user.bank_name = data.get('bank')
+            user.branch_name = data.get('branch')
+            user.account_number = data.get('account')
+            user.ifsc_code = data.get('ifsc')
+            user.aadhar_number = data.get('aadhar')
+            user.pancard_number = data.get('pan')
+            user.descripation = data.get('description')
+
+            if gender is not None:
+                user.gender = gender
+            if image is not None:
+                user.image = image
+            user.save()
+            messages.success(request, 'Your Profile Updated successfully. ')
+            return redirect('teacher_home')
+        else:
+            return redirect('teacher_login')
+
+
+
 
 class Issue_books(View):
     def get(self, request):

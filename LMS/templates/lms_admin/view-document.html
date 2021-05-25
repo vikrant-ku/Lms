@@ -1,0 +1,252 @@
+{% extends './basic.html' %}
+{% load static %}
+{% load join_class %}
+{% block title %}| View Documents {% endblock %}
+
+ {% block head %}
+<script>
+    var count = 1
+    function srno(e){
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+{% endblock %}
+
+{% block style %} {% endblock %}
+
+{% block search %} {% endblock %}
+
+{% block body %}
+<div class="product-status mg-b-15" style="margin-top: 90px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-payment-inner-st">
+                            <ul id="myTabedu1" class="tab-review-design">
+                                <li class="active"><a href="#description">View By </a></li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                                    <form action="{% url 'admin_view_documents' %}" id="document">
+
+                                                        <div class="row">
+                                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                                <div class="form-group">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                <div class="form-group">
+                                                                    <select name="class" required class="form-control" id="cls" onChange="getsection(); getsubject()">
+																			<option value="none" selected="" disabled="">Class</option>
+                                                                            {% for class in classes %}
+																			<option value="{{class}}">{{class}}</option>
+                                                                            {% endfor %}
+																		</select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                 <div class="form-group">
+                                                                    <select name="section" required class="form-control" id="section">
+                                                                        <option value="none" selected="" disabled="">Section</option>
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                 <div class="form-group">
+
+                                                                     <button type="button" class="btn btn-primary waves-effect waves-light" onclick="validate()" >Filter</button>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% if documents %}
+<div class="product-status mg-b-15" >
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>Documents ({{class_name}} {{section}})</h4>
+
+                            <div class="asset-inner">
+
+
+                                <table>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Student ID</th>
+
+                                        <th>Image</th>
+                                        <th>Aadhar</th>
+                                        <th>Parent Aadhar</th>
+                                         {% if class_name == 'Nursery' or class_name == 'LKG' or class_name == 'UKG' %}
+                                        <th>Birth Certificate</th>
+                                        {% endif %}
+                                        {% if class_name != 'Nursery' %}
+                                        <th>Transfer Certificate</th>
+                                        {% endif %}
+                                        {% if class_name != 'Nursery' and class_name != 'LKG' and class_name != 'UKG' %}
+                                        <th>Progress Report</th>
+                                        {% endif %}
+                                        {% if class_name == '10' or class_name == '12' %}
+                                        <th>Affidavit</th>
+                                        <th>Under Taking</th>
+                                        {% endif %}
+                                    </tr>
+                                    {% for user,document in documents.items %}
+                                    <tr>
+                                         <td id="{{user.id}}"><script>srno({{user.id}})</script></td>
+                                        <td><a href="/admin/all_students/student_profile/{{user.id}}/{{user.first_name}} {{user.lasr_name}}/">{{user}}</a></td>
+                                        <td>
+                                            {% if user.image %}
+                                            <a href="{{user.image.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            {% else %}
+                                            <button type="button" class="btn btn-danger">Not Submitted</button>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if document.aadhar %}
+                                            <a href="{{document.aadhar.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            {% else %}
+                                            <button type="button" class="btn btn-danger">Not Submitted</button>
+                                            {% endif %}
+                                        </td>
+                                          <td>
+                                            {% if document.parent_aadhar %}
+                                            <a href="{{document.parent_aadhar.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            {% else %}
+                                            <button type="button" class="btn btn-danger">Not Submitted</button>
+                                            {% endif %}
+                                        </td>
+                                        {% if class_name == 'Nursery' or class_name == 'LKG' or class_name == 'UKG' %}
+                                        <td>
+                                            {% if document.birth_certificate %}
+                                            <a href="{{document.birth_certificate.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            {% else %}
+                                            <button type="button" class="btn btn-danger">Not Submitted</button>
+                                            {% endif %}
+                                        </td>
+                                        {% endif %}
+                                         {% if class_name != 'Nursery' %}
+                                        <td>
+                                            {% if document.tc %}
+                                            <a href="{{document.tc.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            {% else %}
+                                            <button type="button" class="btn btn-danger">Not Submitted</button>
+                                            {% endif %}
+                                        </td>
+                                        {% endif %}
+                                        {% if class_name != 'Nursery' and class_name != 'LKG' and class_name != 'UKG' %}
+                                         <td>
+                                            {% if document.progress_report %}
+                                            <a href="{{document.progress_report.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            {% else %}
+                                            <button type="button" class="btn btn-danger">Not Submitted</button>
+                                            {% endif %}
+                                        </td>
+                                        {% endif %}
+                                        {% if class_name == '10' or class_name == '12' %}
+                                        <td>
+                                            {% if document.affidavit %}
+                                            <a href="{{document.affidavit.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            {% else %}
+                                            <button type="button" class="btn btn-danger">Not Submitted</button>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if document.under_taking %}
+                                            <a href="{{document.under_taking.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            {% else %}
+                                            <button type="button" class="btn btn-danger">Not Submitted</button>
+                                            {% endif %}
+                                        </td>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+
+<script>
+    function getsection(){
+
+    var select = document.getElementById("section");
+
+    // for remove all option from select
+
+    var length = select.options.length;
+    for (i = length-1; i >= 1; i--) {
+    select.options[i] = null;
+    }
+
+    let section = new Array();
+    let cls = $('#cls :selected').val();
+    {% for class in classes %}
+    if (cls == "{{class.class_name}}"){
+
+        section.push("{{class.section_a}}")
+        if ("{{class.section_b}}" != "None"){
+        section.push("{{class.section_b}}")
+        }
+        else if ("{{class.section_c}}" != "None"){
+        section.push("{{class.section_c}}")
+        }
+        else if ("{{class.section_d}}" != "None"){
+        section.push("{{class.section_d}}")
+        }
+        else if ("{{class.section_e}}" != "None"){
+        section.push("{{class.section_e}}")
+        }
+
+
+        // add option according to class name in section
+        let option, i
+
+        for (i=0; i<section.length; i++)
+        {
+        option = document.createElement( 'option' );
+        option.value = option.text = section[i];
+        select.add( option );
+        }
+
+    }
+
+    {% endfor %}
+    }
+
+</script>
+<script>
+    function validate(){
+    let cls = $('#cls').val()
+    let section = $('#section').val()
+    if(cls == null){
+    alert("Please select Class")
+    }else if(section == null){
+    alert("Please select Section")
+    }else{
+    $('#document').submit()
+    }
+    }
+</script>
+
+{% endblock %}

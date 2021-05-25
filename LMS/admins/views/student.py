@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.views import View
 from admins.models.fees import Fees, Student_fees, Academic_Year
-from admins.models.students import Students
+from admins.models.students import Students, Documents
 from admins.models.classes import Class
 from django.db.models import Q
 from django.core.paginator import Paginator , PageNotAnInteger , EmptyPage
@@ -210,6 +210,44 @@ class All_students(View):
             return render(request, 'lms_admin/all-students.html', data)
         return redirect('login')
 
+class View_Student(View):
+    def get(self, request, **kwargs):
+        if validate_user(request):
+            id = kwargs.get('pk')
+            user = get_object_or_404(Students, pk=id)
+            class_name = str(user.class_name)
+            data = {'student': user, 'class_name':class_name }
+            try:
+                documents = Documents.objects.get(student=user)
+
+                data['documents']:documents
+            except:
+                pass
+            return render(request,'lms_admin/view-student.html',data)
+        return redirect('login')
+
+class View_documents(View):
+    def get(self, request):
+        if validate_user(request):
+            classes = Class.objects.all()
+            data = {'classes': classes}
+            class_name = request.GET.get('class')
+            section = request.GET.get('section')
+            if class_name is not None:
+                data[class_name]= str(class_name)
+                data['section']=section
+                cls = get_object_or_404(Class, class_name=class_name)
+                students = Students.objects.filter(class_name=cls, section=section)
+                documents = dict()
+                for std in students:
+                    try:
+                        document = Documents.objects.get(student=std)
+                    except:
+                        document = None
+                    documents[std] = document
+                data['documents'] = documents
+            return render(request,'lms_admin/view-document.html',data)
+        return redirect('login')
 
 class Edit_student(View):
     def get(self, request, **kwargs):

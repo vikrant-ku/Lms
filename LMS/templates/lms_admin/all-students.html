@@ -133,7 +133,7 @@
                                         <td>{{ stud.phone }}</td>
 
                                         <td>
-                                            <a href="/admin/edit_student/{{ stud.id }}/"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                                            <a href="/admin/all_students/student_profile/{{stud.id}}/{{stud.first_name}} {{stud.last_name}} {{stud.username}}/"><button data-toggle="tooltip" title="View" class="pd-setting-ed"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
                                             <a href="/admin/delete_student/{{ stud.id }}/"><button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
                                         </td>
                                     </tr>
@@ -249,7 +249,4 @@
     }
 
 </script>
-
-
-
 {% endblock %}

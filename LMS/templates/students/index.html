@@ -1,6 +1,6 @@
 {% extends './basic.html' %}
 {% load static %}
-{% block title %}| Home {% endblock %}
+{% block title %}|{{student.first_name}}{% endblock %}
 
  {% block head %}
 
@@ -39,7 +39,7 @@
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                        <div class="address-hr">
                                             <p><b>Class</b><br />{{user.class_name}}{{user.section}}</p>
                                         </div>
                                     </div>
@@ -51,29 +51,29 @@
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                        <div class="address-hr ">
                                             <p><b>Phone</b><br /> {{user.phone}}</p>
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                        <div class="address-hr ">
                                             <p><b>Admission Number</b><br />{{user.admission_no}}</p>
                                         </div>
 
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                        <div class="address-hr ">
                                             <p><b>D.O.B</b><br /> {{user.dob}}</p>
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                        <div class="address-hr ">
                                             <p><b>Father Name</b><br /> {{user.father_name}}</p>
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                        <div class="address-hr ">
                                             <p><b>Mother Name</b><br /> {{user.mother_name}}</p>
                                         </div>
                                 </div>

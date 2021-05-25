@@ -1,18 +1,21 @@
 from django.urls import path
 from .views.login import Login, Logout, Change_password, Logout_all_devices
-from .views.index import Index, Issue_books, View_assignment, View_attandance, Scheduled_class, View_marks, View_syllabus
+from .views.index import Index, Issue_books, View_assignment, View_attandance, Scheduled_class, View_marks, View_syllabus, View_documents
 from .views.events import All_notice, Events, Apply_leave, All_leaves
 from .views.fee import PayFee, View_Fee, handlerequest, Get_invoice
 from admins.middleware.auth import auth_middleware
 
 
 urlpatterns = [
-    path('', auth_middleware(Index.as_view()) , name= "student_home"),
+
     path('login/', Login.as_view() , name= "login"),
     path('change_password/', auth_middleware(Change_password.as_view()) , name= "change_password"),
     path('logout/', Logout.as_view() , name= "logout"),
-
     path('logout-from-all-devices/', Logout_all_devices.as_view() , name= "logout_all_devices"),
+
+    #Index
+    path('', auth_middleware(Index.as_view()) , name= "student_home"),
+    path('view_documents/', auth_middleware(View_documents.as_view()) , name= "student_view_documents"),
     path('view_issue_books/',auth_middleware(Issue_books.as_view()), name='issue_books' ),
     path('assignment/',auth_middleware(View_assignment.as_view()), name='view_assignment' ),
     path('view_marks/',auth_middleware(View_marks.as_view()), name='view_marks' ),

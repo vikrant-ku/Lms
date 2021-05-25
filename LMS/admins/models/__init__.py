@@ -1,5 +1,5 @@
 from .classes import Class, Class_subjects, Syllabus
-from .students import Students
+from .students import Students, Documents
 from .professor import Teacher, Role
 from .notice import Notices, Event
 from .leave import Leave

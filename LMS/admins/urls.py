@@ -1,5 +1,5 @@
 from .views.index import Index
-from .views.student import Add_students, All_students , Delete_student, Edit_student, Add_fees, View_fees,Students_fee, Add_Student_by_Excel
+from .views.student import Add_students, All_students , Delete_student, Edit_student, Add_fees, View_fees,Students_fee, Add_Student_by_Excel, View_Student, View_documents
 from .views.professor import Add_professors , All_professor , Edit_professor, Delete_professor, Assign_role,View_role, teacher_leave, teacher_leave_status
 from .views.professor import Add_teacher_by_excel, View_professor
 from .views.staff import Add_staff, All_staff, delete_staff, Edit_staff
@@ -20,11 +20,13 @@ urlpatterns = [
     path('add_student/', auth_middleware(Add_students.as_view()), name="add_students"),
     path('add_student_by_excel/', auth_middleware(Add_Student_by_Excel.as_view()), name="add_student_excel"),
     path('all_students/', auth_middleware(All_students.as_view()), name='admin_all_students'),
+    path('all_students/student_profile/<int:pk>/<str:info>/', auth_middleware(View_Student.as_view()),name='student_profile'),
     path('delete_student/<int:pk>/', auth_middleware(Delete_student.as_view()), name='all_students'),
     path('edit_student/<int:pk>/', auth_middleware(Edit_student.as_view()), name="edit_student"),
     path('add_fees/', auth_middleware(Add_fees.as_view()), name="add_fees"),
     path('view_fees/', auth_middleware(View_fees.as_view()), name="admin_view_fees"),
     path('view_students_fees/', auth_middleware(Students_fee.as_view()), name="admin_students_fee"),
+    path('view_documents/', auth_middleware(View_documents.as_view()), name="admin_view_documents"),
 
     #Teachers
     path('add_teachers/', auth_middleware(Add_professors.as_view()), name="add_teacher"),

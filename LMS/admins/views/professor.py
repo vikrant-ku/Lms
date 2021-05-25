@@ -166,7 +166,7 @@ class All_professor(View):
             else:
                 all_tchr = Teacher.objects.all()
             # paginator
-            paginator = Paginator(all_tchr, 10)
+            paginator = Paginator(all_tchr, 20)
             last_page = paginator.page_range[-1]
 
             page = request.GET.get('page')

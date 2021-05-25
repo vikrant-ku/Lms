@@ -1,15 +1,14 @@
 {% extends './basic.html' %}
 {% load static %}
-{% block title %}| {{teacher.username}} {% endblock %}
+{% block title %}| Home {% endblock %}
 
  {% block head %}
 
 {% endblock %}
 
-{% block style %}   {% endblock %}
+	{% block style %}   {% endblock %}
 
 {% block search %}
-
 
 {% endblock %}
 
@@ -18,15 +17,14 @@
 <div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top:90px">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-4  col-xs-12">
+                    <div class="col-lg-4 col-xs-12">
                         <div class="profile-info-inner">
-
-                            <div class="row">
+                              <div class="row">
                                     <div class="col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr">
                                            <div class="profile-img">
-                                                {% if teacher.image %}
-                                                <img src="{{teacher.image.url}}" alt="" />
+                                                {% if student.image %}
+                                                <img src="{{student.image.url}}" alt="" />
                                                 {% else %}
                                                 <img src="{% static 'user.png' %}" alt="" />
                                                 {% endif %}
@@ -41,147 +39,194 @@
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr mt-3">
-                                             <a href="/admin/edit_teacher/{{teacher.id}}/"><button type="button" class="btn btn-primary">Edit Teacher </button></a>
+                                             <a href="/admin/edit_student/{{student.id}}/"><button type="button" class="btn btn-primary">Edit Student </button></a>
                                         </div>
                                     </div>
                                 </div>
-
                             <div class="profile-details-hr">
                                 <div class="row">
                                     <div class="col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr">
-                                            <p><b>First Name</b><br /> {{teacher.first_name}}</p>
+                                            <p><b>First Name</b><br /> {{student.first_name}}</p>
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr">
-                                            <p><b>Last Name</b><br />{{teacher.last_name}}</p>
+                                            <p><b>Last Name</b><br />{{student.last_name}}</p>
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>Gender</b><br />{{teacher.gender}}</p>
+                                            <p><b>Class</b><br />{{student.class_name}}{{student.section}}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr">
-                                            <p><b>Email ID</b><br /> {{teacher.email}}</p>
+                                            <p><b>Email ID</b><br /> {{student.email}}</p>
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>Phone</b><br /> {{teacher.phone}}</p>
+                                            <p><b>Phone</b><br /> {{student.phone}}</p>
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>Designation</b><br />{{teacher.designation}}</p>
+                                            <p><b>Admission Number</b><br />{{student.admission_no}}</p>
                                         </div>
 
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>D.O.B</b><br /> {{ teacher.dob }}</p>
+                                            <p><b>D.O.B</b><br /> {{student.dob}}</p>
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>Pin Code</b><br /> {{teacher.zipcode}}</p>
+                                            <p><b>Father Name</b><br /> {{student.father_name}}</p>
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>House No.</b><br /> +01962067309</p>
+                                            <p><b>Mother Name</b><br /> {{student.mother_name}}</p>
                                         </div>
                                 </div>
                                 <div class="row">
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr">
-                                            <p><b>Address</b><br /> {{teacher.address}}</p>
+                                            <p><b>PIN Code</b><br />{{student.zipcode}}</p>
                                         </div>
                                     </div>
 
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr">
-                                            <p><b>City</b><br /> {{teacher.city}}</p>
+                                            <p><b>House No.</b><br /> E104, catn-2, Chandlodia Ahmedabad Gujarat, UK.</p>
                                         </div>
                                     </div>
 
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr">
-                                            <p><b>State</b><br /> {{teacher.state}}</p>
+                                            <p><b>Address</b><br />{{student.address}}</p>
                                         </div>
                                     </div>
                                 </div>
 
-
-
+                                <div class="row">
+                                    <div class=" col-md-12 col-sm-12 col-xs-12">
+                                        <div class="address-hr">
+                                          <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12 col-sm-12 col-xs-12">
+                                        <div class="address-hr">
+                                           <h1>Documents</h1>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr">
-                                            <p><b>IFSC Code</b><br />
-                                            <h3>{{teacher.ifsc_code}}</h3>
+                                            <p><b>Aadhar</b><br />
+                                                {% if documents.aadhar %}
+                                                    {{documents.aadhar}}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
                                         </div>
                                     </div>
+
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr">
-                                            <p><b>Account No.</b><br />
-                                            <h3>{{teacher.account_number}}</h3>
+                                            <p><b>Parents Aadhar.</b><br />
+                                            {% if documents.parent_aadhar %}
+                                                    {{documents.parent_aadhar}}
+                                                {% else %}
+                                                    -
+                                                {% endif %}</p>
                                         </div>
                                     </div>
+
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr">
-                                            <p><b>Bank Name</b><br />
-                                            <h3>{{teacher.bankname}}</h3>
+                                            {% if class_name == 'Nursery' %}
+                                            <p><b>Birth Certificate</b><br />
+                                            {% if documents.birth_certificate %}
+                                                    {{documents.birth_certificate}}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                            {% else %}
+                                            <p><b>Transfer Certificate</b><br />
+                                                {% if documents.tc %}
+                                                    {{documents.tc}}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
+                                 <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            {% if class_name == 'LKG' or class_name == 'UKG' %}
+                                            <p><b>Birth Certificate</b><br />
+                                            {% if documents.birth_certificate %}
+                                                    {{documents.birth_certificate}}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                            {% else %}
+                                            <p><b>Progress Report</b><br />
+                                            {% if documents.progress_report %}
+                                                    {{documents.progress_report}}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% if class_name == '10' or class_name == '12' %}
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Affidavit</b><br />
+                                            {% if documents.affidavit %}
+                                                    {{documents.affidavit}}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
 
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
 
-                                <div class="row">
-                                    <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr">
-                                            <p><b>Branch Name</b><br />
-                                            <h3>{{teacher.branch_name}}</h3>
+                                            <p><b>Under Taking</b><br />
+                                            {% if documents.under_taking %}
+                                                    {{documents.under_taking}}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+
                                         </div>
                                     </div>
-                                    <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr">
-                                            <p><b>Pan No.</b><br />
-                                            <h3>{{teacher.pan_number}}</h3>
-                                        </div>
-                                    </div>
-                                    <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr">
-                                            <p><b>Aadhar number </b><br />
-                                            <h3>{{teacher.aadhar_number}}</h3>
-                                        </div>
-                                    </div>
+                                     {% endif %}
                                 </div>
 
 
-                                <div class="row">
-                                    <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr">
-                                            <p><b>Join date</b><br />
-                                            <h3>{{teacher.date_joined|date}}</h3>
-                                        </div>
-                                    </div>
-                                    <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr">
-                                            <p><b>Basic Salary</b><br />
-                                            <h3>{{teacher.basic_salery}}</h3>
-                                        </div>
-                                    </div>
-                                    <div class=" col-md-4 col-sm-4 col-xs-4">
-                                        <div class="address-hr">
-
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

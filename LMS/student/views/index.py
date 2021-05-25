@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.contrib import messages
 from admins.models.classes import Syllabus
-from admins.models.students import Students
+from admins.models.students import Students,Documents
 from admins.models.attandance import Student_Attandance
 from library.models import Issue_book
 from teacher.models import Assignment, OnlineClass, Marks
@@ -21,6 +22,107 @@ class Index(View):
         else:
             return redirect('login')
 
+class View_documents(View):
+    def get(self, request):
+        if validate_user(request):
+            user = get_object_or_404(Students, username=request.session.get('user'))
+            cls_name = user.class_name
+            try:
+                documents = Documents.objects.get(student = user)
+            except:
+                documents = Documents(student=user)
+                documents.save()
+
+            data ={'user':user,'documents': documents,'cls_name':str(cls_name)}
+
+            return render(request, 'students/view-documents.html', data)
+        else:
+            return redirect('login')
+
+    def post(self, request):
+        if validate_user(request):
+            user = get_object_or_404(Students, username=request.session.get('user'))
+            documents = Documents.objects.get(student=user)
+            msg= list()
+            try:
+                image = request.FILES['image']
+                if file_size(image):
+                    user.image = image
+                    user.save()
+                else:
+                    msg.append('Image')
+            except:
+                pass
+            try:
+                birth_certificate = request.FILES['birth_certificate']
+                if file_size(birth_certificate):
+                   documents.birth_certificate = birth_certificate
+                else:
+                    msg.append('Birth Certificate')
+            except:
+               pass
+
+            try:
+                aadhar = request.FILES['aadhar']
+                if file_size(aadhar):
+                   documents.aadhar = aadhar
+                else:
+                    msg.append('Aadhar')
+            except:
+               pass
+
+            try:
+                parent_aadhar = request.FILES['parent_aadhar']
+                if file_size(parent_aadhar):
+                   documents.parent_aadhar = parent_aadhar
+                else:
+                    msg.append('Parents Aadhar')
+            except:
+                pass
+
+            try:
+                tc = request.FILES['tc']
+                if file_size(tc):
+                   documents.tc = tc
+                else:
+                    msg.append('Transfer Certificate')
+            except:
+                pass
+
+            try:
+                progress_report = request.FILES['progress_report']
+                if file_size(progress_report):
+                   documents.progress_report = progress_report
+                else:
+                    msg.append('Progress Report')
+            except:
+                pass
+
+            try:
+                affidavit = request.FILES['affidavit']
+                if file_size(affidavit):
+                   documents.affidavit = affidavit
+                else:
+                    msg.append('Affidavit')
+            except:
+                pass
+
+            try:
+                under_taking = request.FILES['under_taking']
+                if file_size(under_taking):
+                   documents.under_taking = under_taking
+                else:
+                    msg.append('Under Taking Form')
+            except:
+                pass
+            documents.save()
+            if len(msg)>0:
+                messg = (', ').join(msg)
+                messages.error(request, f"{messg} size must be less than 2MB. ")
+
+            return redirect('student_view_documents')
+        else:
+            return redirect('login')
 class Issue_books(View):
     def get(self, request):
         if validate_user(request):
@@ -31,7 +133,6 @@ class Issue_books(View):
             return render(request, 'students/all-issue-book.html', data)
         else:
             return redirect('login')
-
 
 class View_assignment(View):
     def get(self, request):
@@ -192,6 +293,13 @@ def validate_user(request):
         if student.token == request.session.get('token'):
             return True
     return False
+
+def file_size(value): # add this to some file where you can import it from
+    limit = 2 * 1024 * 1024
+    if value.size > limit:
+        return False
+    return True
+
 
 
 

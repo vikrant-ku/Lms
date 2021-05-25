@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models.students import Students
+from .models.students import Students, Documents
 from .models.professor import Teacher, Role
 from .models.classes import Class, Class_subjects, Syllabus
 from .models.notice import Notices, Event
@@ -73,5 +73,6 @@ admin.site.register(Fees)
 admin.site.register(Academic_Year)
 admin.site.register(Student_fees,Student_fee_Admin )
 admin.site.register(Syllabus)
+admin.site.register(Documents)
 
 

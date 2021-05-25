@@ -1,0 +1,162 @@
+{% extends './basic.html' %}
+{% load static %}
+{% load join_class %}
+{% block title %}| View Documents {% endblock %}
+
+ {% block head %}
+<script>
+    var count = 4
+    function srno(e){
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+{% endblock %}
+
+{% block style %} {% endblock %}
+
+{% block search %} {% endblock %}
+
+{% block body %}
+
+<div class="product-status mg-b-15" style="margin-top: 90px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>Documents</h4>
+
+
+                            <div class="asset-inner">
+                            <form action="{% url 'student_view_documents' %}" method="post" enctype="multipart/form-data" >
+                                {% csrf_token %}
+                                <table>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Document</th>
+                                        <th>Status</th>
+                                        <th>Upload</th>
+
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>IMAGE</td>
+                                        {% if user.image %}
+                                        <td><a href="{{user.image.url}}"><button type="button" class="btn btn-success">View</button> </a></td>
+                                        {% else %}
+                                        <td><button type="button" class="btn btn-danger">Not Submitted</button></td>
+                                        {% endif %}
+                                        <td><input type="file" name="image" id="image" onchange="image_validate('image','Image')" accept="image/png, image/jpeg"></td>
+                                    </tr>
+                                      <tr>
+                                            <td>2</td>
+                                            <td>AADHAR</td>
+                                            {% if documents.aadhar %}
+                                            <td><a href="{{documents.aadhar.url}}"><button type="button" class="btn btn-success">View</button> </a></td>
+                                            {% else %}
+                                            <td><button type="button" class="btn btn-danger">Not Submitted</button></td>
+                                            {% endif %}
+                                            <td><input type="file" name="aadhar" id="aadhar" onchange="image_validate('aadhar','Aadhar')" accept="image/png, image/gif, image/jpeg, application/pdf"></td>
+                                        </tr>
+                                       <tr>
+                                            <td>3</td>
+                                            <td>PARENT AADHAR</td>
+                                            {% if documents.parent_aadhar %}
+                                            <td><a href="{{documents.parent_aadhar.url}}"><button type="button" class="btn btn-success">View</button> </a></td>
+                                            {% else %}
+                                            <td><button type="button" class="btn btn-danger">Not Submitted</button></td>
+                                            {% endif %}
+                                            <td><input type="file" name="parent_aadhar" id="parent_aadhar" onchange="image_validate('parent_aadhar','Parent Aadhar')" accept="image/png, image/gif, image/jpeg, application/pdf"></td>
+                                       </tr>
+                                        {% if cls_name == 'Nursery' or cls_name == 'LKG' or cls_name == 'UKG' %}
+                                        <tr>
+                                            <td>4</td>
+                                            <td>BIRTH CERTIFICATE</td>
+                                            {% if documents.birth_certificate %}
+                                            <td><a href="{{documents.birth_certificate.url}}"><button type="button" class="btn btn-success">View</button> </a></td>
+                                            {% else %}
+                                            <td><button type="button" class="btn btn-danger">Not Submitted</button></td>
+                                            {% endif %}
+                                            <td><input type="file" name="birth_certificate" id="birth_certificate" onchange="image_validate('birth_certificate','Birth Certificate')" accept="image/png, image/gif, image/jpeg, application/pdf"></td>
+                                        </tr>
+                                        {% endif %}
+                                        {% if cls_name != 'Nursery' %}
+                                        <tr>
+                                            {% if cls_name == 'LKG' or cls_name == 'UKG' %}
+                                            <td>5</td>
+                                            {% else %}
+                                            <td>4</td>
+                                            {% endif %}
+                                            <td>TRANSFER CERTIFICATE</td>
+                                            {% if documents.tc %}
+                                            <td><a href="{{documents.tc.url}}"><button type="button" class="btn btn-success">View</button> </a></td>
+                                            {% else %}
+                                            <td><button type="button" class="btn btn-danger">Not Submitted</button></td>
+                                            {% endif %}
+                                            <td><input type="file" name="tc" id="tc" onchange="image_validate('tc','Transfer Certificate')" accept="image/png, image/gif, image/jpeg, application/pdf"></td>
+                                        </tr>
+
+                                        {% endif %}
+
+                                        {% if cls_name != 'Nursery' and cls_name != 'LKG' and cls_name != 'UKG' %}
+                                        <tr>
+                                            <td>5</td>
+                                            <td>PROGRESS REPORT</td>
+                                            {% if documents.progress_report %}
+                                            <td><a href="{{documents.progress_report.url}}"><button type="button" class="btn btn-success">View</button> </a></td>
+                                            {% else %}
+                                            <td><button type="button" class="btn btn-danger">Not Submitted</button></td>
+                                            {% endif %}
+                                            <td><input type="file" name="progress_report" id="progress_report" onchange="image_validate('progress_report','Progress Report')" accept="image/png, image/gif, image/jpeg, application/pdf"></td>
+                                       </tr>
+                                        {% endif %}
+
+                                        {% if cls_name == '10' or cls_name == '12' %}
+                                        <tr>
+                                            <td>6</td>
+                                            <td>AFFIDAVIT</td>
+                                            {% if documents.affidavit %}
+                                            <td><a href="{{documents.affidavit.url}}"><button type="button" class="btn btn-success">View</button> </a></td>
+                                            {% else %}
+                                            <td><button type="button" class="btn btn-danger">Not Submitted</button></td>
+                                            {% endif %}
+                                            <td><input type="file" name="affidavit" id="affidavit" onchange="image_validate('affidavit','Affidavit')" accept="image/png, image/gif, image/jpeg, application/pdf"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td>UNDER TAKING</td>
+                                            {% if documents.under_taking %}
+                                            <td><a href="{{documents.under_taking.url}}"><button type="button" class="btn btn-success">View</button> </a></td>
+                                            {% else %}
+                                            <td><button type="button" class="btn btn-danger">Not Submitted</button></td>
+                                            {% endif %}
+                                            <td><input type="file" name="under_taking" id="under_taking" onchange="image_validate('under_taking','Under Taking')" accept="image/png, image/gif, image/jpeg, application/pdf"></td>
+                                        </tr>
+                                        {% endif %}
+
+                                </table>
+                                <button type="submit" class="btn btn-primary" >Upload</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    var sizeLimit= 2048;
+    function image_validate(e, msg){
+        let image = $("#"+e+"")[0].files[0].size/1024;
+        if (image >= sizeLimit){
+        alert(msg+" size Must be less than 2MB")
+        $("#"+e+"").val("")
+        return false;
+        }
+    }
+</script>
+
+{% endblock %}

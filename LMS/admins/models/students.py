@@ -27,4 +27,15 @@ class Students(models.Model):
     def __str__(self):
         return self.username
 
+class Documents(models.Model):
+    student = models.OneToOneField(Students, on_delete=models.CASCADE)
+    birth_certificate = models.FileField(upload_to="documents", blank=True , null=True)
+    aadhar = models.FileField(upload_to="documents", blank=True, null=True)
+    parent_aadhar = models.FileField(upload_to="documents", blank=True , null=True)
+    tc = models.FileField(upload_to="documents", blank=True , null=True)
+    progress_report = models.FileField(upload_to="documents", blank=True , null=True)
+    affidavit = models.FileField(upload_to="documents", blank=True , null=True)
+    under_taking = models.FileField(upload_to="documents", blank=True , null=True)
 
+    def __str__(self):
+        return self.student.username
