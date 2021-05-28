@@ -12,6 +12,9 @@
             <nav class="sidebar-nav left-sidebar-menu-pro">
                 <ul class="metismenu" id="menu1">
                     <li>
+                        <a href="{% url 'teacher_send_notification' %}" aria-expanded="false"><span class="educate-icon educate-bell icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Send Notification</span></a>
+                    </li>
+                    <li>
                         <a title="event" href="{% url 'teacher_event' %}" aria-expanded="false"><span class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Event</span></a>
                     </li>
                     <li>
@@ -150,6 +153,41 @@
                                 <div class="header-right-info"style="margin-right:10%">
                                     <ul class="nav navbar-nav mai-top-nav header-right-menu">
 
+                                        <li class="nav-item"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="educate-icon educate-bell" aria-hidden="true"></i>{% if notify %}<span class="indicator-nt"></span>{% endif %}</a>
+                                                    <div role="menu" class="notification-author dropdown-menu animated zoomIn">
+                                                        <div class="notification-single-top">
+                                                            <h1>Notifications</h1>
+                                                        </div>
+                                                        <ul class="notification-menu">
+                                                            {% for notification in notifications %}
+                                                            <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <a href="{% url 'teacher_view_notification' %}?id={{notification.id}}&from={{notification.from_user.first_name}} {{notification.from_user.last_name}}&date={{notification.datetime}}">
+                                                                    <div class="row">
+                                                                    <div class="message-img col-lg-3 col-md-3">
+                                                                        {% if notification.from_user.image %}
+                                                                        <img src="{{notification.from_user.image.url}}" alt="" style="width:100%">
+                                                                        {% else %}
+                                                                        <img src="{% static 'user.png' %}" alt="" style="width:100%">
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="notification-content col-lg-8 col-md-8">
+                                                                        <span class="notification-date" style="float:right">{{notification.datetime|date}}</span>
+                                                                        <h2>{{notification.from_user.first_name}}</h2>
+                                                                        <p>{{notification.notification|slice:80}} ...</p>
+                                                                    </div>
+                                                                        </div>
+                                                                </a>
+                                                            </li>
+                                                            {% endfor %}
+
+
+                                                        </ul>
+                                                        <div class="notification-view">
+                                                            <a href="{% url 'teacher_view_notification' %}">View All Notification</a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
                                         <li class="nav-item">
                                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
 
@@ -181,7 +219,7 @@
                     <div class="mobile-menu">
                         <nav id="dropdown">
                             <ul class="mobile-menu-nav">
-
+                                <li><a href="{% url 'teacher_send_notification' %}">Send Notification</a></li>
                                 <li><a href="{% url 'teacher_event' %}">Event</a></li>
                                 <li><a href="{% url 'teacher_notice' %}">Notice</a></li>
                                 <li><a href="{% url 'issue_books' %}">View Issue Books</a></li>

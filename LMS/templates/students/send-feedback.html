@@ -1,0 +1,64 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Send Feedback {% endblock %}
+
+ {% block head %}
+
+
+{% endblock %}
+
+	{% block style %}
+
+
+	 {% endblock %}
+
+{% block search %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="error-pagewrap">
+		<div class="error-page-int" style="margin-top:5%">
+			<div class="text-center m-b-md custom-login">
+				<h3>Send Feedback</h3>
+			</div>
+			<div class="content-error">
+				<div class="hpanel">
+                    <div class="panel-body">
+
+                        <form method="post" action="{% url 'send-feedback' %}">{% csrf_token %}
+
+                            <div class="form-group">
+                                    <label class="control-label" >Title</label>
+                                    <input type="text" required name="title" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" >Message</label>
+                                <textarea required name="msg" class="form-control"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block loginbtn">Submit</button>
+
+                        </form>
+                    </div>
+                </div>
+			</div>
+
+		</div>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+
+
+
+
+
+
+
+{% endblock %}

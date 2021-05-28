@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from admins.models.students import Students
 from admins.models.fees import Fees, Student_fees, Academic_Year
-from .index import validate_user
+from .index import validate_user, get_notifications
 import json
 import razorpay
 from django.conf import settings
@@ -15,10 +15,18 @@ razorpay_client = razorpay.Client(auth=(keyid, keysecret))
 class View_Fee(View):
     def get(self, request):
         if validate_user(request):
+            ## for notification
+            user = get_object_or_404(Students, username=request.session.get('user'))
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
+
             submit_fee = 0
             academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
             user = get_object_or_404(Students, username=request.session.get('user'))
-            data = {'user': user}
+
+            data = {'user': user, 'notify': notify, 'notification': notification}
             try:
                 class_fee = Fees.objects.get(class_name=user.class_name)
                 data['cls_fee'] = True
@@ -46,10 +54,16 @@ class View_Fee(View):
 class PayFee(View):
     def get(self, request):
         if validate_user(request):
+            ## for notification
+            user = get_object_or_404(Students, username=request.session.get('user'))
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             user = get_object_or_404(Students, username=request.session.get('user'))
             total_fee = get_object_or_404(Fees, class_name=user.class_name)
             monthly = round(total_fee.fees//12)
-            data = {'user': user, 'fee':total_fee, 'monthly':monthly}
+            data = {'user': user, 'fee':total_fee, 'monthly':monthly, 'notify':notify,'notification':notification }
 
             return render(request, 'students/pay_fee.html', data)
         return redirect('login')

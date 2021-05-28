@@ -1,5 +1,8 @@
 {% extends 'lms_admin/base.html' %}
 {% load static %}
+{% block head %}
+
+{% endblock %}
 
 {% block mainbody %}
    <!-- Start Left menu area -->
@@ -48,6 +51,13 @@
                         <ul class="submenu-angle" aria-expanded="false">
                             <li><a href="{% url 'apply_leave' %}"><span class="mini-sub-pro">Apply leave</span></a></li>
                             <li><a href="{% url 'view_leave' %}"><span class="mini-sub-pro">View leave</span></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-message icon-wrap"></span> <span class="mini-click-non">Feedback</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a href="{% url 'send-feedback' %}"><span class="mini-sub-pro">Send Feedback</span></a></li>
+                            <li><a href="{% url 'view_feedback' %}"><span class="mini-sub-pro">View Send Feedback</span></a></li>
 
                         </ul>
                     </li>
@@ -116,10 +126,44 @@
                             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                 <div class="header-right-info"style="margin-right:10%">
                                     <ul class="nav navbar-nav mai-top-nav header-right-menu">
+                                          <li class="nav-item"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="educate-icon educate-bell" aria-hidden="true"></i>{% if notify %}<span class="indicator-nt"></span>{% endif %}</a>
+                                                    <div role="menu" class="notification-author dropdown-menu animated zoomIn">
+                                                        <div class="notification-single-top">
+                                                            <h1>Notifications</h1>
+                                                        </div>
+                                                        <ul class="notification-menu">
+                                                            {% for notification in notifications %}
+                                                            <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <a href="{% url 'student_view_notification' %}?id={{notification.id}}&from={{notification.from_user.first_name}} {{notification.from_user.last_name}}&date={{notification.datetime}}">
+                                                                    <div class="row">
+                                                                    <div class="message-img col-lg-3 col-md-3">
+                                                                        {% if notification.from_user.image %}
+                                                                        <img src="{{notification.from_user.image.url}}" alt="" style="width:100%">
+                                                                        {% else %}
+                                                                        <img src="{% static 'user.png' %}" alt="" style="width:100%">
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="notification-content col-lg-8 col-md-8">
+                                                                        <span class="notification-date" style="float:right">{{notification.datetime|date}}</span>
+                                                                        <h2>{{notification.from_user.first_name}}</h2>
+                                                                        <p>{{notification.notification|slice:80}} ...</p>
+                                                                    </div>
+                                                                        </div>
+                                                                </a>
+                                                            </li>
+                                                            {% endfor %}
+
+
+                                                        </ul>
+                                                        <div class="notification-view">
+                                                            <a href="{% url 'student_view_notification' %}">View All Notification</a>
+                                                        </div>
+                                                    </div>
+                                                </li>
 
                                         <li class="nav-item">
                                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-
+                                                    <img src="{% static 'img/logo/logo.png' %}" alt="" />
                                                     <span class="admin-name">{{ request.session.name }}</span>
                                                     <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
                                                 </a>
@@ -161,6 +205,12 @@
                                     <ul id="leave" class="collapse dropdown-header-top">
                                        <li><a href="{% url 'apply_leave' %}">Apply leave</a></li>
                                         <li><a href="{% url 'view_leave' %}">View leave</a></li>
+                                    </ul>
+                                </li>
+                                <li><a data-toggle="collapse" data-target="#feedback" href="#">Feedback <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul id="feedback" class="collapse dropdown-header-top">
+                                       <li><a href="{% url 'send-feedback' %}">Send Feedback</a></li>
+                                        <li><a href="{% url 'view-feedback' %}">View Feedback</a></li>
                                     </ul>
                                 </li>
 

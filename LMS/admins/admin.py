@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models.students import Students, Documents
 from .models.professor import Teacher, Role
 from .models.classes import Class, Class_subjects, Syllabus
-from .models.notice import Notices, Event
+from .models.notice import Notices, Event,Notification, Feedback
 from .models.leave import Leave
 from .models.staff import Staff
 from .models.attandance import Student_Attandance, Teacher_Attandance
@@ -57,6 +57,11 @@ class Student_fee_Admin(admin.ModelAdmin):
     list_filter = ('month', 'status')
     search_fields = ['student__username']
 
+class Feedback_Admin(admin.ModelAdmin):
+    list_display = ('student', 'title', 'datetime')
+    list_filter = ('seen',)
+
+
 
 
 
@@ -74,5 +79,7 @@ admin.site.register(Academic_Year)
 admin.site.register(Student_fees,Student_fee_Admin )
 admin.site.register(Syllabus)
 admin.site.register(Documents)
+admin.site.register(Notification)
+admin.site.register(Feedback, Feedback_Admin)
 
 

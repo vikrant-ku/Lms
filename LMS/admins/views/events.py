@@ -1,13 +1,19 @@
 from django.shortcuts import render , redirect, get_object_or_404
+from django.http import HttpResponse
 from django.views import View
 from django.db.models import Q
 from django.contrib import messages
-from admins.models.notice import Notices, Event
+from admins.models.notice import Notices, Event, Notification,Feedback
 from admins.models.fees import Academic_Year
+from admins.models.students import Students
+from admins.models.professor import Teacher
+from admins.models.classes import Class
+
 from .login import validate_user
 from django.core.paginator import Paginator , PageNotAnInteger , EmptyPage
 from .student import proper_pagination
 import datetime
+import json
 
 
 class Add_events(View):
@@ -191,6 +197,108 @@ class All_academic_year(View):
 
             return render(request, 'lms_admin/view_academic_year.html',{'all_academics':all_academics})
         return redirect('teacher_login')
+
+
+class Send_Notification(View):
+    def get(self, request):
+        if validate_user(request):
+            classes = Class.objects.all()
+            data = {'classes': classes}
+            return render(request, 'lms_admin/send-notification.html', data)
+        return redirect('teacher_login')
+
+    def post(self, request):
+        if validate_user(request):
+            classes = Class.objects.all()
+            data = {'classes': classes}
+            notify_to = request.POST.get('notify_to')
+            notification_msg = request.POST.get('notification')
+
+            current_user = get_object_or_404(Teacher, username=request.session.get('user'))
+
+            if notify_to == '0': # for all teachers
+                teachers = Teacher.objects.all()
+                for teacher in teachers:
+                    if teacher.username != current_user.username:
+                        notification = Notification(teacher=teacher, from_user=current_user, notification=notification_msg)
+                        notification.save()
+                messages.success(request, 'Notification Send to all Teachers successfully')
+            elif notify_to == '1': # for perticular class and section
+                cls = request.POST.get('class')
+                section = request.POST.get('section')
+                clss = get_object_or_404(Class, class_name= cls)
+                students = Students.objects.filter(class_name=clss,section = section)
+                for stdnt in students:
+                    notification = Notification(student=stdnt, from_user=current_user, notification=notification_msg)
+                    notification.save()
+                messages.success(request, f'Notification Send to All {clss} {section} Students successfully')
+            elif notify_to =='2': #for perticular user
+                username = request.POST.get('username')
+                if 'TE' in username:
+                    user = get_object_or_404(Teacher, username=username)
+                    if user.username != current_user.username:
+                        notification = Notification(teacher=user, from_user=current_user, notification=notification_msg)
+                        notification.save()
+                        messages.success(request, f'Notification Send to {user.username} successfully')
+                    else:
+                        messages.error(request, "You can not send notification to itself")
+                elif "ST" in username:
+                    user = get_object_or_404(Students, username=username)
+                    notification = Notification(student=user, from_user=current_user, notification=notification_msg)
+                    notification.save()
+                    messages.success(request, f'Notification Send to {user.username} successfully')
+
+            return render(request, 'lms_admin/send-notification.html', data )
+        return redirect('teacher_login')
+
+class View_Notifications(View):
+    def get(self, request):
+        if validate_user(request):
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            notifications = Notification.objects.filter(from_user=user).order_by('-datetime')
+            data = {'notifications':notifications}
+            return render(request,'lms_admin/view-notifications.html' ,data)
+        else:
+            return redirect('teacher_login')
+
+
+
+def Get_user_info(request):
+    if request.method == "POST":
+        q = request.POST.get('q')
+        user = None
+        if "TE" in q:
+            try:
+                user = Teacher.objects.get(username=q)
+            except:
+                pass
+        elif "ST" in q:
+            try:
+                user = Students.objects.get(username=q)
+            except:
+                pass
+        if user is not None:
+            data = {"name":user.first_name+' '+user.last_name, "username": user.username}
+        else:
+            data = {}
+        response = json.dumps(data, default=str)
+        return HttpResponse(response)
+
+class View_feedback(View):
+    def get(self, request):
+        if validate_user(request):
+            unseen = Feedback.objects.filter(seen=False)
+            for _ in unseen:
+                _.seen=True
+                # seen.save()
+
+            all_feedback = Feedback.objects.all()
+            print(all_feedback)
+            data = {'all_feedback':all_feedback}
+            return render(request,'lms_admin/view-feedback.html' ,data)
+        else:
+            return redirect('teacher_login')
+
 
 
 

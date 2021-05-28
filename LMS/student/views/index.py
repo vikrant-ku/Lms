@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib import messages
 from admins.models.classes import Syllabus
+from admins.models.notice import Notification
 from admins.models.students import Students,Documents
 from admins.models.attandance import Student_Attandance
 from library.models import Issue_book
@@ -14,10 +15,12 @@ import datetime
 class Index(View):
     def get(self, request):
         if validate_user(request):
-            username = request.session.get('user')
-            user = get_object_or_404(Students, username = username)
-
-            data = {'user':user}
+            user = get_object_or_404(Students, username = request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            data = {'user':user,'notify':notify, 'notifications':notification }
             return render(request, 'students/index.html', data)
         else:
             return redirect('login')
@@ -299,6 +302,27 @@ def file_size(value): # add this to some file where you can import it from
     if value.size > limit:
         return False
     return True
+
+
+def get_notifications(userobject):
+
+    if "ST" in userobject.username:
+        unseen = Notification.objects.filter(student=userobject, seen=False).order_by('-datetime')
+        seen = Notification.objects.filter(student=userobject, seen=True).order_by('-datetime')
+    elif "TE" in userobject.username:
+        unseen = Notification.objects.filter(teacher=userobject, seen=False).order_by('-datetime')
+        seen = Notification.objects.filter(teacher=userobject, seen=True).order_by('-datetime')
+
+    notifications = unseen|seen
+    if len(unseen)>0:
+        return True, notifications
+    else:
+        return False, notifications
+
+
+
+
+
 
 
 

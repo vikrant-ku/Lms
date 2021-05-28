@@ -7,6 +7,7 @@ from admins.models.fees import Fees, Student_fees
 from admins.models.attandance import Teacher_Attandance
 from admins.models.classes import Class
 from admins.models.leave import Leave
+from admins.models.notice import Feedback
 
 
 from .login import validate_user
@@ -19,6 +20,7 @@ class Index(View):
             tchr_count = Teacher.objects.all().count()
             staff_count = Staff.objects.all().count()
             std_count = Students.objects.all().count()
+            feedback_count = Feedback.objects.filter(seen=False).count()
             current_month = date.today().strftime('%B')
             fees = Student_fees.objects.filter(month=current_month[:3:].upper())
             collection = 0
@@ -29,7 +31,8 @@ class Index(View):
             all_cls = Class.objects.all().count()
             all_leaves = Leave.objects.filter(is_teacher=True, status="Pending").count()
             data = {'tchr_count':tchr_count, 'staff_count':staff_count,'std_count':std_count,'month':current_month,
-                    'collection':collection, 'tchr_attand':tchr_attand, 'all_cls':all_cls, "all_leaves":all_leaves }
+                    'collection':collection, 'tchr_attand':tchr_attand, 'all_cls':all_cls, "all_leaves":all_leaves,
+                    'feedback_count':feedback_count}
             return render(request, 'lms_admin/index.html', data)
         else:
             return redirect('teacher_login')

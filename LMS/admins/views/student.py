@@ -234,7 +234,7 @@ class View_documents(View):
             class_name = request.GET.get('class')
             section = request.GET.get('section')
             if class_name is not None:
-                data[class_name]= str(class_name)
+                data['class_name']=str(class_name)
                 data['section']=section
                 cls = get_object_or_404(Class, class_name=class_name)
                 students = Students.objects.filter(class_name=cls, section=section)

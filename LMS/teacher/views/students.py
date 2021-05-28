@@ -6,8 +6,11 @@ from admins.models.fees import Student_fees, Academic_Year
 from admins.models.professor import Teacher, Role
 from admins.models.classes import Class, Class_subjects
 from admins.models.attandance import Student_Attandance, Teacher_Attandance
+from admins.models.notice import Notification
 from teacher.models import Marks
+from student.views.index import get_notifications
 from .index import is_class_teacher, validate_user
+from student.views.index import get_notifications
 import datetime
 import decimal
 
@@ -16,11 +19,15 @@ class All_students(View):
     def get(self, request):
         if validate_user(request):
             if is_class_teacher(request):
-                user_name = request.session.get('user')
-                user = get_object_or_404(Teacher, username=user_name)
+                user = get_object_or_404(Teacher, username=request.session.get('user'))
+                ## for notification
+                noti_info = get_notifications(user)
+                notify = noti_info[0]
+                notification = noti_info[1]
+                # ------end  notification
                 teacher_role = get_object_or_404(Role, user=user.id)
                 students = Students.objects.filter(class_name=teacher_role.class_name, section=teacher_role.section)
-                data = {'students':students}
+                data = {'students':students, 'notify': notify, 'notifications': notification}
                 is_ct = is_class_teacher(request)
                 data['is_ct'] = is_ct
                 return render(request, 'teachers/all-students.html', data )
@@ -33,8 +40,14 @@ class Attandance(View):
     def get(self, request):
         if validate_user(request):
             if is_class_teacher(request):
+                user = get_object_or_404(Teacher, username=request.session.get('user'))
+                ## for notification
+                noti_info = get_notifications(user)
+                notify = noti_info[0]
+                notification = noti_info[1]
+                # ------end  notification
                 today = datetime.date.today()
-                data = {'is_ct': True, 'date': today}
+                data = {'is_ct': True, 'date': today,'notify': notify, 'notifications': notification}
                 attand = Student_Attandance.objects.filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day)
                 if len(attand)>0:
                  data['marked']=True # if today attandace already marked
@@ -86,8 +99,12 @@ class View_attandance(View):
     def get(self, request):
         if validate_user(request):
             today = datetime.datetime.today()
-            username = request.session.get('user')
-            user = get_object_or_404(Teacher, username=username)
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             year = request.GET.get('year')
             month = request.GET.get('month')
 
@@ -97,7 +114,7 @@ class View_attandance(View):
                                                            datetime__month=int(month))
             else:
                 attandance = None
-            data = {'year':today.year, 'attandance':attandance}
+            data = {'year':today.year, 'attandance':attandance, 'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             return render(request, 'teachers/view-attandance.html', data)
@@ -107,9 +124,15 @@ class View_attandance(View):
 class Student_info(View):
     def get(self, request,username):
         if validate_user(request):
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             if is_class_teacher(request):
                 student = get_object_or_404(Students, username=username)
-                data = {'student':student, 'is_ct':True}
+                data = {'student':student, 'is_ct':True, 'notify': notify, 'notifications': notification}
                 return render(request, 'teachers/student-info.html', data)
             else:
                 messages.error(request, 'Yo are not a class teacher')
@@ -120,8 +143,14 @@ class View_students_attandance(View):
     def get(self, request):
         if validate_user(request):
             if is_class_teacher(request):
+                user = get_object_or_404(Teacher, username=request.session.get('user'))
+                ## for notification
+                noti_info = get_notifications(user)
+                notify = noti_info[0]
+                notification = noti_info[1]
+                # ------end  notification
                 today = datetime.date.today()
-                data = {'is_ct': True,'year':today.year}
+                data = {'is_ct': True,'year':today.year,'notify': notify, 'notifications': notification}
                 months = [ str(i) for i in range(1,13) ]
                 month = request.GET.get('month')
                 year = request.GET.get('year')
@@ -161,7 +190,13 @@ class Update_student_attandance(View):
     def get(self, request):
         if validate_user(request):
             if is_class_teacher(request):
-                data = {'is_ct':True}
+                user = get_object_or_404(Teacher, username=request.session.get('user'))
+                ## for notification
+                noti_info = get_notifications(user)
+                notify = noti_info[0]
+                notification = noti_info[1]
+                # ------end  notification
+                data = {'is_ct':True, 'notify': notify, 'notifications': notification}
                 date = request.GET.get('date')
                 if date is not None:
                     date = date.split('-')
@@ -204,9 +239,15 @@ class Update_student_attandance(View):
 class Upload_marks(View):
     def get(self, request):
         if validate_user(request):
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+           # ------end  notification
             classes = Class.objects.all()
             subjects = Class_subjects.objects.all()
-            data = {'classes': classes, 'subjects': subjects}
+            data = {'classes': classes, 'subjects': subjects, 'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             return render(request, 'teachers/upload-marks.html', data)
@@ -215,6 +256,12 @@ class Upload_marks(View):
 
     def post(self, request):
         if validate_user(request):
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             today = datetime.date.today()
             classes = Class.objects.all()
             subjects = Class_subjects.objects.all()
@@ -233,7 +280,9 @@ class Upload_marks(View):
             else:
                 marked = False
 
-            data = {'classes': classes, 'subjects': subjects,'class':cls, 'section':section, 'subject':subject, 'students':students, 'marked':marked}
+            data = {'classes': classes, 'subjects': subjects,'class':cls,
+                    'section':section, 'subject':subject, 'students':students, 'marked':marked,
+                    'notify': notify, 'notifications': notification}
             return render(request, 'teachers/upload-marks.html', data)
         else:
             return redirect('teacher_login')
@@ -275,10 +324,15 @@ class Save_student_marks(View):
 class View_marks(View):
     def get(self, request):
         if validate_user(request):
-
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             classes = Class.objects.all()
             subjects = Class_subjects.objects.all()
-            data = {'classes': classes, 'subjects': subjects}
+            data = {'classes': classes, 'subjects': subjects, 'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             return render(request, 'teachers/view-marks.html', data)
@@ -288,6 +342,12 @@ class View_marks(View):
     def post(self, request):
         if validate_user(request):
             teacher = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(teacher)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
+
             classes = Class.objects.all()
             subjects = Class_subjects.objects.all()
             academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0] # get academic year
@@ -299,7 +359,7 @@ class View_marks(View):
             clss = get_object_or_404(Class, class_name= cls)
             marks = Marks.objects.filter(academic_year=academic,class_name=clss.id, section=section, subject=subject, added_by=teacher.id, exam_type=type)
 
-            data = {'classes': classes, 'subjects': subjects, 'marks':marks }
+            data = {'classes': classes, 'subjects': subjects, 'marks':marks, 'notify': notify, 'notifications': notification }
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             return render(request, 'teachers/view-marks.html', data)
@@ -309,9 +369,15 @@ class View_marks(View):
 class update_student_mark(View):
     def get(self,request,**kwargs):
         if validate_user(request):
+            teacher = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(teacher)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             pk = kwargs.get('pk')
             mark = get_object_or_404(Marks, pk=pk)
-            data = {'mark':mark}
+            data = {'mark':mark,'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct']=is_ct
             return render(request, 'teachers/update-mark.html', data)
@@ -337,8 +403,14 @@ class View_Fee(View):
     def get(self, request):
         if validate_user(request):
             is_ct = is_class_teacher(request)
+            teacher = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(teacher)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            data = {'notify': notify, 'notifications': notification}
+            # ------end  notification
             if is_ct:
-                data = dict()
                 data['is_ct'] = is_ct
                 return render(request, 'teachers/Student-fee.html', data)
             else:
@@ -350,6 +422,11 @@ class View_Fee(View):
     def post(self, request):
         if validate_user(request):
             teacher = get_object_or_404(Teacher, username= request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(teacher)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
             role = get_object_or_404(Role, user=teacher.id)
             if role.role == "Class Teacher":
@@ -365,13 +442,100 @@ class View_Fee(View):
                         pass
                     students_fee.append(std_fee)
 
-                data = {'students_fee':students_fee}
+                data = {'students_fee':students_fee, 'notify': notify, 'notifications': notification}
                 is_ct = is_class_teacher(request)
                 data['is_ct'] = is_ct
                 return render(request, 'teachers/Student-fee.html', data)
             return redirect('teacher_home')
         else:
             return redirect('teacher_login')
+
+class Send_Notification(View):
+    def get(self, request):
+        if validate_user(request):
+            teacher = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(teacher)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
+            classes = Class.objects.all()
+            data = {'classes': classes, 'notify': notify, 'notifications': notification}
+            return render(request, 'teachers/send-notification.html', data)
+        return redirect('teacher_login')
+
+    def post(self, request):
+        if validate_user(request):
+            classes = Class.objects.all()
+            teacher = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(teacher)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
+            data = {'classes': classes, 'notify': notify, 'notifications': notification}
+            notify_to = request.POST.get('notify_to')
+            notification_msg = request.POST.get('notification')
+
+            current_user = get_object_or_404(Teacher, username=request.session.get('user'))
+
+            if notify_to == '1': # for perticular class and section
+                cls = request.POST.get('class')
+                section = request.POST.get('section')
+                clss = get_object_or_404(Class, class_name= cls)
+                students = Students.objects.filter(class_name=clss,section = section)
+                for stdnt in students:
+                    notification = Notification(student=stdnt, from_user=current_user, notification=notification_msg)
+                    notification.save()
+                messages.success(request, f'Notification Send to All {clss} {section} Students successfully')
+            elif notify_to =='2': #for perticular user
+                username = request.POST.get('username')
+                if 'TE' in username:
+                    messages.error(request, "You can not send notification to Teacher")
+                elif "ST" in username:
+                    user = get_object_or_404(Students, username=username)
+                    notification = Notification(student=user, from_user=current_user, notification=notification_msg)
+                    notification.save()
+                    messages.success(request, f'Notification Send to {user.username} successfully')
+
+            return render(request, 'lms_admin/send-notification.html', data )
+        return redirect('teacher_login')
+
+
+class View_notification(View):
+    def get(self, request, **kwargs):
+        if validate_user(request):
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            data = {'notify': notify, 'notifications': notification}
+
+            pk = request.GET.get('id')
+
+            all_notific = list()
+            if pk is not None:
+
+                notific = get_object_or_404(Notification, pk=pk)
+                notific.seen = True
+                notific.save()
+                all_notific.append(notific)
+            else:
+                all_notific = Notification.objects.filter(teacher= user).order_by('-datetime')
+                unseen_notific = Notification.objects.filter(teacher= user, seen=False)
+                # for _ in unseen_notific:
+                #     _.seen=True
+                #     _.save()
+
+            # for send notifications
+            all_send_nofific = Notification.objects.filter(from_user= user).order_by('-datetime')
+
+            #----------------------
+            data['all_notific'] = all_notific
+            data['all_send_nofific'] = all_send_nofific
+            return render(request, 'teachers/view-notifications.html', data)
+        return redirect('login')
 
 
 

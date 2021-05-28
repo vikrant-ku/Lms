@@ -2,7 +2,8 @@ from django.urls import path
 from .views.index import Index, Update_profile, Issue_books, Upload_assignment, View_assignment, Delete_assign, Schedule_class, View_schedule_class, Delete_schedule_class, Upload_syllabus, View_syllabus
 from .views.event import Events, All_notice, Apply_leave, View_leave, Students_leave, student_leave_status
 from .views.login import Login, Change_password
-from .views.students import All_students,Student_info, Update_student_attandance, View_students_attandance, Attandance, View_attandance,Upload_marks, Save_student_marks, View_marks
+from .views.students import All_students,Student_info, Update_student_attandance, View_students_attandance, Attandance, View_attandance,Upload_marks, Save_student_marks, View_marks, Send_Notification, View_notification
+
 from .views.students import update_student_mark, View_Fee
 from admins.middleware.auth import auth_middleware
 
@@ -40,6 +41,8 @@ urlpatterns = [
     path('update_mark/<int:pk>/<str:username>', auth_middleware(update_student_mark.as_view()), name="update_mark"),
     path('save-upload-marks/', auth_middleware(Save_student_marks.as_view()), name="save_upload_marks"),
     path('view_fee/', auth_middleware(View_Fee.as_view()), name="teacher_view_fee"),
+    path('send_notification/', auth_middleware(Send_Notification.as_view()), name="teacher_send_notification"),
+    path('view_notification/', auth_middleware(View_notification.as_view()), name="teacher_view_notification"),
 
 
 

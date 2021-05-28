@@ -1,7 +1,7 @@
 from django.urls import path
 from .views.login import Login, Logout, Change_password, Logout_all_devices
 from .views.index import Index, Issue_books, View_assignment, View_attandance, Scheduled_class, View_marks, View_syllabus, View_documents
-from .views.events import All_notice, Events, Apply_leave, All_leaves
+from .views.events import All_notice, Events, Apply_leave, All_leaves, View_notification, Send_feedback, view_feedback, Delete_feedback
 from .views.fee import PayFee, View_Fee, handlerequest, Get_invoice
 from admins.middleware.auth import auth_middleware
 
@@ -25,16 +25,22 @@ urlpatterns = [
 
 
 
-    #notice
+    #Events
     path('events/', auth_middleware(Events.as_view()), name='student_events'),
     path('notice/', auth_middleware(All_notice.as_view()) , name= "student_notice"),
     path('apply_leave/', auth_middleware(Apply_leave.as_view()), name="apply_leave" ),
     path('view_leave/', auth_middleware(All_leaves.as_view()), name="view_leave" ),
+    path('view-notification/', auth_middleware(View_notification.as_view()), name="student_view_notification" ),
+    path('send-feedback/', auth_middleware(Send_feedback.as_view()), name="send-feedback" ),
+    path('view_feedback/', auth_middleware(view_feedback.as_view()), name="view_feedback" ),
+    path('delete_feedback/', auth_middleware(Delete_feedback.as_view()), name="delete_feedback" ),
 
     #Fee
     path('view-fee-info/', auth_middleware(View_Fee.as_view()), name="view_fee" ),
     path('get_invoice/', auth_middleware(Get_invoice.as_view()), name="get_invoice" ),
     path('pay_fee/', auth_middleware(PayFee.as_view()), name="pay_fee" ),
     path('pay_fee/handle_request/', handlerequest, name="handle_request" ),
+
+
 
 ]

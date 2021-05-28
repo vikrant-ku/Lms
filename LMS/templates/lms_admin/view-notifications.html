@@ -1,0 +1,107 @@
+ {% extends './basic.html' %}
+{% load static %}
+{% block title %}| Notifications {% endblock %}
+
+ {% block head %}
+
+{% endblock %}
+
+{% block style %}
+
+
+{% endblock %}
+
+{% block search %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+
+<div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top:90px">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-payment-inner-st res-mg-t-30 analysis-progrebar-ctn">
+                            <ul id="myTabedu1" class="tab-review-design">
+
+                                <li class="active"><a href="#reviews"> Send Notifications</a></li>
+
+                            </ul>
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+
+                                <div class="product-tab-list tab-pane fade active in" id="reviews">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="review-content-section">
+                                                <div class="chat-discussion" style="height: auto">
+                                                    {% for notification in notifications %}
+                                                    {% if notification.teacher %}
+                                                    <div class="chat-message" >
+														<div class="profile-hdtc">
+                                                            {% if notification.teacher.image %}
+                                                            <img class="message-avatar" src="{{notification.teacher.image.url}}" alt="">
+                                                            {% else %}
+                                                            <img class="message-avatar" src="{% static 'user.png' %}" alt="">
+                                                            {% endif %}
+
+														</div>
+                                                        <div class="message" >
+                                                            <a class="message-author" href="#"> {{notification.teacher.first_name}} {{notification.teacher.last_name}} </a>
+                                                            <span class="message-date"> {{notification.datetime}} </span>
+                                                            <span class="message-content">{{notification.notification}}
+															</span>
+                                                            <div class="m-t-md mg-t-10">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% else %}
+                                                    <div class="chat-message" >
+														<div class="profile-hdtc">
+                                                            {% if notification.student.image %}
+                                                            <img class="message-avatar" src="{{notification.student.image.url}}" alt="">
+                                                            {% else %}
+                                                            <img class="message-avatar" src="{% static 'user.png' %}" alt="">
+                                                            {% endif %}
+
+														</div>
+                                                        <div class="message" >
+                                                            <a class="message-author" href="#"> {{notification.student.first_name}} {{notification.student.last_name}} ({{notification.student.class_name}} {{notification.student.section}})</a>
+                                                            <span class="message-date"> {{notification.datetime}} </span>
+                                                            <span class="message-content">{{notification.notification}}
+															</span>
+                                                            <div class="m-t-md mg-t-10">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% endfor %}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+ {% endblock %}
+
+{% block js %}
+
+
+{% endblock %}

@@ -9,14 +9,19 @@ from django.core.paginator import Paginator , PageNotAnInteger , EmptyPage
 from admins.views.student import proper_pagination
 from django.db.models import Q
 from datetime import datetime
+from student.views.index import get_notifications
 
 
 class Index(View):
     def get(self, request):
         if validate_user(request):
-            data = dict()
-            username = request.session.get('user')
-            user = get_object_or_404(Teacher, username = username)
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            data = {'notify':notify, 'notifications':notification}
+            # ------end  notification
             data['user'] = user
             is_ct = is_class_teacher(request)
             data['is_ct']=is_ct
@@ -27,9 +32,14 @@ class Index(View):
 class Update_profile(View):
     def get(self, request):
         if validate_user(request):
-            data = dict()
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            data = {'notify': notify, 'notifications': notification}
+            # ------end  notification
 
-            user = get_object_or_404(Teacher, username = request.session.get('user'))
             data['user'] = user
             is_ct = is_class_teacher(request)
             data['is_ct']=is_ct
@@ -88,10 +98,15 @@ class Update_profile(View):
 class Issue_books(View):
     def get(self, request):
         if validate_user(request):
-            username = request.session.get('user')
-            user = get_object_or_404(Teacher, username=username)
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
+
             issue_books = Issue_book.objects.filter(teacher= user.id)
-            data = {'is_ct': True, 'all_issue_book': issue_books}
+            data = {'is_ct': True, 'all_issue_book': issue_books, 'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             return render(request, 'teachers/all-issue-book.html', data)
@@ -101,9 +116,15 @@ class Issue_books(View):
 class Upload_assignment(View):
     def get(self, request):
         if validate_user(request):
+            ## for notification
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             classes = Class.objects.all()
             subjects = Class_subjects.objects.all()
-            data = {'classes': classes, 'subjects': subjects}
+            data = {'classes': classes, 'subjects': subjects,'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             return render(request, 'teachers/upload-assignment.html',data)
@@ -145,8 +166,13 @@ class Upload_assignment(View):
 class View_assignment(View):
     def get(self, request):
         if validate_user(request):
-            username = request.session.get('user')
-            user = get_object_or_404(Teacher, username=username)
+            ## for notification
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+
+            # ------end  notification
 
             q = request.GET.get('q')
             if q is not None:
@@ -183,7 +209,7 @@ class View_assignment(View):
                 count = 1
             else:
                 count = all_assign.start_index()
-            data = {'is_ct': True, 'all_assign': all_assign, 'page_range': page_range, 'count': count}
+            data = {'is_ct': True, 'all_assign': all_assign, 'page_range': page_range, 'count': count, 'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             data['q']= q
@@ -203,9 +229,15 @@ class Delete_assign(View):
 class Schedule_class(View):
     def get(self, request):
         if validate_user(request):
+            ## for notification
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             classes = Class.objects.all()
             subjects = Class_subjects.objects.all()
-            data = {'classes': classes, 'subjects': subjects}
+            data = {'classes': classes, 'subjects': subjects, 'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             return render(request, 'teachers/schedule_class.html',data)
@@ -257,7 +289,12 @@ class Schedule_class(View):
 class View_schedule_class(View):
     def get(self, request):
         if validate_user(request):
-            user = get_object_or_404(Teacher, username= request.session.get('user'))
+            ## for notification
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             q = request.GET.get('q')
             if q is not None:
                 allonlineclass = OnlineClass.objects.filter(
@@ -296,7 +333,8 @@ class View_schedule_class(View):
             else:
                 count = onlineclass.start_index()
 
-            data = {'onlineclasses': onlineclass, 'page_range': page_range, 'count': count, 'last_page': last_page}
+            data = {'onlineclasses': onlineclass, 'page_range': page_range, 'count': count,
+                    'last_page': last_page, 'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             if q is not None:
@@ -319,9 +357,15 @@ class Delete_schedule_class(View):
 class Upload_syllabus(View):
     def get(self, request):
         if validate_user(request):
+            ## for notification
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             classes = Class.objects.all()
             subjects = Class_subjects.objects.all()
-            data = {'classes': classes, 'subjects': subjects}
+            data = {'classes': classes, 'subjects': subjects,'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             return render(request, 'teachers/upload_syllabus.html',data)
@@ -361,9 +405,15 @@ class Upload_syllabus(View):
 class View_syllabus(View):
     def get(self, request):
         if validate_user(request):
+            ## for notification
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             classes = Class.objects.all()
             subjects = Class_subjects.objects.all()
-            data = {'classes': classes, 'subjects': subjects}
+            data = {'classes': classes, 'subjects': subjects, 'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             return render(request, 'teachers/view-syllabus.html', data)
@@ -372,14 +422,18 @@ class View_syllabus(View):
 
     def post(self, request):
         if validate_user(request):
+            ## for notification
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
             data = request.POST
             cls = data.get('class')
             section = data.get('section')
             subject = data.get('subject')
             clss = get_object_or_404(Class, class_name=cls)
             all_syllabus = Syllabus.objects.filter(class_name=clss.id,section=section, subject=subject)
-            print(all_syllabus)
-            data = {'all_syllabus':all_syllabus}
+            data = {'all_syllabus':all_syllabus, 'notify': notify, 'notifications': notification}
 
             return render(request, 'teachers/view-syllabus.html', data)
         else:

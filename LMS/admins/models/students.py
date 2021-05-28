@@ -1,6 +1,7 @@
 from django.db import  models
 from .classes import Class
 
+
 class Students(models.Model):
     username = models.CharField(max_length=20, default="ST", null=True, blank=True)
     password = models.CharField(max_length=500, default="")

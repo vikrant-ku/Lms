@@ -1,0 +1,242 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Send Notification {% endblock %}
+
+ {% block head %}
+<style>
+    .hide{display:none;}
+    span#error {
+    font-weight: 600;
+    color: red;
+}
+</style>
+
+{% endblock %}
+
+	{% block style %}
+
+
+	 {% endblock %}
+
+{% block search %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="error-pagewrap">
+		<div class="error-page-int" style="margin-top:5%">
+			<div class="text-center m-b-md custom-login">
+				<h3>Send Notifications</h3>
+			</div>
+			<div class="content-error">
+				<div class="hpanel">
+                    <div class="panel-body">
+
+                            <div class="form-group">
+                                <label class="control-label" >Notification For</label>
+                                <select name="recipient" required class="form-control" id="notify" onChange="notifyfor()">
+                                    <option value="none" selected="" disabled="">Select Notification for</option>
+                                    <option value="1">Class</option>
+                                    <option value="2">User</option>
+                                </select>
+                            </div>
+
+                            <div id="view-user" class="hide">
+
+                                    <form action="#" method="post" id="search">{% csrf_token %}
+                                        <div class="form-group">
+                                            <label class="control-label" >Enter User ID</label>
+                                            <input type="text" name="q" id="q" placeholder="Enter User ID and press Enter " class="form-control">
+                                            <span id="error"></span>
+                                        </div>
+                                    </form>
+                            </div>
+                        <form method="post" action="{% url 'teacher_send_notification' %}" id="notification">{% csrf_token %}
+                            <div id="view-class" class="hide">
+                                <div class="form-group">
+                                    <label class="control-label" >Select Class</label>
+
+                                    <select name="class" required class="form-control" id="cls" onChange="getsection()">
+                                        <option value="none" selected="" disabled="">Class</option>
+                                        {% for class in classes %}
+                                        <option value="{{class}}">{{class}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label" >Select Section</label>
+                                      <select name="section" required class="form-control" id="section">
+                                          <option value="none" selected="" disabled="">Section</option>
+                                      </select>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group hide" id="inputs">
+                                    <label class="control-label" >User Name</label>
+                                    <input type="text" disabled id="name" value="" class="form-control">
+                                    <input type="hidden" value="" id="username" name="username" class="form-control">
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" >Notification</label>
+                                <textarea required name="notification" id="msg" class="form-control"></textarea>
+                            </div>
+                            <input type="hidden"  id="notify_to" name="notify_to" class="form-control">
+                            <button type="button" class="btn btn-success btn-block loginbtn" onclick="validate()">Submit</button>
+
+                        </form>
+                    </div>
+                </div>
+			</div>
+
+		</div>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+<script>
+    function getsection(){
+
+    var select = document.getElementById("section");
+
+    // for remove all option from select
+
+    var length = select.options.length;
+    for (i = length-1; i >= 1; i--) {
+    select.options[i] = null;
+    }
+
+    let section = new Array();
+    let cls = $('#cls :selected').val();
+    {% for class in classes %}
+    if (cls == "{{class.class_name}}"){
+
+        section.push("{{class.section_a}}")
+        if ("{{class.section_b}}" != "None"){
+        section.push("{{class.section_b}}")
+        }
+        else if ("{{class.section_c}}" != "None"){
+        section.push("{{class.section_c}}")
+        }
+        else if ("{{class.section_d}}" != "None"){
+        section.push("{{class.section_d}}")
+        }
+        else if ("{{class.section_e}}" != "None"){
+        section.push("{{class.section_e}}")
+        }
+
+
+        // add option according to class name in section
+        let option, i
+
+        for (i=0; i<section.length; i++)
+        {
+        option = document.createElement( 'option' );
+        option.value = option.text = section[i];
+        select.add( option );
+        }
+
+    }
+
+    {% endfor %}
+    }
+
+</script>
+
+<script>
+    $(document).on("focusout","#q",function(){
+    let q = $('input[name=q]').val()
+    if(q.slice(0,2)=="TE" || q.slice(0,2)=="te"){
+    $("#error").text("You can not send notification to the teacher");
+    return false;
+        }
+    var formData = {
+                'q':q,
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+            };
+            $.ajax({
+            type:"POST",
+            url :"{% url 'get_user_info' %}",
+            data: formData,
+            encode:true
+            })
+            .done(function(data){
+
+            datas = JSON.parse(data)
+            if (Object.keys(datas).length>0){
+            $("#error").text("");
+            let name = datas['name'];
+            let username = datas['username'];
+            $('#name').val(name)
+            $('#username').val(username)
+            $('#inputs').removeClass('hide')
+            }else{
+            $("#error").text("Invalid UserID");
+            }
+
+            });
+            event.preventDefault();
+
+});
+ $('#q').on('keypress',function(e) {
+    if(e.which == 13) {
+            event.preventDefault();
+        }
+    });
+
+    function notifyfor(){
+    let noti = $('#notify').val()
+    $('#notify_to').val(noti)
+    if (noti == '1'){
+    $('#view-user').addClass('hide')
+    $('#view-class').removeClass('hide')
+    }else if (noti == '2'){
+        $('#view-user').removeClass('hide')
+        $('#view-class').addClass('hide')
+
+    }
+    }
+    function validate(){
+    let noti = $('#notify').val()
+    let notification = $('#msg').val()
+    if(noti == '1'){
+        let cls =$('#cls').val()
+        let section =$('#section').val()
+        if(cls==null){
+            alert('Please Select Class')
+        }else if(section ==null){
+        alert('Please Select Section')
+        }else if(notification == ""){
+        alert('Enter Notification message')
+        }else{
+            $('#notification').submit()
+        }
+
+    }else if(noti == '2'){
+        let username =$('#username').val()
+        if(username==""){
+            alert('Please Enter User ID')
+        }else if(notification == ""){
+        alert('Enter Notification message')
+        }else{
+            $('#notification').submit()
+        }
+    }else{
+    alert('Please select Notification For')
+    }
+    };
+</script>
+
+
+
+
+
+
+
+{% endblock %}

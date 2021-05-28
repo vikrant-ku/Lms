@@ -4,7 +4,7 @@ from .views.professor import Add_professors , All_professor , Edit_professor, De
 from .views.professor import Add_teacher_by_excel, View_professor
 from .views.staff import Add_staff, All_staff, delete_staff, Edit_staff
 from .views.login import Reset_password
-from .views.events import Add_events, All_events,Delete_event, Add_notice, All_notice, Delete_notice, Add_academic_year,All_academic_year
+from .views.events import Add_events, All_events,Delete_event, Add_notice, All_notice, Delete_notice, Add_academic_year,All_academic_year,View_Notifications ,Send_Notification,Get_user_info, View_feedback
 from .views.classes import Add_class, All_class, View_syllabus, Upload_syllabus, Delete_syllabus
 from .views.subject import Add_subjects, All_subjects
 from .views.attandance import Attandance, Update_attandance, View_teacher_attand
@@ -56,6 +56,10 @@ urlpatterns = [
     path('add_notice/', auth_middleware(Add_notice.as_view()), name='add_notice'),
     path('notice/', auth_middleware(All_notice.as_view()), name='admin_notice'),
     path('delete_notice/<int:pk>/', auth_middleware(Delete_notice.as_view()), name='delete_notice'),
+    path('view_feedback/', auth_middleware(View_feedback.as_view()), name='admin-view_feedback'),
+    path('view_notification/', auth_middleware(View_Notifications.as_view()), name='view_notification'),
+    path('send_notification/', auth_middleware(Send_Notification.as_view()), name='send_notification'),
+    path('get_user_info/', auth_middleware(Get_user_info), name='get_user_info'),
 
     #class
     path('add_class/', auth_middleware(Add_class.as_view()), name='add_class'),

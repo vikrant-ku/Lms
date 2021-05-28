@@ -15,6 +15,13 @@
             <nav class="sidebar-nav left-sidebar-menu-pro">
                 <ul class="metismenu" id="menu1">
                     <li>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-bell icon-wrap"></span> <span class="mini-click-non">Notifications</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a href="{% url 'view_notification' %}"><span class="mini-sub-pro">All Send Notifications</span></a></li>
+                            <li><a  href="{% url 'send_notification' %}"><span class="mini-sub-pro">Send Notifications</span></a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Event</span></a>
                         <ul class="submenu-angle" aria-expanded="false">
                             <li><a title="All Events" href="{% url 'admin_events' %}"><span class="mini-sub-pro">All Event</span></a></li>
@@ -96,6 +103,9 @@
                         </ul>
                     </li>
 
+                    <li>
+                         <a  href="{% url 'admin-view_feedback' %}" aria-expanded="false"><span class="educate-icon educate-message icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">View Feedback</span></a>
+                    </li>
                     <li>
                          <a title="Leave Applications" href="{% url 'teachers_leave' %}" aria-expanded="false"><span class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Leave Applications</span></a>
                     </li>
@@ -200,6 +210,14 @@
                         <nav id="dropdown">
                             <ul class="mobile-menu-nav">
 
+                                <li><a data-toggle="collapse" data-target="#Notification" href="#">Notifications <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul id="Notification" class="collapse dropdown-header-top">
+                                        <li><a href="{% url 'view_notification' %}">All Send Notifications</a>
+                                        </li>
+                                        <li><a href="{% url 'send_notification' %}">Send Notifications</a>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li><a data-toggle="collapse" data-target="#event" href="#">Event <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                     <ul id="event" class="collapse dropdown-header-top">
                                         <li><a href="{% url 'admin_events' %}">All Event</a>
@@ -284,6 +302,7 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li><a href="{% url 'admin-view_feedback' %}">View Feedback</a></li>
                                 <li><a href="{% url 'teachers_leave' %}">Leave Applications</a></li>
                                 <li><a href="{% url 'reset_password' %}">Reset Password</a></li>
 
