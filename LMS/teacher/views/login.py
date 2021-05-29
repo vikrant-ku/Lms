@@ -5,6 +5,7 @@ from django.views import View
 from admins.models.professor import Teacher, Role
 from .index import validate_user, is_class_teacher
 from django.contrib.auth.models import User
+from student.views.index import get_notifications
 
 class Login(View):
     def get(self, request):
@@ -77,7 +78,13 @@ class Login(View):
 class Change_password(View):
     def get(self, request):
         if validate_user(request):
-            data = {'is_teacher':True}
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            data = {'notify': notify, 'notifications': notification}
+
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             return render(request, "teachers/change_password.html", data)

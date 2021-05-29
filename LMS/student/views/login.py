@@ -1,10 +1,9 @@
 from django.shortcuts import render , redirect, get_object_or_404
 from django.contrib import messages
-
 from django.contrib.auth.hashers import check_password, make_password
 from django.views import View
 from admins.models.students import Students
-from .index import validate_user
+from .index import validate_user , get_notifications
 from datetime import date
 from admins.models.leave import Leave
 import random
@@ -82,7 +81,14 @@ class Logout_all_devices(View):
 class Change_password(View):
     def get(self, request):
         if validate_user(request):
-            return render(request, "students/change_password.html")
+            ## for notification
+            user = get_object_or_404(Students, username=request.session.get('user'))
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
+            data = {'notify':notify,'notification':notification }
+            return render(request, "students/change_password.html", data)
         else:
             return redirect('login')
     def post(self, request):
