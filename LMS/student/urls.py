@@ -39,7 +39,7 @@ urlpatterns = [
     path('view-fee-info/', auth_middleware(View_Fee.as_view()), name="view_fee" ),
     path('get_invoice/', auth_middleware(Get_invoice.as_view()), name="get_invoice" ),
     path('pay_fee/', auth_middleware(PayFee.as_view()), name="pay_fee" ),
-    path('pay_fee/handle_request/', handlerequest, name="handle_request" ),
+    path('pay_fee/payment_status/', handlerequest, name="handle_request" ),
 
 
 

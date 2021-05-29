@@ -76,7 +76,7 @@ class PayFee(View):
             month = request.POST.get('month')
             amount = int(request.POST.get('amount'))
             payment = razorpay_client.order.create({'amount':amount*100, "currency":"INR", "payment_capture":"1"})
-            callback_url = request.build_absolute_uri()+"handle_request/"
+            callback_url = request.build_absolute_uri()+"payment_status/"
             student_fee = Student_fees(
                     student = user,
                     total_fee = total_fee,

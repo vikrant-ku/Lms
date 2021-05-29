@@ -2,6 +2,7 @@
 from django.contrib import messages
 import os
 import pymysql
+from decouple import config
 pymysql.version_info = (1, 4, 2, "final", 0)
 pymysql.install_as_MySQLdb()
 
@@ -14,7 +15,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
+SECRET_KEY = config('SECRET_KEY')
 # Application definition
 
 INSTALLED_APPS = [
@@ -117,5 +118,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 IMPORT_EXPORT_USE_TRANSACTIONS = False
 
 
-RAZORPAY_KEYID = "rzp_test_vhGd77Mh6FFQZI"
-RAZORPAY_KEYSECRET = "ALUK83wqb73OUZ4g0VhHImEe"
+RAZORPAY_KEYID = config('RAZORPAY_KEYID')
+RAZORPAY_KEYSECRET = config('RAZORPAY_KEYSECRET')
