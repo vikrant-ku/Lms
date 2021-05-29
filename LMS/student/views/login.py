@@ -47,6 +47,9 @@ class Login(View):
                     request.session['user'] = user.username
                     request.session['name'] = user.first_name
                     request.session['token'] = user.token
+                    if password==123 or password=='123':
+                        messages.warning(request, "For Security Reason Please Change Your Password.")
+                        return redirect('change_password')
                     messages.success(request, 'You Are Successfully Login')
                     return redirect('student_home')
                 else:

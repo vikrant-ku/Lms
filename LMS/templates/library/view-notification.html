@@ -43,7 +43,8 @@
                                                             {% else %}
                                                             <img class="message-avatar" src="{% static 'user.png' %}" alt="">
                                                             {% endif %}
-                                                        </div>
+
+														</div>
                                                         <div class="message" >
                                                             <a class="message-author" href="#"> {{notification.from_user.first_name}} {{notification.from_user.last_name}} </a>
                                                             <span class="message-date"> {{notification.datetime}} </span>

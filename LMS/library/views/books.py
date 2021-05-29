@@ -9,21 +9,20 @@ from library.models import Issue_book
 from django.db.models import Q
 from django.core.paginator import Paginator , PageNotAnInteger , EmptyPage
 from admins.views.student import proper_pagination
-
-
-class Index(View):
-    def get(self, request):
-        if user_validate(request):
-            return render(request, 'library/index.html')
-        else:
-            return redirect('teacher_login')
-
+from student.views.index import get_notifications
 
 
 class Add_books(View):
     def get(self, request):
         if user_validate(request):
-            return render(request, 'library/add-books.html')
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            data = {'notify': notify, 'notifications': notification}
+            # ------end  notification
+            return render(request, 'library/add-books.html', data)
         else:
             return redirect('teacher_login')
 
@@ -65,6 +64,12 @@ class Add_books(View):
 class All_books(View):
     def get(self, request):
         if user_validate(request):
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
             q = request.GET.get('q')
             if q is not None:
                 allbooks = Books.objects.filter(
@@ -104,7 +109,7 @@ class All_books(View):
             else:
                 count = all_books.start_index()
 
-            data = {'books': all_books, 'page_range': page_range, 'count': count}
+            data = {'notify': notify, 'notifications': notification, 'books': all_books, 'page_range': page_range,'count': count}
             if q is None:
                 data['q']=q
             else:
@@ -129,9 +134,14 @@ class Delete_book(View):
 class Edit_book(View):
     def get(self, request, **kwargs):
         if user_validate(request):
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
             id = kwargs.get('pk')
             book = get_object_or_404(Books, pk=id)
-            data = {'book':book}
+            data = {'book':book, 'notify': notify, 'notifications': notification}
             return render(request, 'library/edit-book.html', data)
         else:
             return redirect('teacher_login')
@@ -176,7 +186,13 @@ class Edit_book(View):
 class Issue_books(View):
     def get(self, request):
         if user_validate(request):
-            return render(request, 'library/issue-book.html')
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            data = {'notify': notify, 'notifications': notification}
+            return render(request, 'library/issue-book.html', data)
         else:
             return redirect('teacher_login')
 
@@ -206,6 +222,12 @@ class Issue_books(View):
 class All_issue_book(View):
     def get(self, request):
         if user_validate(request):
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+
             msg= False
             q = request.GET.get('q')
             if q is not None:
@@ -252,7 +274,8 @@ class All_issue_book(View):
             else:
                 count = all_issue_books.start_index()
 
-            data = {'all_issue_book':all_issue_books, 'page_range': page_range, 'count': count, 'msg': msg }
+            data = {'all_issue_book':all_issue_books, 'page_range': page_range, 'count': count,
+                    'msg': msg, 'notify': notify, 'notifications': notification }
             return render(request, 'library/all-issue-book.html', data)
         else:
             return redirect('teacher_login')
@@ -268,7 +291,11 @@ class Delete_issue_books(View):
 
 def search_user(request):
     if user_validate(request):
-        data = {}
+        user = get_object_or_404(Teacher, username=request.session.get('user'))
+        ## for notification
+        noti_info = get_notifications(user)
+        notify = noti_info[0]
+        notification = noti_info[1]
         username = False
         user = request.GET.get('user')
         if 'ST' in user:
@@ -286,7 +313,7 @@ def search_user(request):
 
         if username:
             books = Books.objects.all()
-            data = {'user' : username, 'books':books}
+            data = {'notify': notify, 'notifications': notification, 'user' : username, 'books':books}
 
         return render(request, 'library/issue-book.html', data)
     else:

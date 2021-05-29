@@ -22,6 +22,42 @@ class Login(View):
             except:
                 user = None
                 messages.error(request, "User dose'nt Exist")
+            if user is not None:
+                flag = check_password(password, user.password)
+                if flag:
+                    request.session['user'] = user.username
+                    request.session['name'] = user.first_name
+                    try:
+                        role = Role.objects.get(user=user.id)
+                    except:
+                        role = False
+                    if role:
+                        if role.role == "Librarian":
+                            if password==123 or password=="123":
+                                messages.warning(request, 'For Security reaseon please change your password')
+                                return redirect('library_change_password')
+                            return redirect('library_index')
+                        elif role.role == 'admin' or role.role == 'Admin':
+                            if password==123 or password=="123":
+                                messages.warning(request, 'For Security reaseon please change your password')
+                                return redirect('reset_password')
+                            return redirect('admin_home')
+                        else:
+                            if password==123 or password=="123":
+                                messages.warning(request, 'For Security reaseon please change your password')
+                                return redirect('teacher_change_password')
+                            return redirect('teacher_home')
+                    else:
+                        if password == 123 or password == "123":
+                            messages.warning(request, 'For Security reaseon please change your password')
+                            return redirect('teacher_change_password')
+                        return redirect('teacher_home')
+
+                else:
+                    messages.error(request, "Password Do not match")
+            else:
+                messages.error(request, 'Please check username')
+            return redirect("teacher_login")
         else:
             try:
                 superuser = User.objects.get(username=username)
@@ -36,31 +72,7 @@ class Login(View):
                 return redirect('teacher_login')
 
 
-        if user is not None:
-            flag = check_password(password, user.password)
-            if flag:
-                request.session['user'] = user.username
-                request.session['name'] = user.first_name
-                try:
-                    role = Role.objects.get( user = user.id)
-                except:
-                    role = False
-                if role:
-                    if role.role == "Librarian":
-                        return redirect('library_index')
-                    elif role.role == 'admin' or role.role == 'Admin':
-                        return redirect('admin_home')
-                    elif role.role == "Sports":
-                        return redirect('sports_home')
-                    else:
-                        return redirect('teacher_home')
-                else:
-                    return redirect('teacher_home')
-            else:
-                messages.error(request, "Password Do not match")
-        else:
-            messages.error(request, 'Please check username')
-        return redirect("teacher_login")
+
 
 class Change_password(View):
     def get(self, request):

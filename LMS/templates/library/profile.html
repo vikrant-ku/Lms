@@ -1,0 +1,201 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Profile {% endblock %}
+
+ {% block head %}
+
+{% endblock %}
+
+{% block style %}   {% endblock %}
+
+{% block search %}
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top:90px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4  col-xs-12">
+                        <div class="profile-info-inner">
+
+                            <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                           <div class="profile-img">
+                                                {% if teacher.image %}
+                                                <img src="{{teacher.image.url}}" alt="" />
+                                                {% else %}
+                                                <img src="{% static 'user.png' %}" alt="" />
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr mt-3">
+                                             <a href="{% url 'library_update_profile' %}"><button type="button" class="btn btn-primary">Edit Profile </button></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <div class="profile-details-hr">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>First Name</b><br /> {{teacher.first_name}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Last Name</b><br />{{teacher.last_name}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Gender</b><br />{{teacher.gender}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Email ID</b><br /> {{teacher.email}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Phone</b><br /> {{teacher.phone}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Designation</b><br />{{teacher.designation}}</p>
+                                        </div>
+
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>D.O.B</b><br /> {{ teacher.dob }}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>Pin Code</b><br /> {{teacher.zipcode}}</p>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                            <p><b>House No.</b><br /> +01962067309</p>
+                                        </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Address</b><br /> {{teacher.address}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>City</b><br /> {{teacher.city}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>State</b><br /> {{teacher.state}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>IFSC Code</b><br />
+                                            <h3>{{teacher.ifsc_code}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Account No.</b><br />
+                                            <h3>{{teacher.account_number}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Bank Name</b><br />
+                                            <h3>{{teacher.bankname}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Branch Name</b><br />
+                                            <h3>{{teacher.branch_name}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Pan No.</b><br />
+                                            <h3>{{teacher.pan_number}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Aadhar number </b><br />
+                                            <h3>{{teacher.aadhar_number}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Join date</b><br />
+                                            <h3>{{teacher.date_joined|date}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Basic Salary</b><br />
+                                            <h3>{{teacher.basic_salery}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}
+
+

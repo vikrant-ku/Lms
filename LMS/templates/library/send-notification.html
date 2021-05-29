@@ -1,0 +1,138 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Send Notification {% endblock %}
+
+ {% block head %}
+<style>
+    .hide{display:none;}
+    span#error {
+    font-weight: 600;
+    color: red;
+}
+</style>
+
+{% endblock %}
+
+	{% block style %}
+
+
+	 {% endblock %}
+
+{% block search %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="error-pagewrap">
+		<div class="error-page-int" style="margin-top:5%">
+			<div class="text-center m-b-md custom-login">
+				<h3>Send Notifications</h3>
+			</div>
+			<div class="content-error">
+				<div class="hpanel">
+                    <div class="panel-body">
+
+                            <div id="view-user">
+
+                                    <form action="#" method="post" id="search">{% csrf_token %}
+                                        <div class="form-group">
+                                            <label class="control-label" >Enter Student ID</label>
+                                            <input type="text" name="q" id="q" placeholder="Enter Student ID" class="form-control">
+                                            <span id="error"></span>
+                                        </div>
+                                    </form>
+                            </div>
+                        <form method="post" action="{% url 'library_send_notification' %}" id="notification">{% csrf_token %}
+
+
+                            <div class="form-group hide" id="inputs">
+                                    <label class="control-label" >User Name</label>
+                                    <input type="text" disabled id="name" value="" class="form-control">
+                                    <input type="hidden" value="" id="username" name="username" class="form-control">
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" >Notification</label>
+                                <textarea required name="notification" id="msg" class="form-control"></textarea>
+                            </div>
+                            <input type="hidden"  id="notify_to" name="notify_to" class="form-control">
+                            <button type="button" class="btn btn-success btn-block loginbtn" onclick="validate()">Submit</button>
+
+                        </form>
+                    </div>
+                </div>
+			</div>
+
+		</div>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+    $(document).on("focusout","#q",function(){
+    let q = $('input[name=q]').val()
+    if(q.slice(0,2)=="TE" || q.slice(0,2)=="te"){
+    $("#error").text("You can not send notification to the teacher");
+    return false;
+        }
+    var formData = {
+                'q':q,
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+            };
+            $.ajax({
+            type:"POST",
+            url :"{% url 'get_user_info' %}",
+            data: formData,
+            encode:true
+            })
+            .done(function(data){
+
+            datas = JSON.parse(data)
+            if (Object.keys(datas).length>0){
+            $("#error").text("");
+            let name = datas['name'];
+            let username = datas['username'];
+            $('#name').val(name)
+            $('#username').val(username)
+            $('#inputs').removeClass('hide')
+            }else{
+            $("#error").text("Invalid UserID");
+            }
+            });
+            event.preventDefault();
+});
+ $('#q').on('keypress',function(e) {
+    if(e.which == 13) {
+            event.preventDefault();
+        }
+    });
+
+    function validate(){
+    let notification = $('#msg').val()
+
+
+    let username =$('#username').val()
+    if(username==""){
+        alert('Please Enter User ID')
+    }else if(notification == ""){
+      alert('Enter Notification message')
+    }else{
+        $('#notification').submit()
+     }
+
+    };
+</script>
+
+
+
+
+
+
+
+{% endblock %}

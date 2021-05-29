@@ -8,7 +8,6 @@ from admins.models.classes import Class, Class_subjects
 from admins.models.attandance import Student_Attandance, Teacher_Attandance
 from admins.models.notice import Notification
 from teacher.models import Marks
-from student.views.index import get_notifications
 from .index import is_class_teacher, validate_user
 from student.views.index import get_notifications
 import datetime
@@ -524,9 +523,9 @@ class View_notification(View):
             else:
                 all_notific = Notification.objects.filter(teacher= user).order_by('-datetime')
                 unseen_notific = Notification.objects.filter(teacher= user, seen=False)
-                # for _ in unseen_notific:
-                #     _.seen=True
-                #     _.save()
+                for _ in unseen_notific:
+                    _.seen=True
+                    _.save()
 
             # for send notifications
             all_send_nofific = Notification.objects.filter(from_user= user).order_by('-datetime')

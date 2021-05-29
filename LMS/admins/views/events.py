@@ -261,6 +261,18 @@ class View_Notifications(View):
         else:
             return redirect('teacher_login')
 
+class View_feedback(View):
+    def get(self, request):
+        if validate_user(request):
+            unseen = Feedback.objects.filter(seen=False)
+            for _ in unseen:
+                _.seen=True
+                _.save()
+            all_feedback = Feedback.objects.all()
+            data = {'all_feedback':all_feedback}
+            return render(request,'lms_admin/view-feedback.html' ,data)
+        else:
+            return redirect('teacher_login')
 
 
 def Get_user_info(request):
@@ -284,20 +296,6 @@ def Get_user_info(request):
         response = json.dumps(data, default=str)
         return HttpResponse(response)
 
-class View_feedback(View):
-    def get(self, request):
-        if validate_user(request):
-            unseen = Feedback.objects.filter(seen=False)
-            for _ in unseen:
-                _.seen=True
-                # seen.save()
-
-            all_feedback = Feedback.objects.all()
-            print(all_feedback)
-            data = {'all_feedback':all_feedback}
-            return render(request,'lms_admin/view-feedback.html' ,data)
-        else:
-            return redirect('teacher_login')
 
 
 
