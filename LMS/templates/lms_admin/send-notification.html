@@ -189,7 +189,13 @@
     function notifyfor(){
     let noti = $('#notify').val()
     $('#notify_to').val(noti)
-    if (noti == '1'){
+    if(noti=='0'){
+    $('#inputs').addClass('hide')
+    $('#view-user').addClass('hide')
+    $('#view-class').addClass('hide')
+    }
+    else if (noti == '1'){
+    $('#inputs').addClass('hide')
     $('#view-user').addClass('hide')
     $('#view-class').removeClass('hide')
     }else if (noti == '2'){

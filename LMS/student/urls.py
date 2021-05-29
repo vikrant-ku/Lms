@@ -23,8 +23,6 @@ urlpatterns = [
     path('classess/',auth_middleware(Scheduled_class.as_view()), name='classess' ),
     path('view_syllabus/',auth_middleware(View_syllabus.as_view()), name='view_syllabus' ),
 
-
-
     #Events
     path('events/', auth_middleware(Events.as_view()), name='student_events'),
     path('notice/', auth_middleware(All_notice.as_view()) , name= "student_notice"),
