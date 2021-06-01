@@ -133,6 +133,7 @@ class Add_Student_by_Excel(View):
                         False,
                         data[20],
                         data[21],
+                        False
 
                     )
                     student.password = make_password(str(data[2]))
@@ -144,6 +145,8 @@ class Add_Student_by_Excel(View):
                             student.class_name = cls
                         except:
                             pass
+                    if data[22]!="":
+                        student.is_rte=True
                     student.save()
             else:
                 messages.error(request, "Admission No Must be Unique. Please Check your Excel File and Try Again..")
