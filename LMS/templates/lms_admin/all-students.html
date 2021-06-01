@@ -170,7 +170,7 @@
 
                                         {% for p in page_range %}
                                         {% if all_stud.number == p %}
-                                            {% elif cls is not None and section is not None and is_rte is not None %}
+                                            {% if cls is not None and section is not None and is_rte is not None %}
                                             <li class="page-item active"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}&section={{section}}&is_rte={{is_rte}}">{{p}}</a></li>
                                              {% elif cls is not None and section is not None %}
                                             <li class="page-item active"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}&section={{section}}">{{p}}</a></li>
@@ -180,15 +180,15 @@
                                             <li class="page-item active"><a class="page-link" href="/admin/all_students/?page={{p}}">{{p}}</a></li>
                                             {% endif %}
                                         {% else %}
-                                         {% if cls is not None and section is not None and is_rte is not None %}
-                                            <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}&section={{section}}&is_rte={{is_rte}}">{{p}}</a></li>
-                                          {% elif cls is not None and section is not None %}
-                                            <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}&section={{section}}">{{p}}</a></li>
-                                            {% elif cls is not None %}
-                                            <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}">{{p}}</a></li>
-                                            {% else %}
-                                            <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}">{{p}}</a></li>
-                                            {% endif %}
+                                             {% if cls is not None and section is not None and is_rte is not None %}
+                                                <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}&section={{section}}&is_rte={{is_rte}}">{{p}}</a></li>
+                                                {% elif cls is not None and section is not None %}
+                                                <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}&section={{section}}">{{p}}</a></li>
+                                                {% elif cls is not None %}
+                                                <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}">{{p}}</a></li>
+                                                {% else %}
+                                                <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}">{{p}}</a></li>
+                                             {% endif %}
                                         {% endif %}
                                         {% endfor %}
 
