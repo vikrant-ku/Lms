@@ -153,6 +153,8 @@ class All_students(View):
             q = request.GET.get('q')
             cls = request.GET.get('class')
             section = request.GET.get('section')
+            is_rte = request.GET.get('is_rte')
+
 
             if q is not None:
                 all_stdnt = Students.objects.filter(Q(username__icontains=q)|
@@ -164,7 +166,16 @@ class All_students(View):
                                                    )
 
             else:
-                if cls is not None:
+                if cls is not None and is_rte is not None:
+                    try:
+                        clss = Class.objects.get(class_name = cls)
+                        if section is None:
+                            all_stdnt = Students.objects.filter(class_name=clss,is_rte=True)
+                        else:
+                            all_stdnt = Students.objects.filter(class_name=clss, section=section,is_rte=True)
+                    except:
+                        all_stdnt = Students.objects.filter(is_rte=True)
+                elif cls is not None:
                     try:
                         clss = Class.objects.get(class_name = cls)
                         if section is None:
@@ -173,8 +184,16 @@ class All_students(View):
                             all_stdnt = Students.objects.filter(class_name=clss, section=section)
                     except:
                         all_stdnt = Students.objects.all()
+
                 else:
-                    all_stdnt = Students.objects.all()
+                    if is_rte is not None:
+                        all_stdnt = Students.objects.filter(is_rte=True)
+                    else:
+                        all_stdnt = Students.objects.all()
+
+
+
+
             #paginator
             paginator = Paginator(all_stdnt, 30)
             last_page = paginator.page_range[-1]

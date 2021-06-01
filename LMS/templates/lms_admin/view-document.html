@@ -111,21 +111,21 @@
                                         <td><a href="/admin/all_students/student_profile/{{user.id}}/{{user.first_name}} {{user.lasr_name}}/">{{user}}</a></td>
                                         <td>
                                             {% if user.image %}
-                                            <a href="{{user.image.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            <a href="{{user.image.url}}" target="_blank"><button type="button" class="btn btn-success">View</button></a>
                                             {% else %}
                                             <button type="button" class="btn btn-danger">Not Submitted</button>
                                             {% endif %}
                                         </td>
                                         <td>
                                             {% if document.aadhar %}
-                                            <a href="{{document.aadhar.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            <a href="{{document.aadhar.url}}" target="_blank"><button type="button" class="btn btn-success">View</button></a>
                                             {% else %}
                                             <button type="button" class="btn btn-danger">Not Submitted</button>
                                             {% endif %}
                                         </td>
                                           <td>
                                             {% if document.parent_aadhar %}
-                                            <a href="{{document.parent_aadhar.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            <a href="{{document.parent_aadhar.url}}" target="_blank"><button type="button" class="btn btn-success">View</button></a>
                                             {% else %}
                                             <button type="button" class="btn btn-danger">Not Submitted</button>
                                             {% endif %}
@@ -133,7 +133,7 @@
                                         {% if class_name == 'Nursery' or class_name == 'LKG' or class_name == 'UKG' %}
                                         <td>
                                             {% if document.birth_certificate %}
-                                            <a href="{{document.birth_certificate.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            <a href="{{document.birth_certificate.url}}" target="_blank"><button type="button" class="btn btn-success">View</button></a>
                                             {% else %}
                                             <button type="button" class="btn btn-danger">Not Submitted</button>
                                             {% endif %}
@@ -142,7 +142,7 @@
                                          {% if class_name != 'Nursery' %}
                                         <td>
                                             {% if document.tc %}
-                                            <a href="{{document.tc.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            <a href="{{document.tc.url}}" target="_blank"><button type="button" class="btn btn-success">View</button></a>
                                             {% else %}
                                             <button type="button" class="btn btn-danger">Not Submitted</button>
                                             {% endif %}
@@ -151,7 +151,7 @@
                                         {% if class_name != 'Nursery' and class_name != 'LKG' and class_name != 'UKG' %}
                                          <td>
                                             {% if document.progress_report %}
-                                            <a href="{{document.progress_report.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            <a href="{{document.progress_report.url}}" target="_blank"><button type="button" class="btn btn-success">View</button></a>
                                             {% else %}
                                             <button type="button" class="btn btn-danger">Not Submitted</button>
                                             {% endif %}
@@ -160,14 +160,14 @@
                                         {% if class_name == '10' or class_name == '12' %}
                                         <td>
                                             {% if document.affidavit %}
-                                            <a href="{{document.affidavit.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            <a href="{{document.affidavit.url}}" target="_blank"><button type="button" class="btn btn-success">View</button></a>
                                             {% else %}
                                             <button type="button" class="btn btn-danger">Not Submitted</button>
                                             {% endif %}
                                         </td>
                                         <td>
                                             {% if document.under_taking %}
-                                            <a href="{{document.under_taking.url}}"><button type="button" class="btn btn-success">View</button></a>
+                                            <a href="{{document.under_taking.url}}" target="_blank"><button type="button" class="btn btn-success">View</button></a>
                                             {% else %}
                                             <button type="button" class="btn btn-danger">Not Submitted</button>
                                             {% endif %}
