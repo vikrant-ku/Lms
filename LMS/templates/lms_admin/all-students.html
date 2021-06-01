@@ -157,7 +157,9 @@
                                     {% if not q %}
                                     <ul class="pagination">
                                          {% if all_stud.has_previous %}
-                                            {% if cls is not None and section is not None %}
+                                            {% if cls is not None and section is not None and is_rte is not None %}
+                                            <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{all_stud.previous_page_number}}&class={{cls}}&section={{section}}&is_rte={{is_rte}}">Previous</a></li>
+                                            {% elif cls is not None and section is not None %}
                                             <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{all_stud.previous_page_number}}&class={{cls}}&section={{section}}">Previous</a></li>
                                             {% elif cls is not None %}
                                             <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{all_stud.previous_page_number}}&class={{cls}}">Previous</a></li>
@@ -168,7 +170,9 @@
 
                                         {% for p in page_range %}
                                         {% if all_stud.number == p %}
-                                             {% if cls is not None and section is not None %}
+                                            {% elif cls is not None and section is not None and is_rte is not None %}
+                                            <li class="page-item active"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}&section={{section}}&is_rte={{is_rte}}">{{p}}</a></li>
+                                             {% elif cls is not None and section is not None %}
                                             <li class="page-item active"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}&section={{section}}">{{p}}</a></li>
                                             {% elif cls is not None %}
                                             <li class="page-item active"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}">{{p}}</a></li>
@@ -176,7 +180,9 @@
                                             <li class="page-item active"><a class="page-link" href="/admin/all_students/?page={{p}}">{{p}}</a></li>
                                             {% endif %}
                                         {% else %}
-                                          {% if cls is not None and section is not None %}
+                                         {% elif cls is not None and section is not None and is_rte is not None %}
+                                            <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}&section={{section}}&is_rte={{is_rte}}">{{p}}</a></li>
+                                          {% elif cls is not None and section is not None %}
                                             <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}&section={{section}}">{{p}}</a></li>
                                             {% elif cls is not None %}
                                             <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{p}}&class={{cls}}">{{p}}</a></li>
@@ -187,7 +193,9 @@
                                         {% endfor %}
 
                                         {% if all_stud.has_next %}
-                                            {% if cls is not None and section is not None %}
+                                            {% if cls is not None and section is not None and is_rte is not None %}
+                                            <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{all_stud.next_page_number}}&class={{cls}}&section={{section}}&is_rte={{is_rte}}">Next</a></li>
+                                            {% elif cls is not None and section is not None %}
                                             <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{all_stud.next_page_number}}&class={{cls}}&section={{section}}">Next</a></li>
                                             {% elif cls is not None %}
                                             <li class="page-item"><a class="page-link" href="/admin/all_students/?page={{all_stud.next_page_number}}&class={{cls}}">Next</a></li>

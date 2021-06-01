@@ -228,7 +228,7 @@ class All_students(View):
 
             classes = Class.objects.all()
             data = {'classes': classes,'all_stud': allstud, 'page_range': page_range,
-                    'count': count, "last_page":last_page, 'cls': cls, 'section': section
+                    'count': count, "last_page":last_page, 'cls': cls, 'section': section, 'is_rte':is_rte
                     }
             if q is not None:
                 data['q'] = q
