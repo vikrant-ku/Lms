@@ -73,25 +73,25 @@
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <input name="fathername" required type="text" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)) ' class="form-control" placeholder="Father Name">
+                                                                    <input name="fathername"  type="text" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)) ' class="form-control" placeholder="Father Name">
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <input name="mothername" required type="text" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)) ' class="form-control" placeholder="Mother Name">
+                                                                    <input name="mothername"  type="text" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32)) ' class="form-control" placeholder="Mother Name">
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <input name="admno" type="number" required class="form-control" placeholder="Admission no.">
+                                                                    <input name="admno" type="number" class="form-control" placeholder="Admission no.">
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <input name="address" type="text" class="form-control" required placeholder="Address">
+                                                                    <input name="address" type="text" class="form-control" placeholder="Address">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <input name="mobileno" maxlength=10 onKeyPress="return numbersonly(this, event)"  name="phone" placeholder="Enter Phone Number" class="form-control" id="phone" required />
+                                                                    <input name="mobileno" maxlength=10 onKeyPress="return numbersonly(this, event)"  name="phone" placeholder="Enter Phone Number" class="form-control" id="phone" />
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <input name="dob" id="finish" type="date" required class="form-control" placeholder="Date of Birth">
+                                                                    <input name="dob" id="finish" type="date" class="form-control" placeholder="Date of Birth">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <input type="password" name="pass1" id="password" required class="form-control" placeholder="Password">
@@ -113,7 +113,7 @@
 																		</select>
                                                                 </div>
                                                                  <div class="form-group">
-                                                                    <select name="section" required class="form-control" id="section">
+                                                                    <select name="section"  class="form-control" id="section">
 																			<option value="none" selected="" disabled="">Select Section</option>
 
 
@@ -131,18 +131,26 @@
                                                                      <input type="text" name="country" value="India" class="form-control" placeholder="Country">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <input type="text" required name="state" value="" class="form-control" placeholder="State">
+                                                                    <input type="text" name="state" value="" class="form-control" placeholder="State">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <input type="text" required name="city" value="" class="form-control" placeholder="City">
+                                                                    <input type="text"  name="city" value="" class="form-control" placeholder="City">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <input name="postcode" id="postcode" type="text" value="" class="form-control" placeholder="Postcode">
                                                                 </div>
+
                                                                 <div class="form-group">
                                                                     <input name="image" type="file" class="form-control" accept="image/png,image/jpeg">
                                                                 </div>
-
+                                                                <div class="form-group">
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                                 <div class="inline-checkbox-cs">
+                                                                                    <label class="checkbox-inline i-checks pull-left">
+                                                                                        <input type="checkbox" value="True" name="is_rte">Is RTE</label>
+                                                                                 </div>
+                                                                            </div>
+                                                                </div>
 
                                                             </div>
                                                         </div>

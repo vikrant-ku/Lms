@@ -1,5 +1,5 @@
 from django.shortcuts import render , redirect, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.views import View
@@ -45,6 +45,7 @@ class Add_students(View):
             gender = data.get('gender')
             pass1= data.get('pass1')
             pass2= data.get('pass2')
+            is_rte = data.get('is_rte')
             if pass1==pass2:
                 try:
                     class_name = Class.objects.get(class_name=class_name)
@@ -79,6 +80,9 @@ class Add_students(View):
                 user.password = make_password(user.password)
                 user.save()
                 user.username = "ST00"+str(user.id)
+
+                if is_rte is not None:
+                    user.is_rte = True
 
                 if image is not None:
                     user.image = image
@@ -306,6 +310,7 @@ class Edit_student(View):
             class_name = data.get('class')
             section = data.get('section')
             gender = data.get('gender')
+            is_rte = data.get('is_rte')
 
             if class_name is not None:
                 try:
@@ -335,6 +340,8 @@ class Edit_student(View):
                 user.section = section
             if image is not None:
                 user.image = image
+            if is_rte is not None:
+                user.is_rte = True
 
             user.save()
 
