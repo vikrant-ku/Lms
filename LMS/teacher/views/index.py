@@ -412,8 +412,7 @@ class View_syllabus(View):
             notification = noti_info[1]
             # ------end  notification
             classes = Class.objects.all()
-            subjects = Class_subjects.objects.all()
-            data = {'classes': classes, 'subjects': subjects, 'notify': notify, 'notifications': notification}
+            data = {'classes': classes, 'notify': notify, 'notifications': notification}
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
             return render(request, 'teachers/view-syllabus.html', data)
@@ -428,12 +427,14 @@ class View_syllabus(View):
             notify = noti_info[0]
             notification = noti_info[1]
             data = request.POST
+            #send cls in dropdown
+            classes = Class.objects.all()
+
             cls = data.get('class')
             section = data.get('section')
-            subject = data.get('subject')
             clss = get_object_or_404(Class, class_name=cls)
-            all_syllabus = Syllabus.objects.filter(class_name=clss.id,section=section, subject=subject)
-            data = {'all_syllabus':all_syllabus, 'notify': notify, 'notifications': notification}
+            all_syllabus = Syllabus.objects.filter(class_name=clss.id,section=section,)
+            data = {'classes': classes, 'all_syllabus':all_syllabus, 'notify': notify, 'notifications': notification}
 
             return render(request, 'teachers/view-syllabus.html', data)
         else:

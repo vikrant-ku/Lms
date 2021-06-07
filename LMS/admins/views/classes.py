@@ -101,8 +101,8 @@ class View_syllabus(View):
     def get(self, request):
         if validate_user(request):
             classes = Class.objects.all()
-            subjects = Class_subjects.objects.all()
-            data = {'classes': classes, 'subjects': subjects}
+
+            data = {'classes': classes}
             data['is_admin'] = True
             return render(request, 'lms_admin/view-syllabus.html', data)
         else:
@@ -113,10 +113,10 @@ class View_syllabus(View):
             data = request.POST
             cls = data.get('class')
             section = data.get('section')
-            subject = data.get('subject')
+            classes = Class.objects.all()
             clss = get_object_or_404(Class, class_name=cls)
-            all_syllabus = Syllabus.objects.filter(class_name=clss.id,section=section, subject=subject)
-            data = {'all_syllabus':all_syllabus}
+            all_syllabus = Syllabus.objects.filter(class_name=clss.id,section=section)
+            data = {'classes': classes,'all_syllabus':all_syllabus}
             data['is_admin'] = True
             return render(request, 'lms_admin/view-syllabus.html', data)
         else:

@@ -356,9 +356,8 @@ class View_marks(View):
             subject = data.get('subject')
             type = data.get('type')
             clss = get_object_or_404(Class, class_name= cls)
-            print(academic, clss, section, subject)
             marks = Marks.objects.filter(academic_year=academic,class_name=clss.id, section=section, subject=subject, added_by=teacher.id, exam_type=type)
-            print('marks', marks)
+
             data = {'classes': classes, 'subjects': subjects, 'marks':marks, 'notify': notify, 'notifications': notification }
             is_ct = is_class_teacher(request)
             data['is_ct'] = is_ct
