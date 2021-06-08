@@ -15,16 +15,25 @@
 
 </script>
 <script>
-    function getmonth(){
-
+    function valid(){
+    let user = $('#user').val()
+    let month = $('#month').val()
     let year = $('#year').val()
     let today = parseInt({{year}})
-    if(year == ""){
+    if(user == ""){
+        alert('Enter Student Id')
+        return false;
+        }
+    else if(year == ""){
         alert('Please Enter Year')
         return false;
         }
     else if(parseInt(year)>today || parseInt(year)<2000){
             alert('Please Enter Valid Date')
+            return false;
+        }
+    else if(month ==null){
+            alert('Please Select Month')
             return false;
         }
     else{
@@ -79,7 +88,7 @@
                                         <div id="dropzone1" class="pro-ad">
                                             <form action="{% url 'admin_student_attandance' %}"
                                                   class="dropzone dropzone-custom needsclick add-professors"
-                                                  method="get" name="fee">
+                                                  method="get" name="month">
                                                 <div class="row">
 
                                                         <div class="col col-lg-3 col-md-3 col-sm-3 col-xs-3 form-group">
@@ -96,7 +105,7 @@
 
                                                         <div class="col col-lg-3 col-md-3 col-sm-3 col-xs-3 form-group">
 
-                                                            <select name="month" required class="form-control">
+                                                            <select name="month" id="month" required class="form-control">
                                                                 <option value="none" selected="" disabled="">Select Month</option>
                                                                 <option value="1">January</option>
                                                                 <option value="2">February</option>
@@ -115,7 +124,7 @@
                                                         </div>
 
                                                         <div class="col col-lg-2 col-md-2 col-sm-2 col-xs-2 form-group">
-                                                            <button type="button" onclick="getmonth()"
+                                                            <button type="button" onclick="valid()"
                                                                     class="btn btn-success form-control"><span
                                                                     class="educate-icon educate-search icon-wrap"
                                                                     aria-hidden="true"></span>Search
