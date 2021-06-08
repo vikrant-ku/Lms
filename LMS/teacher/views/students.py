@@ -180,7 +180,7 @@ class View_students_attandance(View):
 
                 return render(request, 'teachers/view-student-attandance.html', data)
             else:
-                messages.error(request, 'Yo are not a class teacher')
+                messages.error(request, 'You are not a class teacher')
                 return redirect('teacher_home')
         else:
             return redirect('teacher_login')

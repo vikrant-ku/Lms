@@ -7,7 +7,7 @@ from .views.login import Reset_password
 from .views.events import Add_events, All_events,Delete_event, Add_notice, All_notice, Delete_notice, Add_academic_year,All_academic_year,View_Notifications ,Send_Notification,Get_user_info, View_feedback
 from .views.classes import Add_class, All_class, View_syllabus, Upload_syllabus, Delete_syllabus
 from .views.subject import Add_subjects, All_subjects
-from .views.attandance import Attandance, Update_attandance, View_teacher_attand
+from .views.attandance import Attandance, Update_attandance, View_teacher_attand,View_students_attandance
 from django.urls import path
 from .middleware.auth import auth_middleware
 
@@ -75,6 +75,7 @@ urlpatterns = [
     path('mark_attandance/', auth_middleware(Attandance.as_view()), name='admin_mark_attandance'),
     path('update_attandance/', auth_middleware(Update_attandance.as_view()), name='admin_update_attandance'),
     path('teacher_attandance/', auth_middleware(View_teacher_attand.as_view()), name='admin_teacher_attandance'),
+    path('student-attandance/', auth_middleware(View_students_attandance.as_view()), name='admin_student_attandance'),
 
 ]
 

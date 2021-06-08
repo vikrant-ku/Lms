@@ -400,33 +400,29 @@ class Students_fee(View):
     def get(self, request):
         if validate_user(request):
             classes = Class.objects.all()
-            data = {'classes': classes}
-            return render(request, 'lms_admin/view-fee-info.html', data)
+            month = request.GET.get('month')
+            cls = request.GET.get('class')
+            section = request.GET.get('section')
+            if month is None:
+                data = {'classes': classes}
+                return render(request, 'lms_admin/view-fee-info.html', data)
+            else:
+                clss = get_object_or_404(Class, class_name=cls)
+                academic_year = Academic_Year.objects.all().last()
+                students = Students.objects.filter(class_name=clss, section=section)
+                stud_fee = list()
+                for stud in students:
+                    std_fee = [stud]
+                    try:
+                        fee = Student_fees.objects.get(student=stud.id, academic_year=academic_year, month=month,
+                                                       status=True)
+                        std_fee.append(fee)
+                    except:
+                        pass
+                    stud_fee.append(std_fee)
+                data = {'students_fee': stud_fee, 'month': month, 'classes': classes}
+                return render(request, 'lms_admin/view-fee-info.html', data)
         return redirect('login')
-
-    def post(self, request):
-        if validate_user(request):
-            classes = Class.objects.all()
-            month = request.POST.get('month')
-            cls = request.POST.get('class')
-            section = request.POST.get('section')
-            clss = get_object_or_404(Class, class_name = cls)
-            academic_year = Academic_Year.objects.all().last()
-            students = Students.objects.filter(class_name=clss, section=section)
-            stud_fee = list()
-            for stud in students:
-                std_fee = [stud]
-                try:
-                    fee = Student_fees.objects.get(student=stud.id, academic_year=academic_year, month=month, status=True)
-                    std_fee.append(fee)
-                except:
-                    pass
-                stud_fee.append(std_fee)
-            data = {'students_fee':stud_fee, 'month':month, 'classes': classes}
-            return render(request, 'lms_admin/view-fee-info.html', data)
-        else:
-            return redirect('teacher_login')
-
 
 
 def proper_pagination(prods, index):

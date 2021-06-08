@@ -32,7 +32,7 @@ class All_notice(View):
             notify = noti_info[0]
             notification = noti_info[1]
             # ------end  notification
-            all_notice = Notices.objects.filter(recipient='Students')
+            all_notice = Notices.objects.filter(recipient='Students')|Notices.objects.filter(recipient='All')
 
             data = {'all_notice' : all_notice, 'notify': notify, 'notification': notification}
             return render(request, 'students/notice.html', data)

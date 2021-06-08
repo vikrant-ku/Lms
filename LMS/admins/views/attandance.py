@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.contrib import messages
 from admins.models.professor import Teacher, Role
-from admins.models.attandance import Teacher_Attandance
+from admins.models.students import Students
+from admins.models.attandance import Teacher_Attandance,Student_Attandance
 from admins.models.fees import Academic_Year
 from .login import validate_user
 
@@ -88,8 +89,6 @@ class View_teacher_attand(View):
             months = [str(i) for i in range(1, 13)]
             month = request.GET.get('month')
             year = request.GET.get('year')
-            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
-
             if month in months:
                 # get all dates when attandance marked
                 date = Teacher_Attandance.objects.filter(datetime__year=year,datetime__month=int(month)).order_by('datetime__day').values_list('datetime__date', flat=True).distinct()
@@ -117,4 +116,41 @@ class View_teacher_attand(View):
             return redirect('teacher_login')
 
 
+class View_students_attandance(View):
+    def get(self, request):
+        if validate_user(request):
+            today = datetime.datetime.today()
 
+            username = request.GET.get('username')
+            month = request.GET.get('month')
+            year = request.GET.get('year')
+            data = {'year': today.year}
+            if username is not None:
+                try:
+                    student = Students.objects.get(username=username)
+                except:
+                    messages.error(request,"Invalid User Id")
+                    return render(request, 'lms_admin/view-student-attandance.html', data)
+                mnth = [str(i) for i in range(1, 13)]
+                if month in mnth:
+                    attandance = Student_Attandance.objects.filter(student=student.id, datetime__year=year,
+                                                                   datetime__month=int(month))
+                    marked = attandance.count()
+                    present = Student_Attandance.objects.filter(student=student.id, datetime__year=year,
+                                                                   datetime__month=int(month), attandance='P').count()
+                    apsent = Student_Attandance.objects.filter(student=student.id, datetime__year=year,
+                                                                datetime__month=int(month), attandance='A').count()
+                    data['marked'] = marked
+                    data['P'] = present
+                    data['A'] = apsent
+
+                else:
+                    attandance = None
+                data['attandance'] = attandance
+
+
+
+
+            return render(request, 'lms_admin/view-student-attandance.html', data)
+        else:
+            return redirect('teacher_login')

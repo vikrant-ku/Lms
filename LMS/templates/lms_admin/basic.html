@@ -2,115 +2,154 @@
 {% load static %}
 
 
-
 {% block mainbody %}
-   <!-- Start Left menu area -->
+<!-- Start Left menu area -->
 <div class="left-sidebar-pro">
     <nav id="sidebar" class="">
         <div class="sidebar-header">
-            <a href="#"><img class="main-logo" src="{% static 'img/logo/logo.png' %}" alt="" /></a>
-            <strong><a href=#"><img src="{% static 'img/logo/logoff.png' %}" alt="" /></a></strong>
+            <a href="#"><img class="main-logo" src="{% static 'img/logo/logo.png' %}" alt=""/></a>
+            <strong><a href=#"><img src="{% static 'img/logo/logoff.png' %}" alt=""/></a></strong>
         </div>
         <div class="left-custom-menu-adp-wrap comment-scrollbar">
             <nav class="sidebar-nav left-sidebar-menu-pro">
                 <ul class="metismenu" id="menu1">
                     <li>
-                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-bell icon-wrap"></span> <span class="mini-click-non">Notifications</span></a>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span
+                                class="educate-icon educate-bell icon-wrap"></span> <span class="mini-click-non">Notifications</span></a>
                         <ul class="submenu-angle" aria-expanded="false">
-                            <li><a href="{% url 'view_notification' %}"><span class="mini-sub-pro">All Send Notifications</span></a></li>
-                            <li><a  href="{% url 'send_notification' %}"><span class="mini-sub-pro">Send Notifications</span></a></li>
+                            <li><a href="{% url 'view_notification' %}"><span class="mini-sub-pro">All Send Notifications</span></a>
+                            </li>
+                            <li><a href="{% url 'send_notification' %}"><span
+                                    class="mini-sub-pro">Send Notifications</span></a></li>
                         </ul>
                     </li>
                     <li>
-                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-event icon-wrap"></span> <span class="mini-click-non">Event</span></a>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span
+                                class="educate-icon educate-event icon-wrap"></span> <span
+                                class="mini-click-non">Event</span></a>
                         <ul class="submenu-angle" aria-expanded="false">
-                            <li><a title="All Events" href="{% url 'admin_events' %}"><span class="mini-sub-pro">All Event</span></a></li>
-                            <li><a title="Add Event" href="{% url 'add_event' %}"><span class="mini-sub-pro">Add Event</span></a></li>
+                            <li><a title="All Events" href="{% url 'admin_events' %}"><span class="mini-sub-pro">All Event</span></a>
+                            </li>
+                            <li><a title="Add Event" href="{% url 'add_event' %}"><span
+                                    class="mini-sub-pro">Add Event</span></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span
+                                class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Notice</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="All Professors" href="{% url 'admin_notice' %}"><span class="mini-sub-pro">All Notice</span></a>
+                            </li>
+                            <li><a title="Add Professor" href="{% url 'add_notice' %}"><span class="mini-sub-pro">Add Notice</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span
+                                class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">Staff</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a href="{% url 'all_staff' %}"><span class="mini-sub-pro">All Staff</span></a></li>
+                            <li><a href="{% url 'add_staff' %}"><span class="mini-sub-pro">Add Staff</span></a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="{% url 'all_teachers' %}" aria-expanded="false"><span
+                                class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">Teachers</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a href="{% url 'all_teachers' %}"><span class="mini-sub-pro">All Teachers</span></a>
+                            </li>
+                            <li><a href="{% url 'add_teacher' %}"><span class="mini-sub-pro">Add Teachers</span></a>
+                            </li>
+                            <li><a title="View Role" href="{% url 'view_role' %}"><span
+                                    class="mini-sub-pro">View Role</span></a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="/all_students/" aria-expanded="false"><span
+                                class="educate-icon educate-student icon-wrap"></span> <span class="mini-click-non">Students</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="All Students" href="{% url 'admin_all_students' %}"><span
+                                    class="mini-sub-pro">All Students</span></a></li>
+                            <li><a title="Add Students" href="{% url 'add_students' %}"><span class="mini-sub-pro">Add Student</span></a>
+                            </li>
+                            <li><a title="Students Documents" href="{% url 'admin_view_documents' %}"><span
+                                    class="mini-sub-pro">Students Documents</span></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span
+                                class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Subjects</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="All Courses" href="{% url 'all_subjects' %}"><span class="mini-sub-pro">View/Add Subjects</span></a>
+                            </li>
 
                         </ul>
                     </li>
 
                     <li>
-                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">Staff</span></a>
-                        <ul class="submenu-angle" aria-expanded="false">
-                            <li><a  href="{% url 'all_staff' %}"><span class="mini-sub-pro">All Staff</span></a></li>
-                            <li><a  href="{% url 'add_staff' %}"><span class="mini-sub-pro">Add Staff</span></a></li>
-
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="{% url 'all_teachers' %}" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">Teachers</span></a>
-                        <ul class="submenu-angle" aria-expanded="false">
-                            <li><a  href="{% url 'all_teachers' %}"><span class="mini-sub-pro">All Teachers</span></a></li>
-                            <li><a  href="{% url 'add_teacher' %}"><span class="mini-sub-pro">Add Teachers</span></a></li>
-                            <li><a title="View Role" href="{% url 'view_role' %}"><span class="mini-sub-pro">View Role</span></a></li>
-
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="/all_students/" aria-expanded="false"><span class="educate-icon educate-student icon-wrap"></span> <span class="mini-click-non">Students</span></a>
-                        <ul class="submenu-angle" aria-expanded="false">
-                            <li><a title="All Students" href="{% url 'admin_all_students' %}"><span class="mini-sub-pro">All Students</span></a></li>
-                            <li><a title="Add Students" href="{% url 'add_students' %}"><span class="mini-sub-pro">Add Student</span></a></li>
-                            <li><a title="Students Documents" href="{% url 'admin_view_documents' %}"><span class="mini-sub-pro">Students Documents</span></a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Subjects</span></a>
-                        <ul class="submenu-angle" aria-expanded="false">
-                            <li><a title="All Courses" href="{% url 'all_subjects' %}"><span class="mini-sub-pro">View/Add Subjects</span></a></li>
-
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-department icon-wrap"></span> <span class="mini-click-non">Classes</span></a>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span
+                                class="educate-icon educate-department icon-wrap"></span> <span class="mini-click-non">Classes</span></a>
                         <ul class="submenu-angle" aria-expanded="false">
                             <li><a href="{% url 'all_class' %}"><span class="mini-sub-pro">All Classes</span></a></li>
                             <li><a href="{% url 'add_class' %}"><span class="mini-sub-pro">Add Classes</span></a></li>
                         </ul>
                     </li>
                     <li>
-                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-department icon-wrap"></span> <span class="mini-click-non">Syllabus</span></a>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span
+                                class="educate-icon educate-department icon-wrap"></span> <span class="mini-click-non">Syllabus</span></a>
                         <ul class="submenu-angle" aria-expanded="false">
-                            <li><a href="{% url 'admin_view_syllabus' %}"><span class="mini-sub-pro">All Syllabus</span></a></li>
-                            <li><a href="{% url 'admin_upload_syllabus' %}"><span class="mini-sub-pro">Add Syllabus</span></a></li>
+                            <li><a href="{% url 'admin_view_syllabus' %}"><span class="mini-sub-pro">All Syllabus</span></a>
+                            </li>
+                            <li><a href="{% url 'admin_upload_syllabus' %}"><span
+                                    class="mini-sub-pro">Add Syllabus</span></a></li>
                         </ul>
                     </li>
                     <li>
-                    <a class="has-arrow" aria-expanded="false"><span class="educate-icon educate-department icon-wrap"></span> <span class="mini-click-non">Tech. Attandance</span></a>
-                    <ul class="submenu-angle" aria-expanded="false">
-                        <li><a href="{% url 'admin_mark_attandance' %}"><span class="mini-sub-pro">Mark Attandance</span></a></li>
-                        <li><a href="{% url 'admin_update_attandance' %}"><span class="mini-sub-pro">Update Attandance</span></a></li>
-                        <li><a href="{% url 'admin_teacher_attandance' %}"><span class="mini-sub-pro">View Attandance</span></a></li>
-                    </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Notice</span></a>
+                        <a class="has-arrow" aria-expanded="false"><span
+                                class="educate-icon educate-department icon-wrap"></span> <span class="mini-click-non">Attandance</span></a>
                         <ul class="submenu-angle" aria-expanded="false">
-                            <li><a title="All Professors" href="{% url 'admin_notice' %}"><span class="mini-sub-pro">All Notice</span></a></li>
-                            <li><a title="Add Professor" href="{% url 'add_notice' %}"><span class="mini-sub-pro">Add Notice</span></a></li>
+                            <li><a href="{% url 'admin_mark_attandance' %}"><span class="mini-sub-pro">Mark Attandance</span></a></li>
+                            <li><a href="{% url 'admin_update_attandance' %}"><span class="mini-sub-pro">Update Attandance</span></a>
+                            </li>
+                            <li><a href="{% url 'admin_teacher_attandance' %}"><span class="mini-sub-pro">View Attandance</span></a>
+                            </li>
+                            <li><a href="{% url 'admin_student_attandance' %}"><span class="mini-sub-pro">Student Attandance</span></a>
+                            </li>
+                        </ul>
+                    </li>
 
+
+                    <li>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span
+                                class="educate-icon educate-charts icon-wrap"></span> <span
+                                class="mini-click-non">Fees</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="All Professors" href="{% url 'add_fees' %}"><span class="mini-sub-pro">Add Fees</span></a>
+                            </li>
+                            <li><a title="Add Professor" href="{% url 'admin_view_fees' %}"><span class="mini-sub-pro">View Fees</span></a>
+                            </li>
+                            <li><a href="{% url 'admin_students_fee' %}"><span class="mini-sub-pro">Students Fees</span></a>
+                            </li>
                         </ul>
                     </li>
 
                     <li>
-                        <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-charts icon-wrap"></span> <span class="mini-click-non">Fees</span></a>
-                        <ul class="submenu-angle" aria-expanded="false">
-                            <li><a title="All Professors" href="{% url 'add_fees' %}"><span class="mini-sub-pro">Add Fees</span></a></li>
-                            <li><a title="Add Professor" href="{% url 'admin_view_fees' %}"><span class="mini-sub-pro">View Fees</span></a></li>
-                            <li><a href="{% url 'admin_students_fee' %}"><span class="mini-sub-pro">Students Fees</span></a></li>
-                        </ul>
-                    </li>
-
-                    <li>
-                         <a  href="{% url 'admin-view_feedback' %}" aria-expanded="false"><span class="educate-icon educate-message icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">View Feedback</span></a>
+                        <a href="{% url 'admin-view_feedback' %}" aria-expanded="false"><span
+                                class="educate-icon educate-message icon-wrap sub-icon-mg" aria-hidden="true"></span>
+                            <span class="mini-click-non">View Feedback</span></a>
                     </li>
                     <li>
-                         <a title="Leave Applications" href="{% url 'teachers_leave' %}" aria-expanded="false"><span class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Leave Applications</span></a>
+                        <a title="Leave Applications" href="{% url 'teachers_leave' %}" aria-expanded="false"><span
+                                class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span>
+                            <span class="mini-click-non">Leave Applications</span></a>
                     </li>
                     <li>
-                         <a title="Reset password" href="{% url 'reset_password' %}" aria-expanded="false"><span class="educate-icon educate-apps icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Reset Password</span></a>
+                        <a title="Reset password" href="{% url 'reset_password' %}" aria-expanded="false"><span
+                                class="educate-icon educate-apps icon-wrap sub-icon-mg" aria-hidden="true"></span> <span
+                                class="mini-click-non">Reset Password</span></a>
                     </li>
 
                 </ul>
@@ -120,79 +159,81 @@
 </div>
 
 <!-- End Left menu area -->
-    <!-- Start Welcome area -->
-    <div class="all-content-wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 col- md-12 col-sm-12 col-xs-12">
-                    <div class="logo-pro">
-                        <a href="#"><img class="main-logo1" src="{% static 'img/logo/logo.png' %}" alt="" /></a>
-                    </div>
-
-
+<!-- Start Welcome area -->
+<div class="all-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col- md-12 col-sm-12 col-xs-12">
+                <div class="logo-pro">
+                    <a href="#"><img class="main-logo1" src="{% static 'img/logo/logo.png' %}" alt=""/></a>
                 </div>
+
+
             </div>
         </div>
-        <!-- start header -->
-        <div class="header-advance-area">
-    <div class="header-top-area">
-<!--   aleart  start    -->
-{% for message in messages %}
-
+    </div>
+    <!-- start header -->
+    <div class="header-advance-area">
+        <div class="header-top-area">
+            <!--   aleart  start    -->
+            {% for message in messages %}
 
 
             <div class="alert alert-{{message.tags}} alert-mg-b alert-success-style4 alert-st-bg3 alert-st-bg14">
-                                <button type="button" class="close sucess-op" data-dismiss="alert" aria-label="Close">
-										<span class="icon-sc-cl" aria-hidden="true">&times;</span>
-									</button>
-                                <p><strong>message! </strong>{{message}}</p>
-                            </div>
-{% endfor %}
+                <button type="button" class="close sucess-op" data-dismiss="alert" aria-label="Close">
+                    <span class="icon-sc-cl" aria-hidden="true">&times;</span>
+                </button>
+                <p><strong>message! </strong>{{message}}</p>
+            </div>
+            {% endfor %}
 
 
+            <!--   end aleart   -->
+            <div class="container-fluid" style="margin-right:30px">
 
-
-<!--   end aleart   -->
-        <div class="container-fluid" style="margin-right:30px">
-
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="header-top-wraper">
-                        <div class="row">
-                            <div class="col-lg-1 col-md-0 col-sm-1 col-xs-12">
-                                <div class="menu-switcher-pro">
-                                    <button type="button" id="sidebarCollapse" class="btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="header-top-wraper">
+                            <div class="row">
+                                <div class="col-lg-1 col-md-0 col-sm-1 col-xs-12">
+                                    <div class="menu-switcher-pro">
+                                        <button type="button" id="sidebarCollapse"
+                                                class="btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
                                             <i class="educate-icon educate-nav"></i>
                                         </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
-                                <div class="header-top-menu tabl-d-n">
-                                    <ul class="nav navbar-nav mai-top-nav">
-                                        <li class="nav-item"><a href="{% url 'admin_home' %}" class="nav-link">Home</a>
-                                        </li>
-                                    </ul>
+                                <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
+                                    <div class="header-top-menu tabl-d-n">
+                                        <ul class="nav navbar-nav mai-top-nav">
+                                            <li class="nav-item"><a href="{% url 'admin_home' %}"
+                                                                    class="nav-link">Home</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12" >
-                                <div class="header-right-info">
-                                    <ul class="nav navbar-nav mai-top-nav header-right-menu">
+                                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                    <div class="header-right-info">
+                                        <ul class="nav navbar-nav mai-top-nav header-right-menu">
 
-                                        <li class="nav-item">
-                                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                            <li class="nav-item">
+                                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+                                                   class="nav-link dropdown-toggle">
 
                                                     <span class="admin-name">{{ request.session.name }}</span>
                                                     <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
                                                 </a>
-                                            <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
+                                                <ul role="menu"
+                                                    class="dropdown-header-top author-log dropdown-menu animated zoomIn">
 
 
-
-                                                <li><a href="/logout/"><span class="edu-icon edu-locked author-log-ic"></span>Log Out</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                                    <li><a href="/logout/"><span
+                                                            class="edu-icon edu-locked author-log-ic"></span>Log Out</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -200,139 +241,154 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Mobile Menu start -->
-    <div class="mobile-menu-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="mobile-menu">
-                        <nav id="dropdown">
-                            <ul class="mobile-menu-nav">
-
-                                <li><a data-toggle="collapse" data-target="#Notification" href="#">Notifications <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                    <ul id="Notification" class="collapse dropdown-header-top">
-                                        <li><a href="{% url 'view_notification' %}">All Send Notifications</a>
-                                        </li>
-                                        <li><a href="{% url 'send_notification' %}">Send Notifications</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a data-toggle="collapse" data-target="#event" href="#">Event <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                    <ul id="event" class="collapse dropdown-header-top">
-                                        <li><a href="{% url 'admin_events' %}">All Event</a>
-                                        </li>
-                                        <li><a href="{% url 'add_event' %}">Add Event</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li><a data-toggle="collapse" data-target="#staff" href="#">Staff <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                    <ul id="staff" class="collapse dropdown-header-top">
-                                        <li><a href="{% url 'all_staff' %}">All Staff</a>
-                                        </li>
-                                        <li><a href="{% url 'add_staff' %}">Add Staff</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li><a data-toggle="collapse" data-target="#teacher" href="#">Teachers <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                    <ul id="teacher" class="collapse dropdown-header-top">
-                                        <li><a href="{% url 'all_teachers' %}">All Teachers</a></li>
-                                        <li><a href="{% url 'add_teacher' %}">Add Teacher</a></li>
-                                        <li><a href="{% url 'view_role' %}">View Role</a></li>
-                                    </ul>
-                                </li>
-
-                                <li><a data-toggle="collapse" data-target="#students" href="#">Students <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                    <ul id="students" class="collapse dropdown-header-top">
-                                        <li><a href="{% url 'admin_all_students' %}">All Students</a>
-                                        </li>
-                                        <li><a href="{% url 'add_students' %}">Add Student</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li><a data-toggle="collapse" data-target="#democrou" href="#">Subject <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                    <ul id="democrou" class="collapse dropdown-header-top">
-                                        <li><a href="{% url 'all_subjects' %}">View/Add Subject</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li><a data-toggle="collapse" data-target="#classes" href="#">Classes <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                    <ul id="classes" class="collapse dropdown-header-top">
-                                        <li><a href="{% url 'all_class' %}">All Classes</a></li>
-                                        <li><a href="{% url 'add_class' %}">Add Classes</a></li>
-                                    </ul>
-                                </li>
-                                <li><a data-toggle="collapse" data-target="#Syllabus" href="#">Syllabus <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                    <ul id="Syllabus" class="collapse dropdown-header-top">
-                                        <li><a href="{% url 'admin_view_syllabus' %}">All Syllabus</a></li>
-                                        <li><a href="{% url 'admin_upload_syllabus' %}">Add Syllabus</a></li>
-                                    </ul>
-                                </li>
-
-                                <li><a data-toggle="collapse" data-target="#Attandance" href="#">Teacher Attandance <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                    <ul id="Attandance" class="collapse dropdown-header-top">
-                                        <li><a href="{% url 'admin_mark_attandance' %}">Mark Attandance</a>
-                                        </li>
-                                        <li><a href="{% url 'admin_update_attandance' %}">Update Attandance</a>
-                                        </li>
-                                        <li><a href="{% url 'admin_teacher_attandance' %}">View Attandance</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li><a data-toggle="collapse" data-target="#Notice" href="#">Notice <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                    <ul id="Notice" class="collapse dropdown-header-top">
-                                        <li><a href="{% url 'admin_notice' %}">All Notice</a>
-                                        </li>
-                                        <li><a href="{% url 'add_notice' %}">Add Notice</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a data-toggle="collapse" data-target="#Fees" href="#">Fees <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                    <ul id="Fees" class="collapse dropdown-header-top">
-                                        <li><a href="{% url 'add_fees' %}">">Add Fees</a>
-                                        </li>
-                                        <li><a href="{% url 'admin_view_fees' %}">View Fees</a>
-                                        </li>
-                                        <li><a href="{% url 'admin_students_fee' %}">Students Fees</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a href="{% url 'admin-view_feedback' %}">View Feedback</a></li>
-                                <li><a href="{% url 'teachers_leave' %}">Leave Applications</a></li>
-                                <li><a href="{% url 'reset_password' %}">Reset Password</a></li>
-
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Mobile Menu end -->
-
-    {% block search %}    {% endblock %}
-</div>
-        <!-- end header -->
-        {% block body %}{% endblock %}
-        <!--   footer start   -->
-        <div class="footer-copyright-area">
-            <div class="container-fluid">
+        <!-- Mobile Menu start -->
+        <div class="mobile-menu-area">
+            <div class="container">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer-copy-right">
-                            <p>Copyright © 2021. All rights reserved By <a href="http://rohartech.com/">Rohar Technology</a></p>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="mobile-menu">
+                            <nav id="dropdown">
+                                <ul class="mobile-menu-nav">
+
+                                    <li><a data-toggle="collapse" data-target="#Notification" href="#">Notifications
+                                        <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="Notification" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'view_notification' %}">All Send Notifications</a>
+                                            </li>
+                                            <li><a href="{% url 'send_notification' %}">Send Notifications</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#event" href="#">Event <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="event" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'admin_events' %}">All Event</a>
+                                            </li>
+                                            <li><a href="{% url 'add_event' %}">Add Event</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#Notice" href="#">Notice <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="Notice" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'admin_notice' %}">All Notice</a>
+                                            </li>
+                                            <li><a href="{% url 'add_notice' %}">Add Notice</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a data-toggle="collapse" data-target="#staff" href="#">Staff <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="staff" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'all_staff' %}">All Staff</a>
+                                            </li>
+                                            <li><a href="{% url 'add_staff' %}">Add Staff</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a data-toggle="collapse" data-target="#teacher" href="#">Teachers <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="teacher" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'all_teachers' %}">All Teachers</a></li>
+                                            <li><a href="{% url 'add_teacher' %}">Add Teacher</a></li>
+                                            <li><a href="{% url 'view_role' %}">View Role</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a data-toggle="collapse" data-target="#students" href="#">Students <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="students" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'admin_all_students' %}">All Students</a>
+                                            </li>
+                                            <li><a href="{% url 'add_students' %}">Add Student</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a data-toggle="collapse" data-target="#democrou" href="#">Subject <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="democrou" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'all_subjects' %}">View/Add Subject</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a data-toggle="collapse" data-target="#classes" href="#">Classes <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="classes" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'all_class' %}">All Classes</a></li>
+                                            <li><a href="{% url 'add_class' %}">Add Classes</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#Syllabus" href="#">Syllabus <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="Syllabus" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'admin_view_syllabus' %}">All Syllabus</a></li>
+                                            <li><a href="{% url 'admin_upload_syllabus' %}">Add Syllabus</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a data-toggle="collapse" data-target="#Attandance" href="#">Attandance <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="Attandance" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'admin_mark_attandance' %}">Mark Attandance</a>
+                                            </li>
+                                            <li><a href="{% url 'admin_update_attandance' %}">Update Attandance</a>
+                                            </li>
+                                            <li><a href="{% url 'admin_teacher_attandance' %}">View Attandance</a>
+                                            </li>
+                                            <li><a href="{% url 'admin_student_attandance' %}">View Students
+                                                Attandance</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li><a data-toggle="collapse" data-target="#Fees" href="#">Fees <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="Fees" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'add_fees' %}">">Add Fees</a>
+                                            </li>
+                                            <li><a href="{% url 'admin_view_fees' %}">View Fees</a>
+                                            </li>
+                                            <li><a href="{% url 'admin_students_fee' %}">Students Fees</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% url 'admin-view_feedback' %}">View Feedback</a></li>
+                                    <li><a href="{% url 'teachers_leave' %}">Leave Applications</a></li>
+                                    <li><a href="{% url 'reset_password' %}">Reset Password</a></li>
+
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--   end footer   -->
+        <!-- Mobile Menu end -->
+
+        {% block search %} {% endblock %}
     </div>
+    <!-- end header -->
+    {% block body %}{% endblock %}
+    <!--   footer start   -->
+    <div class="footer-copyright-area">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer-copy-right">
+                        <p>Copyright © 2021. All rights reserved By <a href="http://rohartech.com/">Rohar Technology</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--   end footer   -->
+</div>
 
 
 {% endblock %}
