@@ -37,6 +37,7 @@
     $('#'+e+'').remove();
     $('#new_subj').removeClass("hide")
     subj_len = subj_len-1
+    $('#save').removeClass("hide")
     if (subj_len ==0){
         $('#save').addClass("hide")
         }
@@ -152,14 +153,19 @@
         let len = subject.length
         subj_len = len
 
-        $('#new_subj').removeClass("hide")
 
+        $('#new_subj').removeClass("hide")
         if (len >=1){
+
             for(let i=0; i<len; i++){
-                let input = ` <input name="subject" type="text" value="`+subject[i]+`" class="form-control" placeholder="Subject"><br><br> `
+
+                let input = `<div class="input-group custom-go-button" id="30`+i+`">
+                                                   <input type="text" name="subject" class="form-control" value="`+subject[i]+`">
+                                                   <span class="input-group-btn"><button type="button" class="btn btn-primary" onclick="remove(30`+i+`)"><span class="glyphicon glyphicon-remove"></span> </button></span>
+                                                </div>`
                 $('#subject').append(input)
                 }
-                $('#save').removeClass("hide")
+
         }else{
         let input = ` <h6>No Subject added in this class</h6> `
                 $('#subject').append(input)

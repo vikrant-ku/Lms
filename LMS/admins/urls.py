@@ -6,7 +6,7 @@ from .views.staff import Add_staff, All_staff, delete_staff, Edit_staff
 from .views.login import Reset_password
 from .views.events import Add_events, All_events,Delete_event, Add_notice, All_notice, Delete_notice, Add_academic_year,All_academic_year,View_Notifications ,Send_Notification,Get_user_info, View_feedback
 from .views.classes import Add_class, All_class, View_syllabus, Upload_syllabus, Delete_syllabus
-from .views.subject import Add_subjects, All_subjects
+from .views.subject import  All_subjects
 from .views.attandance import Attandance, Update_attandance, View_teacher_attand,View_students_attandance
 from django.urls import path
 from .middleware.auth import auth_middleware
@@ -68,7 +68,7 @@ urlpatterns = [
     path('view_syllabus/', auth_middleware(View_syllabus.as_view()), name='admin_view_syllabus'),
     path('delete_syllabus/<int:pk>', auth_middleware(Delete_syllabus.as_view()), name='admin_delete_syllabus'),
     #subjects
-    path('add_subjects/', auth_middleware(Add_subjects.as_view()), name='add_subjects'),
+    # path('add_subjects/', auth_middleware(Add_subjects.as_view()), name='add_subjects'),
     path('all_subjects/', auth_middleware(All_subjects.as_view()), name='all_subjects'),
 
     #Attandance
