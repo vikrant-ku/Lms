@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
+from django.http import HttpResponseRedirect
 from django.contrib import messages
-from admins.models.students import Students
+from admins.models.students import Students, Documents
 from admins.models.fees import Student_fees, Academic_Year
 from admins.models.professor import Teacher, Role
 from admins.models.classes import Class, Class_subjects
@@ -25,6 +26,7 @@ class All_students(View):
                 notification = noti_info[1]
                 # ------end  notification
                 teacher_role = get_object_or_404(Role, user=user.id)
+
                 students = Students.objects.filter(class_name=teacher_role.class_name, section=teacher_role.section)
                 data = {'students':students, 'notify': notify, 'notifications': notification}
                 is_ct = is_class_teacher(request)
@@ -131,12 +133,103 @@ class Student_info(View):
             # ------end  notification
             if is_class_teacher(request):
                 student = get_object_or_404(Students, username=username)
-                data = {'student':student, 'is_ct':True, 'notify': notify, 'notifications': notification}
+
+                data = {'student': student, 'is_ct': True, 'notify': notify, 'notifications': notification}
+
+                try:
+                    documents = Documents.objects.get(student=student)
+
+                    data['documents']: documents
+                except:
+                    pass
+
                 return render(request, 'teachers/student-info.html', data)
             else:
                 messages.error(request, 'Yo are not a class teacher')
                 return redirect('teacher_home')
         return redirect('teacher_login')
+
+class Edit_student(View):
+    def get(self, request, **kwargs):
+        if validate_user(request):
+            user = get_object_or_404(Teacher, username=request.session.get('user'))
+            ## for notification
+            noti_info = get_notifications(user)
+            notify = noti_info[0]
+            notification = noti_info[1]
+            # ------end  notification
+            if is_class_teacher(request):
+                id = kwargs.get('username')
+                user = Students.objects.get(username=id)
+                classes = Class.objects.all()
+                data = {'student':user , 'classes': classes,'is_ct': True, 'notify': notify, 'notifications': notification}
+                return render(request, 'teachers/edit-student.html', data)
+            return redirect("teacher_home")
+        return redirect('login')
+
+    def post(self, request, **kwargs):
+        if validate_user(request):
+            path = request.META['PATH_INFO']
+            id = kwargs.get('username')
+            try:
+                image = request.FILES['image']
+            except:
+                image = None
+            user = Students.objects.get(username=id)
+            data = request.POST
+            firstname = data.get('firstname')
+            lastname = data.get('lastname')
+            fathername = data.get('fathername')
+            mothername = data.get('mothername')
+            admission_no = data.get('admno')
+            address = data.get('address')
+            country = data.get('country')
+            state = data.get('state')
+            city = data.get('city')
+            postcode = data.get('postcode')
+            image = data.get('image')
+            phone = data.get('mobileno')
+            dob = data.get('dob')
+            class_name = data.get('class')
+            section = data.get('section')
+            gender = data.get('gender')
+            is_rte = data.get('is_rte')
+
+            if class_name is not None:
+                try:
+                    class_name = Class.objects.get(class_name=class_name)
+                except:
+                    messages.error(request, 'Class name is not valid or exist')
+                    return HttpResponseRedirect(path)
+
+            user.admission_no = admission_no
+            user.first_name = firstname
+            user.last_name = lastname
+            user.father_name = fathername
+            user.mother_name = mothername
+            user.dob = dob
+            user.address = address
+            user.country = country
+            user.state = state
+
+            user.city = city
+            user.zipcode = postcode
+            user.phone = phone
+            if gender is not None:
+                user.gender = gender
+            if class_name is not None:
+                user.class_name = class_name
+            if section is not None:
+                user.section = section
+            if image is not None:
+                user.image = image
+            if is_rte is not None:
+                user.is_rte = True
+
+            user.save()
+
+            return HttpResponseRedirect(path)
+        return redirect('login')
 
 class View_students_attandance(View):
     def get(self, request):
@@ -150,7 +243,7 @@ class View_students_attandance(View):
                 # ------end  notification
                 today = datetime.date.today()
                 data = {'is_ct': True,'year':today.year,'notify': notify, 'notifications': notification}
-                months = [ str(i) for i in range(1,13) ]
+                months = [ str(i) for i in range(1,13)]
                 month = request.GET.get('month')
                 year = request.GET.get('year')
                 if month in months:
@@ -177,7 +270,7 @@ class View_students_attandance(View):
 
                     is_ct = is_class_teacher(request)
                     data['is_ct'] = is_ct
-
+                    messages.success(request,"Information successfully Updated")
                 return render(request, 'teachers/view-student-attandance.html', data)
             else:
                 messages.error(request, 'You are not a class teacher')

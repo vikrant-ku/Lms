@@ -157,12 +157,24 @@ class All_professor(View):
         if validate_user(request):
             q = request.GET.get('q')
             if q is not None:
+                all_q = q.split(" ")
                 all_tchr = Teacher.objects.filter(
-                                                    Q(username__icontains=q)|
-                                                    Q(first_name__icontains = q)|
-                                                    Q(last_name__icontains = q)|
-                                                    Q(email__icontains = q)
-                                                )
+                                                    Q(username__icontains=all_q[0])|
+                                                    Q(first_name__icontains = all_q[0])|
+                                                    Q(last_name__icontains = all_q[0])|
+                                                    Q(email__icontains = all_q[0])
+                                                    )
+                if len(all_q)>1:
+                    for i in range(1,len(all_q)):
+                        all_techr = Teacher.objects.filter(
+                                                        Q(username__icontains=all_q[i]) |
+                                                        Q(first_name__icontains=all_q[i]) |
+                                                        Q(last_name__icontains=all_q[i]) |
+                                                        Q(email__icontains=all_q[i])
+                                                        )
+                        all_tchr = all_tchr.union(all_techr)
+
+
             else:
                 all_tchr = Teacher.objects.all()
             # paginator

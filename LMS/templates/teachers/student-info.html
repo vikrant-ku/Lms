@@ -18,13 +18,34 @@
 <div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top:90px">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-4 col-xs-12">
                         <div class="profile-info-inner">
-                            <div class="profile-img">
-                                {% if student.image %}
-                                <img src="{{student.image.url}}" alt="" />
-                                {% endif %}
-                            </div>
+                              <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                           <div class="profile-img">
+                                                {% if student.image %}
+                                                <img src="{{student.image.url}}" alt="" />
+                                                {% else %}
+                                                <img src="{% static 'user.png' %}" alt="" />
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            {% if student.is_rte %}
+                                            RTE Student
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr mt-3">
+                                             <a href="/teacher/student_info/edit_student/{{student.username}}/"><button type="button" class="btn btn-primary">Edit Student </button></a>
+                                        </div>
+                                    </div>
+                                </div>
                             <div class="profile-details-hr">
                                 <div class="row">
                                     <div class="col-md-4 col-sm-4 col-xs-4">
@@ -46,17 +67,17 @@
                                 <div class="row">
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr">
-                                            <p><b>Email ID</b><br /> hk@gmail.com</p>
+                                            <p><b>Email ID</b><br /> {{student.email}}</p>
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>Phone</b><br /> +01962067309</p>
+                                            <p><b>Phone</b><br /> {{student.phone}}</p>
                                         </div>
                                     </div>
                                     <div class=" col-md-4 col-sm-4 col-xs-4">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>Addmission Number</b><br />{{student.admission_no}}</p>
+                                            <p><b>Admission Number</b><br />{{student.admission_no}}</p>
                                         </div>
 
                                         </div>
@@ -96,7 +117,117 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class=" col-md-12 col-sm-12 col-xs-12">
+                                        <div class="address-hr">
+                                          <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-12 col-sm-12 col-xs-12">
+                                        <div class="address-hr">
+                                           <h1>Documents</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Aadhar</b><br />
+                                                {% if documents.aadhar %}
+                                                    <a href="{{documents.aadhar.url}}" target="_blank">{{documents.aadhar}}</a>
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
 
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Parents Aadhar.</b><br />
+                                            {% if documents.parent_aadhar %}
+                                                <a href="{{documents.parent_aadhar.url}}" target="_blank"> {{documents.parent_aadhar}}</a>
+                                                {% else %}
+                                                    -
+                                                {% endif %}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            {% if class_name == 'Nursery' %}
+                                            <p><b>Birth Certificate</b><br />
+                                            {% if documents.birth_certificate %}
+                                                <a href="{{documents.birth_certificate.url}}" target="_blank">{{documents.birth_certificate}}</a>
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                            {% else %}
+                                            <p><b>Transfer Certificate</b><br />
+                                                {% if documents.tc %}
+                                                   <a href="{{documents.tc.url}}" target="_blank"> {{documents.tc}}</a>
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="row">
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            {% if class_name == 'LKG' or class_name == 'UKG' %}
+                                            <p><b>Birth Certificate</b><br />
+                                            {% if documents.birth_certificate %}
+                                                <a href="{{documents.birth_certificate.url}}" target="_blank"> {{documents.birth_certificate}}</a>
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                            {% else %}
+                                            <p><b>Progress Report</b><br />
+                                            {% if documents.progress_report %}
+                                                <a href="{{documents.progress_report.url}}" target="_blank"> {{documents.progress_report}}</a>
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% if class_name == '10' or class_name == '12' %}
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+                                            <p><b>Affidavit</b><br />
+                                            {% if documents.affidavit %}
+                                                <a href="{{documents.affidavit.url}}" target="_blank">  {{documents.affidavit}}</a>
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-md-4 col-sm-4 col-xs-4">
+                                        <div class="address-hr">
+
+                                            <p><b>Under Taking</b><br />
+                                            {% if documents.under_taking %}
+                                                <a href="{{documents.under_taking.url}}" target="_blank">{{documents.under_taking}}</a>
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                     {% endif %}
+                                </div>
 
 
                             </div>

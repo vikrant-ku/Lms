@@ -162,16 +162,23 @@ class All_students(View):
             section = request.GET.get('section')
             is_rte = request.GET.get('is_rte')
 
-
             if q is not None:
-                all_stdnt = Students.objects.filter(Q(username__icontains=q)|
-                                                   Q(first_name__icontains = q)|
-                                                   Q(last_name__icontains = q)|
-                                                   Q(phone__icontains = q)|
-                                                   Q(class_name__class_name__icontains = q)
-
+                all_q = q.split(" ")
+                all_stdnt = Students.objects.filter(Q(username__icontains=all_q[0])|
+                                                   Q(first_name__icontains = all_q[0])|
+                                                   Q(last_name__icontains = all_q[0])|
+                                                   Q(phone__icontains = all_q[0])|
+                                                   Q(class_name__class_name__icontains = all_q[0])
                                                    )
-
+                if len(all_q)>1:
+                    for i in range(1,len(all_q)):
+                        all_studnt = Students.objects.filter(Q(username__icontains=all_q[0]) |
+                                                            Q(first_name__icontains=all_q[0]) |
+                                                            Q(last_name__icontains=all_q[0]) |
+                                                            Q(phone__icontains=all_q[0]) |
+                                                            Q(class_name__class_name__icontains=all_q[0])
+                                                            )
+                        all_stdnt = all_stdnt.union(all_studnt)
             else:
                 if cls is not None and is_rte is not None:
                     try:
@@ -197,9 +204,6 @@ class All_students(View):
                         all_stdnt = Students.objects.filter(is_rte=True)
                     else:
                         all_stdnt = Students.objects.all()
-
-
-
 
             #paginator
             paginator = Paginator(all_stdnt, 30)

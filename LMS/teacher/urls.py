@@ -2,8 +2,7 @@ from django.urls import path
 from .views.index import Index, Update_profile, Issue_books, Upload_assignment, View_assignment, Delete_assign, Schedule_class, View_schedule_class, Delete_schedule_class, Upload_syllabus, View_syllabus
 from .views.event import Events, All_notice, Apply_leave, View_leave, Students_leave, student_leave_status
 from .views.login import Login, Change_password
-from .views.students import All_students,Student_info, Update_student_attandance, View_students_attandance, Attandance, View_attandance,Upload_marks, Save_student_marks, View_marks, Send_Notification, View_notification
-
+from .views.students import All_students,Student_info, Update_student_attandance, View_students_attandance, Attandance, View_attandance,Upload_marks, Save_student_marks, View_marks, Send_Notification, View_notification, Edit_student
 from .views.students import update_student_mark, View_Fee
 from admins.middleware.auth import auth_middleware
 
@@ -32,6 +31,7 @@ urlpatterns = [
     # students
     path('all_students/', auth_middleware(All_students.as_view()), name="teacher_all_students"),
     path('student_info/<str:username>/', auth_middleware(Student_info.as_view()), name="teacher_student_info"),
+    path('student_info/edit_student/<str:username>/', auth_middleware(Edit_student.as_view()), name="teacher_edit_info"),
     path('mark_attandance/', auth_middleware(Attandance.as_view()), name="mark_attandnce"),
     path('view_students_attandance/', auth_middleware(View_students_attandance.as_view()), name="view_student_attandnce"),
     path('update_attandance/', auth_middleware(Update_student_attandance.as_view()), name="update_student_attandnce"),
