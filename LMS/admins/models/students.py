@@ -1,5 +1,6 @@
 from django.db import  models
 from .classes import Class
+from django.contrib.auth.hashers import make_password
 
 
 class Students(models.Model):
@@ -25,6 +26,12 @@ class Students(models.Model):
     token = models.CharField(max_length=12, default="")
     date_joined = models.DateTimeField(verbose_name='date_joined', auto_now_add=True)
     is_rte = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        super(Students, self).save(*args, **kwargs)
+        self.username = "ST00"+str(self.pk)
+        self.password = make_password(self.password)
+        super(Students, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.username
