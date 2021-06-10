@@ -89,7 +89,7 @@ class Add_professors(View):
                 if image is not None:
                     user.image= image
                 user.save()
-                messages.success(request, f'{user.first_name} addedd Successfully')
+                messages.success(request, f'{user.first_name} addedd Successfully. UserID is {user.username}.')
             elif gender is None:
                 messages.error(request, "Please select Gender")
             else:
