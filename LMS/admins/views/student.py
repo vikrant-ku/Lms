@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.views import View
-from admins.models.fees import Fees, Student_fees, Academic_Year
+from admins.models.fees import Fees, Student_fees, Academic_Year, Fee_discount
 from admins.models.students import Students, Documents
 from admins.models.classes import Class
 from django.db.models import Q
@@ -400,6 +400,7 @@ class View_fees(View):
             return render(request, 'lms_admin/view-fees.html', data)
         return redirect('login')
 
+
 class Students_fee(View):
     def get(self, request):
         if validate_user(request):
@@ -427,6 +428,113 @@ class Students_fee(View):
                 data = {'students_fee': stud_fee, 'month': month, 'classes': classes}
                 return render(request, 'lms_admin/view-fee-info.html', data)
         return redirect('login')
+
+class Fee_discounts(View):
+    def get(self, request):
+        if validate_user(request):
+            return render(request, 'lms_admin/fee-discount.html')
+        return redirect('login')
+
+    def post(self, request):
+        if validate_user(request):
+            data = request.POST
+            username = data.get('username')
+            discount = data.get('discount')
+            student = get_object_or_404(Students, username = username)
+            try:
+                user_discount = Fee_discount.objects.get(student=student.id)
+                user_discount.discount= discount
+                messages.success(request,'Discount Updated Successfully')
+            except:
+                user_discount = Fee_discount(student=student, discount=discount)
+            user_discount.save()
+            return redirect('admin-view-fee-discount')
+        return redirect('login')
+
+class View_fee_discounts(View):
+    def get(self, request):
+        if validate_user(request):
+            cls = request.GET.get('class')
+            section = request.GET.get('section')
+            is_rte = request.GET.get('is_rte')
+
+            q = request.GET.get('q')
+            if q is not None:
+                all_q = q.split(" ")
+                all_discounts = Fee_discount.objects.filter(Q(student__username__icontains=all_q[0]) |
+                                                    Q(student__first_name__icontains=all_q[0]) |
+                                                    Q(student__last_name__icontains=all_q[0]) |
+                                                    Q(student__father_name__icontains=all_q[0])
+                                                    )
+                if len(all_q) > 1:
+                    for i in range(1, len(all_q)):
+                        discounts = Fee_discount.objects.filter(Q(student__username__icontains=all_q[0]) |
+                                                    Q(student__first_name__icontains=all_q[0]) |
+                                                    Q(student__last_name__icontains=all_q[0]) |
+                                                    Q(student__father_name__icontains=all_q[0])
+                                                    )
+                        all_discounts = all_discounts.union(discounts)
+            else:
+                if cls is not None and is_rte is not None:
+                    try:
+                        clss = Class.objects.get(class_name = cls)
+                        if section is None:
+                            all_discounts = Fee_discount.objects.filter(student__class_name=clss,student__is_rte=True)
+                        else:
+                            all_discounts = Fee_discount.objects.filter(student__class_name=clss, student__section=section,student__is_rte=True)
+                    except:
+                        all_discounts = Fee_discount.objects.filter(student__is_rte=True)
+                elif cls is not None:
+
+                    try:
+                        clss = Class.objects.get(class_name = cls)
+
+                        if section is None:
+                            all_discounts = Fee_discount.objects.filter(student__class_name=clss)
+                        else:
+                            all_discounts = Fee_discount.objects.filter(student__class_name=clss, student__section=section)
+                    except:
+                        all_discounts = Fee_discount.objects.all()
+
+                else:
+                    if is_rte is not None:
+                        all_discounts = Fee_discount.objects.filter(student__is_rte=True)
+                    else:
+                        all_discounts = Fee_discount.objects.all()
+
+            classes = Class.objects.all()
+
+            data = {'classes': classes,'all_discounts': all_discounts}
+            return render(request, 'lms_admin/view-fee-discount.html', data)
+        return redirect('login')
+
+class Edit_fee_discount(View):
+    def get(self, request, **kwargs):
+        if validate_user(request):
+            username = kwargs.get('username')
+            student = get_object_or_404(Students, username=username)
+            try:
+                discount = Fee_discount.objects.get(student=student.id)
+                data = {'discount':discount}
+            except:
+                data = {'student': student}
+            return render(request, 'lms_admin/fee-discount.html', data)
+        return redirect('login')
+
+
+class Delete_discount(View):
+    def get(self, request, **kwargs):
+        print("cllled")
+        if validate_user(request):
+            discount= get_object_or_404(Fee_discount, pk=kwargs.get('pk'))
+            discount.delete()
+            return redirect("admin-view-fee-discount")
+        return redirect('login')
+
+
+
+
+
 
 
 def proper_pagination(prods, index):

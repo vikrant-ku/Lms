@@ -41,9 +41,10 @@ class Fees(models.Model):
 
 
 class Student_fees(models.Model):
+
     student = models.ForeignKey(Students, on_delete=models.SET_NULL, null=True, blank=True)
-    total_fee = models.ForeignKey(Fees, on_delete=models.SET_NULL, null=True, blank=True)
-    academic_year =models.ForeignKey(Academic_Year, on_delete=models.CASCADE, null=True, blank=True)
+    total_fee = models.DecimalField(max_digits=7, decimal_places=2, default=Decimal('00.00'))
+    academic_year = models.ForeignKey(Academic_Year, on_delete=models.CASCADE, null=True, blank=True)
     amount = models.DecimalField(max_digits=7, decimal_places=2, default=Decimal('00.00'))
     type = models.CharField(max_length=50,null=True, blank=True )
     month = models.CharField(max_length=10, choices=MONTH_CHOICES, default="", null=True, blank=True)
@@ -52,6 +53,14 @@ class Student_fees(models.Model):
     payment_id = models.CharField(max_length=50, default="", null=True, blank=True)
     status = models.BooleanField(default=False)
     submit_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.student.first_name
+
+
+class Fee_discount(models.Model):
+    student = models.OneToOneField(Students, on_delete=models.CASCADE, null=True, blank=True)
+    discount= models.IntegerField(default=0)
 
     def __str__(self):
         return self.student.first_name

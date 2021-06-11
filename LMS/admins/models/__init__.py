@@ -5,4 +5,4 @@ from .notice import Notices, Event, Notification, Feedback
 from .leave import Leave
 from .staff import Staff
 from .attandance import Student_Attandance, Teacher_Attandance
-from .fees import Fees, Student_fees, Academic_Year
+from .fees import Fees, Student_fees, Academic_Year, Fee_discount

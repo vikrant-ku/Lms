@@ -1,9 +1,9 @@
 from django.db import  models
 from .classes import Class
-
+from django.contrib.auth.hashers import make_password
 
 class Teacher(models.Model):
-    username = models.CharField(max_length=20, default="TE", null=True, blank=True)
+    username = models.CharField(max_length=20, null=True, blank=True)
     password = models.CharField(max_length=500, default="")
 
     first_name = models.CharField(max_length=20, default="")
@@ -36,8 +36,19 @@ class Teacher(models.Model):
     image = models.ImageField(upload_to="teacher", blank=True, null=True)
     date_joined = models.DateTimeField(verbose_name='date_joined', auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.password = make_password(self.password)
+        super(Teacher, self).save(*args, **kwargs)
+        if self.username is None:
+            self.username = "TE00"+str(self.pk)
+            super(Teacher, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.username
+
+
+
 
 
 class Role(models.Model):

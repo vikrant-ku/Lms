@@ -1,0 +1,195 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Fees Discount {% endblock %}
+
+ {% block head %}
+<style>
+    .hide{display:none;}
+    span#error {
+    font-weight: 600;
+    color: red;
+}
+</style>
+
+{% endblock %}
+
+	{% block style %}
+
+
+	 {% endblock %}
+
+{% block search %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="error-pagewrap">
+		<div class="error-page-int" style="margin-top:5%">
+			<div class="text-center m-b-md custom-login">
+				<h3>Fees Discount</h3>
+			</div>
+			<div class="content-error">
+				<div class="hpanel">
+
+                    {% if discount %}
+                    <div class="panel-body">
+
+                        <form method="post" action="{% url 'admin-fee-discount' %}">{% csrf_token %}
+
+                            <div class="form-group ">
+                                    <label class="control-label" >Student User Name</label>
+                                    <input type="text" disabled value="{{discount.student.username}}" class="form-control">
+                                    <input type="hidden" name="username" value="{{discount.student.username}}">
+
+                            </div>
+                            <div class="form-group ">
+                                    <label class="control-label" >Student Name</label>
+                                    <input type="text" name="name" disabled value="{{discount.student.first_name}}" class="form-control">
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" >Discount Percentage</label>
+                                <input type="number" min="0" maxlength="3" class="form-control" value="{{discount.discount}}"  name="discount" >
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block loginbtn">Submit</button>
+
+                        </form>
+                    </div>
+                    {% elif student %}
+                    <div class="panel-body">
+
+                        <form method="post" action="{% url 'admin-fee-discount' %}">{% csrf_token %}
+
+                            <div class="form-group ">
+                                    <label class="control-label" >Student User Name</label>
+                                    <input type="text" disabled value="{{student.username}}" class="form-control">
+                                    <input type="hidden" name="username" value="{{student.username}}">
+                            </div>
+                            <div class="form-group ">
+                                    <label class="control-label" >Student Name</label>
+                                    <input type="text" name="name" disabled value="{{student.first_name}}" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" >Discount Percentage</label>
+                                <input type="number" min="0" maxlength="3" class="form-control" value="" placeholder="Enter Discount Percentage"  name="discount" >
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block loginbtn">Submit</button>
+
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="panel-body">
+                            <div id="view-user">
+
+                                    <form action="#" method="post" id="search">{% csrf_token %}
+                                        <div class="form-group">
+                                            <label class="control-label" >Enter User ID</label>
+                                            <input type="text" name="q" id="q" placeholder="Enter User ID and press Enter " class="form-control">
+                                            <span id="error"></span>
+                                        </div>
+                                    </form>
+                            </div>
+                        <form method="post" action="{% url 'admin-fee-discount' %}" id="user_discount">{% csrf_token %}
+
+                            <div class="form-group hide" id="inputs">
+                                    <label class="control-label" >Student User Name</label>
+                                    <input type="text" disabled id="name" value="" class="form-control">
+                                    <input type="hidden" value="" id="username" name="username" class="form-control">
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" >Discount Percentage</label>
+                                <input type="number" maxlength="3" class="form-control" id="discount" name="discount" >
+                            </div>
+                            <button type="button" class="btn btn-success btn-block loginbtn" onclick="validate()">Submit</button>
+
+                        </form>
+                    </div>
+                    {% endif %}
+
+                </div>
+			</div>
+
+		</div>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+
+<script>
+    $(document).on("focusout","#q",function(){
+    let q = $('input[name=q]').val()
+    if(q.slice(0,2)=="ST"){
+        var formData = {
+                    'q':$('input[name=q]').val(),
+                    'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+                };
+                $.ajax({
+                type:"POST",
+                url :"{% url 'get_user_info' %}",
+                data: formData,
+                encode:true
+                })
+                .done(function(data){
+
+                datas = JSON.parse(data)
+                if (Object.keys(datas).length>0){
+                $("#error").text("");
+                let name = datas['name'];
+                let username = datas['username'];
+                $('#name').val(name)
+                $('#username').val(username)
+                $('#inputs').removeClass('hide')
+                }else{
+                $("#error").text("Invalid UserID");
+                }
+
+                });
+                event.preventDefault();
+        }
+        else{
+        $('#inputs').addClass('hide')
+        $('#username').val("")
+        $("#error").text("Invalid UserID");
+        return false;
+    }
+
+    });
+
+ $('#q').on('keypress',function(e) {
+    if(e.which == 13) {
+            event.preventDefault();
+        }
+    });
+
+
+    function validate(){
+    let username = $('#username').val()
+    let discount = $('#discount').val()
+    if (username ==""){
+    alert('Please Enter Student Username')
+    return false;
+    }else if(discount ==""){
+    alert('Please Enter Discount Percentage')
+    return false;
+    }else{
+    $("#user_discount").submit()
+    }
+    }
+
+</script>
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,5 +1,6 @@
 from .views.index import Index
 from .views.student import Add_students, All_students , Delete_student, Edit_student, Add_fees, View_fees,Students_fee, Add_Student_by_Excel, View_Student, View_documents
+from .views.student import Fee_discounts, View_fee_discounts, Edit_fee_discount,Delete_discount
 from .views.professor import Add_professors , All_professor , Edit_professor, Delete_professor, Assign_role,View_role, teacher_leave, teacher_leave_status
 from .views.professor import Add_teacher_by_excel, View_professor
 from .views.staff import Add_staff, All_staff, delete_staff, Edit_staff
@@ -27,6 +28,10 @@ urlpatterns = [
     path('view_fees/', auth_middleware(View_fees.as_view()), name="admin_view_fees"),
     path('view_students_fees/', auth_middleware(Students_fee.as_view()), name="admin_students_fee"),
     path('view_documents/', auth_middleware(View_documents.as_view()), name="admin_view_documents"),
+    path('fee-discount/', auth_middleware(Fee_discounts.as_view()), name="admin-fee-discount"),
+    path('view-fee-discounts/', auth_middleware(View_fee_discounts.as_view()), name="admin-view-fee-discount"),
+    path('view-fee-discounts/delete-discounts/<int:pk>/', auth_middleware(Delete_discount.as_view()), name="admin-delete-discount"),
+    path('view-fee-discounts/edit-fee-discount/<str:username>/', auth_middleware(Edit_fee_discount.as_view()), name="admin-edit-discount"),
 
     #Teachers
     path('add_teachers/', auth_middleware(Add_professors.as_view()), name="add_teacher"),

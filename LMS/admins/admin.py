@@ -6,14 +6,25 @@ from .models.notice import Notices, Event,Notification, Feedback
 from .models.leave import Leave
 from .models.staff import Staff
 from .models.attandance import Student_Attandance, Teacher_Attandance
-from .models.fees import Fees, Student_fees, Academic_Year
+from .models.fees import Fees, Student_fees, Academic_Year, Fee_discount
 from import_export.admin import ImportExportModelAdmin
+
+
+class StudentDocumentInline(admin.TabularInline):
+    model = Documents
+
+class StudentFeeDiscountInline(admin.TabularInline):
+    model = Fee_discount
 
 @admin.register(Students)
 class Student_Admin(ImportExportModelAdmin):
     list_display = ('username', 'admission_no', 'first_name', 'class_name','section', )
     list_filter = ('class_name', 'section')
     search_fields = ['username', 'admission_no','first_name', 'last_name',]
+    inlines = [
+        StudentDocumentInline,
+        StudentFeeDiscountInline
+    ]
 
 @admin.register(Teacher)
 class Teacher_Admin(ImportExportModelAdmin):
@@ -75,6 +86,7 @@ admin.site.register(Notices, Notice_Admin)
 admin.site.register(Student_Attandance)
 admin.site.register(Teacher_Attandance, Teachet_Attandance_Admin)
 admin.site.register(Fees)
+admin.site.register(Fee_discount)
 admin.site.register(Academic_Year)
 admin.site.register(Student_fees,Student_fee_Admin )
 admin.site.register(Syllabus)

@@ -2,7 +2,7 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from admins.models.students import Students
-from admins.models.fees import Fees, Student_fees, Academic_Year
+from admins.models.fees import Fees, Student_fees, Academic_Year, Fee_discount
 from .index import validate_user, get_notifications
 import json
 import razorpay
@@ -29,11 +29,14 @@ class View_Fee(View):
             data = {'user': user, 'notify': notify, 'notification': notification}
             try:
                 class_fee = Fees.objects.get(class_name=user.class_name)
-                data['cls_fee'] = True
-            except:
-                class_fee = 0
+                total_fee = amount_after_discount(user,class_fee)
+                if total_fee >0:
+                    data['cls_fee'] = True
 
-            data['fee'] = class_fee
+            except:
+                total_fee = 0
+
+            data['fee'] = total_fee
 
             student_fee = Student_fees.objects.filter(student=user,academic_year=academic)
 
@@ -43,8 +46,8 @@ class View_Fee(View):
 
             data['student_fee']=student_fee
             data['submit_fee']= submit_fee
-            if class_fee != 0:
-                data['pending_fee'] = class_fee.fees - submit_fee
+            if total_fee != 0:
+                data['pending_fee'] = total_fee - submit_fee
             else:
                 data['pending_fee'] = 0
 
@@ -60,9 +63,9 @@ class PayFee(View):
             notify = noti_info[0]
             notification = noti_info[1]
             # ------end  notification
-            user = get_object_or_404(Students, username=request.session.get('user'))
-            total_fee = get_object_or_404(Fees, class_name=user.class_name)
-            monthly = round(total_fee.fees//12)
+            class_fee = Fees.objects.get(class_name=user.class_name)
+            total_fee = amount_after_discount(user, class_fee)
+            monthly = round(total_fee//12)
             data = {'user': user, 'fee':total_fee, 'monthly':monthly, 'notify':notify,'notification':notification }
 
             return render(request, 'students/pay_fee.html', data)
@@ -71,23 +74,30 @@ class PayFee(View):
     def post(self, request):
         if validate_user(request):
             user = get_object_or_404(Students, username=request.session.get('user'))
-            total_fee = get_object_or_404(Fees, class_name=user.class_name)
+            class_fee = Fees.objects.get(class_name=user.class_name)
+            total_fee = amount_after_discount(user, class_fee)
             academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
             month = request.POST.get('month')
             amount = int(request.POST.get('amount'))
             payment = razorpay_client.order.create({'amount':amount*100, "currency":"INR", "payment_capture":"1"})
             callback_url = request.build_absolute_uri()+"payment_status/"
-            student_fee = Student_fees(
-                    student = user,
-                    total_fee = total_fee,
-                    academic_year=academic,
-                    amount = amount,
-                    month = month,
-                    payment_mode = 'Online',
-                    order_id = payment.get('id'),
-                    status=False,
-                    submit_date = datetime.datetime.now()
-            )
+            try:
+                student_fee = Student_fees.objects.get(student = user,academic_year=academic,amount = amount,month = month,status=False)
+                student_fee.order_id = payment.get('id')
+                student_fee.submit_date = datetime.datetime.now()
+
+            except:
+                student_fee = Student_fees(
+                        student = user,
+                        total_fee = total_fee,
+                        academic_year=academic,
+                        amount = amount,
+                        month = month,
+                        payment_mode = 'Online',
+                        order_id = payment.get('id'),
+                        status=False,
+                        submit_date = datetime.datetime.now()
+                )
             student_fee.save()
             data = {"amount":amount,"orderid":payment.get('id'),"callback_url":callback_url, "keyid":keyid}
             response = json.dumps(data, default=str)
@@ -128,15 +138,15 @@ class Get_invoice(View):
         if validate_user(request):
             submit_fee = 0
             user = get_object_or_404(Students, username=request.session.get('user'))
-            class_fee = get_object_or_404(Fees, class_name=user.class_name)
+            total_fee = amount_after_discount(user,get_object_or_404(Fees, class_name=user.class_name))
             academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
-            data = {'user': user, 'fee':class_fee}
+            data = {'user': user, 'fee':total_fee}
             student_fee = Student_fees.objects.filter(student=user,academic_year=academic, status=True)
             if len(student_fee)>0:
                 for fee in student_fee:
                     submit_fee+=fee.amount
             data['student_fee']=student_fee
-            data['pending_fee']=class_fee.fees-submit_fee
+            data['pending_fee']=total_fee-submit_fee
             data['submit_fee']= submit_fee
             data['logo_path']= settings.BASE_DIR+"\static\img\logo\logo.png"
 
@@ -160,4 +170,12 @@ def render_to_pdf(template_src, context_dict={}):
         return HttpResponse(result.getvalue(), content_type='application/pdf')
     return None
 
+
+def amount_after_discount(student, class_fee):
+    try:
+        discount = Fee_discount.objects.get(student=student)
+        total = class_fee.fees-(class_fee.fees*discount.discount)//100
+    except:
+        total = class_fee.fees
+    return total
 

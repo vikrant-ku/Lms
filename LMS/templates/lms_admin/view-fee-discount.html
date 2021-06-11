@@ -1,0 +1,213 @@
+{% extends './basic.html' %}
+{% load static %}
+{% block title %}| Fees Discounts {% endblock %}
+
+ {% block head %}
+<script>
+    var count = 1
+    function srno(e){
+        document.getElementById(e).innerHTML= count;
+        count = count+1
+    }
+</script>
+{% endblock %}
+
+	{% block style %}   {% endblock %}
+
+{% block search %}
+
+    <div class="breadcome-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="breadcome-list">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="breadcome-heading">
+                                    <form action="{% url 'admin-view-fee-discount' %}" role="search" class="sr-input-func">
+                                        <input type="text" name="q" placeholder="Search..." class="search-int form-control">
+                                        <a href="#"><i class="fa fa-search"></i></a>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <ul class="breadcome-menu">
+                                    <li><a href="{% url 'admin_home' %}">Home</a> <span class="bread-slash">/</span>
+                                    </li>
+                                    <li><a href="{% url 'admin-view-fee-discount' %}"> <span class="bread-blod">All Fees Discounts</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
+
+{% block body %}
+<div class="product-status mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-payment-inner-st">
+                            <ul id="myTabedu1" class="tab-review-design">
+                                <li class="active"><a href="#description">Filter By </a></li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                                    <form action="{% url 'admin-view-fee-discount' %}"  method="get" >
+
+                                                        <div class="row">
+                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                <div class="form-group">
+                                                                    <select name="class"  class="form-control" id="cls" onChange="getsection(); getsubject()">
+																			<option value="none" selected="" disabled="">Class</option>
+                                                                            {% for class in classes %}
+																			<option value="{{class}}">{{class}}</option>
+                                                                            {% endfor %}
+																		</select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                 <div class="form-group">
+                                                                    <select name="section" class="form-control" id="section">
+                                                                        <option value="none" selected="" disabled="">Section</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                                                <div class="row">
+                                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                             <div class="inline-checkbox-cs">
+                                                                                <label class="checkbox-inline i-checks pull-left">
+                                                                                    <input type="checkbox" value="True" name="is_rte" id="inlineCheckbox1">Is RTE</label>
+                                                                             </div>
+                                                                        </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                 <div class="form-group">
+
+                                                                     <button type="submit" class="btn btn-primary waves-effect waves-light" >Filter</button>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="product-status mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-status-wrap drp-lst">
+                            <h4>All Discounts</h4>
+                            <div class="add-product">
+                                <a href="{% url 'admin-fee-discount' %}">Add Discount</a>
+                            </div>
+                            <div class="asset-inner">
+                                <table>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>User Name</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Father Name</th>
+                                        <th>Class</th>
+                                        <th>Discount</th>
+                                        <th>Setting</th>
+
+
+                                    </tr>
+                                    {% for discount in all_discounts %}
+                                    <tr>
+                                        <td id="{{discount.id}}"><script>srno({{discount.id}})</script></td>
+                                        <td>{{ discount.student.username }}</td>
+                                        <td>{{ discount.student.first_name }}</td>
+                                        <td>{{ discount.student.last_name }}</td>
+                                        <td>{{ discount.student.father_name }}</td>
+                                        <td>{{ discount.student.class_name }} {{ discount.student.section }}</td>
+                                        <td>{{ discount.discount }}%</td>
+
+                                        <td>
+                                            <a href="{% url 'admin-view-fee-discount' %}edit-fee-discount/{{ discount.student.username }}/"><button data-toggle="tooltip" title="View" class="pd-setting-ed"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
+                                            <a href="{% url 'admin-view-fee-discount' %}delete-discounts/{{ discount.id }}/"><button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block js %}
+<script>
+    function getsection(){
+
+    var select = document.getElementById("section");
+
+    // for remove all option from select
+
+    var length = select.options.length;
+    for (i = length-1; i >= 1; i--) {
+    select.options[i] = null;
+    }
+
+    let section = new Array();
+    let cls = $('#cls :selected').val();
+    {% for class in classes %}
+    if (cls == "{{class.class_name}}"){
+
+        section.push("{{class.section_a}}")
+        if ("{{class.section_b}}" != "None"){
+        section.push("{{class.section_b}}")
+        }
+        else if ("{{class.section_c}}" != "None"){
+        section.push("{{class.section_c}}")
+        }
+        else if ("{{class.section_d}}" != "None"){
+        section.push("{{class.section_d}}")
+        }
+        else if ("{{class.section_e}}" != "None"){
+        section.push("{{class.section_e}}")
+        }
+
+
+        // add option according to class name in section
+        let option, i
+
+        for (i=0; i<section.length; i++)
+        {
+        option = document.createElement( 'option' );
+        option.value = option.text = section[i];
+        select.add( option );
+        }
+
+    }
+
+    {% endfor %}
+    }
+
+</script>
+{% endblock %}

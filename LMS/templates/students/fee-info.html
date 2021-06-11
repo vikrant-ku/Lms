@@ -1,8 +1,8 @@
 {% extends './basic.html' %}
 {% load static %}
-{% block title %}| Home {% endblock %}
+{% block title %}| Fee Detail {% endblock %}
 
- {% block head %}
+{% block head %}
 
 {% endblock %}
 
@@ -11,6 +11,7 @@
     .info th,td{
     padding: 25px 25px 0px 25px;
     }
+
 </style>
 <script>
     var count = 1
@@ -19,6 +20,7 @@
         document.getElementById(e).innerHTML= count;
         count = count+1
     }
+
 </script>
 
 {% endblock %}
@@ -26,114 +28,123 @@
 {% block search %}
 
 
-
 {% endblock %}
 
 {% block body %}
 
 <div class="single-pro-review-area mt-t-30 mg-b-15" style="margin-top:90px">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="profile-info-inner">
-                            <div class="profile-details-hr">
-                                <div class="row">
-                                    <div class=" col-md-12 col-sm-12 col-xs-12">
-                                        <div class="asset-inner info">
-                                            <table>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <td>{{user.first_name}} {{user.last_name}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Class</th>
-                                                    <td>{{user.class_name}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Section</th>
-                                                    <td>{{user.section}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Admission No.</th>
-                                                    <td>{{user.admission_no}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Total Fee</th>
-                                                    {% if cls_fee %}
-                                                    <td>{{fee.fees}}</td>
-                                                    {% else %}
-                                                    <td>0</td>
-                                                    {% endif %}
-                                                </tr>
-                                                <tr>
-                                                    <th>Total Submit Fee</th>
-                                                    <td>{{submit_fee}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Pending Fee</th>
-                                                    <td>{{pending_fee}}</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="profile-info-inner">
+                    <div class="profile-details-hr">
+                        <div class="row">
+                            <div class=" col-md-12 col-sm-12 col-xs-12">
+                                <div class="asset-inner info">
+                                    <table>
+                                        <tr>
+                                            <th>Name</th>
+                                            <td>{{user.first_name}} {{user.last_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Class</th>
+                                            <td>{{user.class_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Section</th>
+                                            <td>{{user.section}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Admission No.</th>
+                                            <td>{{user.admission_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total Fee</th>
+                                            {% if cls_fee %}
+                                            <td>{{fee}}</td>
+                                            {% else %}
+                                            <td>0</td>
+                                            {% endif %}
+                                        </tr>
+                                        <tr>
+                                            <th>Total Submit Fee</th>
+                                            <td>{{submit_fee}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Pending Fee</th>
+                                            <td>{{pending_fee}}</td>
+                                        </tr>
+                                    </table>
                                 </div>
-                                {% if cls_fee %}
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="product-status-wrap drp-lst" style="margin-top: 40px;">
-                                            <h4>Your Fee</h4>
-
-                                                <div class="asset-inner">
-                                                    <table>
-                                                        <tr>
-                                                            <th>Sr No.</th>
-                                                            <th>month</th>
-                                                            <th>amount</th>
-                                                            <th>payment_mode</th>
-                                                            <th>txn_no</th>
-                                                            <th>submit_date</th>
-                                                            <th>status</th>
-
-                                                        </tr>
-                                                        {% for fee in student_fee %}
-                                                        <tr>
-                                                            <td id="{{fee.id}}"><script>srno({{fee.id}})</script></td>
-                                                            <td>{{fee.month}}</td>
-                                                            <td>{{fee.amount}}</td>
-                                                            <td>{{fee.payment_mode}}</td>
-                                                            <td>{{fee.payment_id}}</td>
-                                                            <td>{{fee.submit_date|date:"D d M Y"}}</td>
-                                                            {% if fee.status %}
-                                                            <td>Paid</td>
-                                                            {% else %}
-                                                            <td>Pending</td>
-                                                            {% endif %}
-
-                                                        </tr>
-                                                        {% endfor %}
-
-                                                    </table>
-                                                </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-<!--                                <div class="row">-->
-<!--                                    <div class=" col-md-12 col-sm-12 col-xs-12">-->
-<!--                                        <div class="asset-inner">-->
-<!--                                            <a href="{% url 'pay_fee' %}" class="btn btn-primary">Pay Now</a>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-                                {% endif %}
-
                             </div>
                         </div>
+                        {% if cls_fee %}
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="product-status-wrap drp-lst" style="margin-top: 40px;">
+                                    <h4>Your Fee</h4>
+
+                                    <div class="asset-inner">
+                                        <table>
+                                            <tr>
+                                                <th>Sr No.</th>
+                                                <th>month</th>
+                                                <th>amount</th>
+                                                <th>payment_mode</th>
+                                                <th>txn_no</th>
+                                                <th>submit_date</th>
+                                                <th>status</th>
+
+                                            </tr>
+                                            {% for fee in student_fee %}
+                                            <tr>
+                                                <td id="{{fee.id}}">
+                                                    <script>srno({{fee.id}})</script>
+                                                </td>
+                                                <td>{{fee.month}}</td>
+                                                <td>{{fee.amount}}</td>
+                                                <td>{{fee.payment_mode}}</td>
+                                                {% if fee.payment_id  %}
+                                                <td>{{fee.payment_id}}</td>
+                                                {% else %}
+                                                <td>-</td>
+                                                {% endif %}
+                                                <td>{{fee.submit_date|date:"D d M Y"}}</td>
+                                                {% if fee.status %}
+                                                <td>Paid</td>
+                                                {% else %}
+                                                <td>Pending</td>
+                                                {% endif %}
+
+                                            </tr>
+                                            {% endfor %}
+
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+<!--                        <div class="row">-->
+<!--                            <div class=" col-md-12 col-sm-12 col-xs-12">-->
+<!--                                <div class="asset-inner">-->
+<!--                                    <a href="{% url 'pay_fee' %}" class="btn btn-primary">Pay Now</a>-->
+
+<!--                                    {% if student_fee %}-->
+<!--                                    <a href="{% url 'get_invoice' %}" target="_blank" class="btn btn-primary">Fees Invoice</a>-->
+<!--                                    {% endif %}-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 </div>
 
 

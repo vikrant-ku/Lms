@@ -103,6 +103,8 @@
                                         <th>Sr No.</th>
                                         <th>Id</th>
                                         <th>Name</th>
+                                        <th>RTE</th>
+
                                         <th>Submit Date</th>
                                         <th>Fee Status</th>
 
@@ -116,6 +118,12 @@
 
                                         <td>{{fee.1.student}}</td>
                                         <td>{{fee.0.first_name}} {{fee.0.last_name}}</td>
+                                        {% if fee.1.student.is_rte %}
+                                         <td>Yes</td>
+                                        {% else %}
+                                         <td>No</td>
+                                        {% endif %}
+
 
                                         <td>{{fee.1.submit_date}}</td>
                                         <td><button class="btn btn-success">Paid</button></td>
@@ -127,9 +135,18 @@
 
                                         <td>{{fee.0}}</td>
                                         <td>{{fee.0.first_name}} {{fee.0.last_name}}</td>
+                                          {% if fee.0.is_rte %}
+                                         <td>Yes</td>
+                                        {% else %}
+                                         <td>No</td>
+                                        {% endif %}
 
                                         <td>-</td>
-                                        <td><button class="btn btn-danger">Unpaid</button></td>
+                                        {% if fee.0.is_rte %}
+                                          <td><button class="btn btn-success">Paid</button></td>
+                                        {% else %}
+                                          <td><button class="btn btn-danger">Unpaid</button></td>
+                                        {% endif %}
                                      </tr>
 
                                     {% endif %}
