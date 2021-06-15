@@ -10,6 +10,7 @@ class OnliceClass_Admin(admin.ModelAdmin):
 
 class Marks_Admin(admin.ModelAdmin):
     list_display = ('student', 'class_name', 'section', 'subject', 'exam_type')
+    list_filter = ('class_name','section','exam_type')
 
 
 admin.site.register(Assignment, Assignment_Admin)

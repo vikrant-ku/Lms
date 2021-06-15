@@ -145,7 +145,7 @@
                                         <td>{{ student.first_name }}</td>
                                         <td>{{ student.last_name }}</td>
                                         <td>
-                                            <input type="number" name="obtain" class="form-control" required id="{{student.username}}" onfocusout="validatemarks('{{student.username}}')"  min="0" max="100.00" placeholder="Obtain Marks">
+                                            <input type="text" name="obtain" class="form-control" required id="{{student.username}}" onfocusout="validatemarks('{{student.username}}')"  min="0" max="100.00" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" placeholder="Obtain Marks">
 
                                         </td>
 
@@ -331,5 +331,6 @@
         }
     }
 </script>
+
 
 {% endblock %}
