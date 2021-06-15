@@ -9,7 +9,7 @@ class Books(models.Model):
     isbn_number = models.CharField(max_length=20, default="", unique=True)
     publication = models.CharField(max_length=20, default="")
     edition = models.CharField(max_length=10, default="")
-    subject = models.CharField(max_length=30, default="")
+    subject = models.CharField(max_length=50, default="")
     number_of_copies = models.CharField(max_length=20, default="")
     price = models.CharField(max_length=10, default="20")
     cupbord_number = models.CharField(max_length=10, default="")
