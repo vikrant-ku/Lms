@@ -2,6 +2,7 @@ from django.shortcuts import render , redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.views import View
+from admins.models.classes import Class
 from django.contrib.auth.models import User
 from admins.models.students import Students
 from admins.models.professor import Teacher, Role
@@ -43,6 +44,21 @@ class Reset_password(View):
 
             return redirect("reset_password")
         return redirect('teacher_login')
+
+class Reset_password_all(View):
+    def get(self, request):
+        if validate_user(request):
+            class_name = request.GET.get('class_name')
+            section = request.GET.get('class_name')
+            cls = get_object_or_404(Class, class_name=class_name)
+            all_stud = Students.objects.filter(class_name=cls.id, section=section)
+            for i in all_stud:
+                i.password = make_password(123)
+                i.save()
+            messages.success(request, 'password reset successfully')
+            return redirect("admin_home")
+        return redirect('teacher_login')
+
 
 def validate_user(request):
     username = request.session.get('user')

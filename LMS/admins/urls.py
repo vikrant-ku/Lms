@@ -4,7 +4,7 @@ from .views.student import Fee_discounts, View_fee_discounts, Edit_fee_discount,
 from .views.professor import Add_professors , All_professor , Edit_professor, Delete_professor, Assign_role,View_role, teacher_leave, teacher_leave_status
 from .views.professor import Add_teacher_by_excel, View_professor
 from .views.staff import Add_staff, All_staff, delete_staff, Edit_staff
-from .views.login import Reset_password
+from .views.login import Reset_password, Reset_password_all
 from .views.events import Add_events, All_events,Delete_event, Add_notice, All_notice, Delete_notice, Add_academic_year,All_academic_year,View_Notifications ,Send_Notification,Get_user_info, View_feedback
 from .views.classes import Add_class, All_class, View_syllabus, Upload_syllabus, Delete_syllabus
 from .views.subject import  All_subjects
@@ -16,6 +16,7 @@ urlpatterns = [
 
     path('', auth_middleware(Index.as_view()), name="admin_home"),
     path('reset_password/', auth_middleware(Reset_password.as_view()), name="reset_password"),
+    path('reset_password_by_class/', auth_middleware(Reset_password_all.as_view()), name="reset_password_by_class"),
 
     #students
     path('add_student/', auth_middleware(Add_students.as_view()), name="add_students"),

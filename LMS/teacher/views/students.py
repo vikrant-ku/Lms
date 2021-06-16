@@ -396,19 +396,29 @@ class Save_student_marks(View):
             cls =  get_object_or_404(Class, class_name=class_name)
             for _ in range(len(std_id)):
                 student = get_object_or_404(Students, pk=int(std_id[_]))
-                marks = Marks(
-                    academic_year=academic,
-                    student=student,
-                    class_name =cls,
-                    section =section,
-                    subject =subject,
-                    obtain_marks = decimal.Decimal(obtain[_]),
-                    total_marks =decimal.Decimal(total),
-                    remarks=remark[_],
-                    exam_type = type,
-                    added_by = teacher
-                )
-                marks.save()
+                if student.section == section:
+                    try:
+                        marks = Marks.objects.get(academic_year=academic,student=student,class_name =cls,section =section,
+                                                subject = subject,exam_type = type,added_by = teacher )
+                        marks.obtain_marks = decimal.Decimal(obtain[_])
+                        marks.total_marks = decimal.Decimal(total)
+                        marks.remarks = remark[_]
+                        marks.save()
+                    except:
+                        marks = Marks(
+                            academic_year=academic,
+                            student=student,
+                            class_name =cls,
+                            section =section,
+                            subject =subject,
+                            obtain_marks = decimal.Decimal(obtain[_]),
+                            total_marks =decimal.Decimal(total),
+                            remarks=remark[_],
+                            exam_type = type,
+                            added_by = teacher
+                            )
+                        marks.save()
+
             return redirect('upload_marks')
         else:
             return redirect('teacher_login')
