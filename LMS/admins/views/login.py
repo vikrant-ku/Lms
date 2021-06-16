@@ -52,7 +52,7 @@ class Reset_password_all(View):
             section = request.GET.get('class_name')
             cls = get_object_or_404(Class, class_name=class_name)
             all_stud = Students.objects.filter(class_name=cls.id, section=section)
-            password = int(123)
+            password = '123'
             for i in all_stud:
                 i.password = make_password(password)
                 i.save()
