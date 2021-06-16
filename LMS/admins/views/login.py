@@ -20,6 +20,7 @@ class Reset_password(View):
             username = data.get('username')
             pass1 = data.get('pass1')
             pass2 = data.get('pass2')
+            print(type(pass1))
             user = None
             if pass1 == pass2:
                 if "ST" in username:
@@ -49,14 +50,16 @@ class Reset_password_all(View):
     def get(self, request):
         if validate_user(request):
             class_name = request.GET.get('class_name')
-            section = request.GET.get('class_name')
+            section = request.GET.get('section')
             cls = get_object_or_404(Class, class_name=class_name)
-            all_stud = Students.objects.filter(class_name=cls.id, section=section)
-            password = '123'
-            for i in all_stud:
-                i.password = make_password(password)
-                i.save()
-            messages.success(request, 'password reset successfully')
+            all_stud = Students.objects.filter(class_name=cls.id,section=section)
+            if len(all_stud)>0:
+                for i in all_stud:
+                    i.password = make_password('123')
+                    i.save()
+                messages.success(request, 'password reset successfully')
+            else:
+                messages.error(request, 'Please Check Class or section')
             return redirect("admin_home")
         return redirect('teacher_login')
 
