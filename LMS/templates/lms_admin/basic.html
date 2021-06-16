@@ -81,6 +81,16 @@
                     </li>
                     <li>
                         <a class="has-arrow" href="#" aria-expanded="false"><span
+                                class="educate-icon educate-library icon-wrap"></span> <span class="mini-click-non">Marks</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="All Students" href="{% url 'admin_upload_marks' %}"><span
+                                    class="mini-sub-pro">Upload Marks</span></a></li>
+                            <li><a title="Add Students" href="{% url 'admin_view_students_marks' %}"><span class="mini-sub-pro">View Marks</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="#" aria-expanded="false"><span
                                 class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Subjects</span></a>
                         <ul class="submenu-angle" aria-expanded="false">
                             <li><a title="All Courses" href="{% url 'all_subjects' %}"><span class="mini-sub-pro">View/Add Subjects</span></a>
@@ -306,6 +316,17 @@
                                             <li><a href="{% url 'admin_all_students' %}">All Students</a>
                                             </li>
                                             <li><a href="{% url 'add_students' %}">Add Student</a>
+                                            </li>
+                                            <li><a href="{% url 'admin_view_documents' %}">View Documents</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                     <li><a data-toggle="collapse" data-target="#marks" href="#">Marks <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="marks" class="collapse dropdown-header-top">
+                                            <li><a href="{% url 'admin_upload_marks' %}">Upload Marks</a>
+                                            </li>
+                                            <li><a href="{% url 'admin_view_students_marks' %}">View Marks</a>
                                             </li>
                                         </ul>
                                     </li>

@@ -5,12 +5,19 @@ from django.contrib.auth.hashers import make_password
 from django.views import View
 from admins.models.fees import Fees, Student_fees, Academic_Year, Fee_discount
 from admins.models.students import Students, Documents
-from admins.models.classes import Class
+from admins.models.professor import Teacher
+from admins.models.classes import Class, Class_subjects
+from teacher.models import Marks
 from django.db.models import Q
 from django.core.paginator import Paginator , PageNotAnInteger , EmptyPage
 from .login import validate_user
 from admins.resources import StudentsResources
 from tablib import Dataset
+import datetime
+import decimal
+
+
+
 
 class Add_students(View):
     def get(self, request):
@@ -524,7 +531,6 @@ class Edit_fee_discount(View):
 
 class Delete_discount(View):
     def get(self, request, **kwargs):
-        print("cllled")
         if validate_user(request):
             discount= get_object_or_404(Fee_discount, pk=kwargs.get('pk'))
             discount.delete()
@@ -532,10 +538,133 @@ class Delete_discount(View):
         return redirect('login')
 
 
+class Upload_marks(View):
+    def get(self, request):
+        if validate_user(request):
+            classes = Class.objects.all()
+            subjects = Class_subjects.objects.all()
+            data = {'classes': classes, 'subjects': subjects,}
+            return render(request, 'lms_admin/upload-marks.html', data)
+        else:
+            return redirect('teacher_login')
 
+    def post(self, request):
+        if validate_user(request):
+            today = datetime.date.today()
+            classes = Class.objects.all()
+            subjects = Class_subjects.objects.all()
 
+            data = request.POST
+            cls = data.get('class')
+            section = data.get('section')
+            subject = data.get('subject')
+            clss = get_object_or_404(Class, class_name= cls)
+            students = Students.objects.filter(class_name=clss.id, section=section)
+            marks = Marks.objects.filter(class_name=clss.id, section=section, subject=subject,date_added__startswith=today )
 
+            if len(marks) > 0:
+                messages.error(request, f'You already Submitted {subject} marks for Class {cls} {section} . ')
+                marked = True
+            else:
+                marked = False
 
+            data = {'classes': classes, 'subjects': subjects,'class':cls,
+                    'section':section, 'subject':subject, 'students':students, 'marked':marked}
+            return render(request, 'lms_admin/upload-marks.html', data)
+        else:
+            return redirect('teacher_login')
+
+class Save_student_marks(View):
+    def post(self, request):
+        if validate_user(request):
+            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
+            teacher = get_object_or_404(Teacher, username=request.session.get('user'))
+            data = request.POST
+            std_id = data.getlist('id')
+            obtain = data.getlist('obtain')
+            remark = data.getlist('remarks')
+            total = data.get('total')
+            subject = data.get('subject')
+            class_name = data.get('class')
+            section = data.get('section')
+            type = data.get('type')
+            cls =  get_object_or_404(Class, class_name=class_name)
+            for _ in range(len(std_id)):
+                student = get_object_or_404(Students, pk=int(std_id[_]))
+                marks = Marks(
+                    academic_year=academic,
+                    student=student,
+                    class_name =cls,
+                    section =section,
+                    subject =subject,
+                    obtain_marks = decimal.Decimal(obtain[_]),
+                    total_marks =decimal.Decimal(total),
+                    remarks=remark[_],
+                    exam_type = type,
+                    added_by = teacher
+                )
+                marks.save()
+            return redirect('admin_upload_marks')
+        else:
+            return redirect('teacher_login')
+
+class View_marks(View):
+    def get(self, request):
+        if validate_user(request):
+            classes = Class.objects.all()
+            subjects = Class_subjects.objects.all()
+            data = {'classes': classes, 'subjects': subjects}
+            return render(request, 'lms_admin/view-marks.html', data)
+        else:
+            return redirect('teacher_login')
+
+    def post(self, request):
+        if validate_user(request):
+            teacher = get_object_or_404(Teacher, username=request.session.get('user'))
+            classes = Class.objects.all()
+            subjects = Class_subjects.objects.all()
+            academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0] # get academic year
+            data = request.POST
+            cls = data.get('class')
+            section = data.get('section')
+            subject = data.get('subject')
+            type = data.get('type')
+            clss = get_object_or_404(Class, class_name= cls)
+            marks = Marks.objects.filter(academic_year=academic,class_name=clss.id, section=section, subject=subject,exam_type=type)
+            _ = marks.first()
+            print("-----------------")
+            print(_)
+            data = {'classes': classes, 'subjects': subjects, 'marks': marks}
+            if _ is not None:
+                if _.added_by.username==teacher.username:
+                    data['update']=True
+            return render(request, 'lms_admin/view-marks.html', data)
+        else:
+            return redirect('teacher_login')
+
+class update_student_mark(View):
+    def get(self,request,**kwargs):
+        if validate_user(request):
+            pk = kwargs.get('pk')
+            mark = get_object_or_404(Marks, pk=pk)
+            data = {'mark':mark}
+            return render(request, 'lms_admin/update-mark.html', data)
+        else:
+            return redirect('teacher_login')
+
+    def post(self,request,**kwargs):
+        if validate_user(request):
+            pk = kwargs.get('pk')
+            mark = get_object_or_404(Marks, pk=pk)
+            obtaon = request.POST.get('obtain')
+            total = request.POST.get('total')
+            mark.obtain_marks = decimal.Decimal(obtaon)
+            mark.total_marks = decimal.Decimal(total)
+            mark.save()
+            messages.success(request,f'{mark.student.first_name} marks Updated successfully.')
+            return redirect('admin_view_students_marks')
+        else:
+            return redirect('teacher_login')
 
 def proper_pagination(prods, index):
     start_index = 0

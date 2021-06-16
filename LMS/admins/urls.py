@@ -1,6 +1,6 @@
 from .views.index import Index
 from .views.student import Add_students, All_students , Delete_student, Edit_student, Add_fees, View_fees,Students_fee, Add_Student_by_Excel, View_Student, View_documents
-from .views.student import Fee_discounts, View_fee_discounts, Edit_fee_discount,Delete_discount
+from .views.student import Fee_discounts, View_fee_discounts, Edit_fee_discount,Delete_discount, Upload_marks, Save_student_marks, View_marks, update_student_mark
 from .views.professor import Add_professors , All_professor , Edit_professor, Delete_professor, Assign_role,View_role, teacher_leave, teacher_leave_status
 from .views.professor import Add_teacher_by_excel, View_professor
 from .views.staff import Add_staff, All_staff, delete_staff, Edit_staff
@@ -32,7 +32,10 @@ urlpatterns = [
     path('view-fee-discounts/', auth_middleware(View_fee_discounts.as_view()), name="admin-view-fee-discount"),
     path('view-fee-discounts/delete-discounts/<int:pk>/', auth_middleware(Delete_discount.as_view()), name="admin-delete-discount"),
     path('view-fee-discounts/edit-fee-discount/<str:username>/', auth_middleware(Edit_fee_discount.as_view()), name="admin-edit-discount"),
-
+    path('upload-marks/', auth_middleware(Upload_marks.as_view()), name="admin_upload_marks"),
+    path('upload-marks/save-students-marks/', auth_middleware(Save_student_marks.as_view()), name="admin_save_upload_marks"),
+    path('view-students-marks/', auth_middleware(View_marks.as_view()), name="admin_view_students_marks"),
+    path('update_mark/<int:pk>/<str:username>', auth_middleware(update_student_mark.as_view()), name="update_mark"),
     #Teachers
     path('add_teachers/', auth_middleware(Add_professors.as_view()), name="add_teacher"),
     path('add_teacher_by_excel/', auth_middleware(Add_teacher_by_excel.as_view()), name="add_teacher_excel"),
