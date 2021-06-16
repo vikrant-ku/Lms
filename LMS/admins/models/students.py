@@ -25,15 +25,6 @@ class Students(models.Model):
     token = models.CharField(max_length=12, default="")
     date_joined = models.DateTimeField(verbose_name='date_joined', auto_now_add=True)
     is_rte = models.BooleanField(default=False)
-    def save(self, *args, **kwargs):
-        if self.pk is None:
-            self.password = make_password(self.password)
-        super(Students, self).save(*args, **kwargs)
-        if self.username is None:
-            self.username = "ST00"+str(self.pk)
-            super(Students, self).save(*args, **kwargs)
-
-
 
     def __str__(self):
         return self.username
