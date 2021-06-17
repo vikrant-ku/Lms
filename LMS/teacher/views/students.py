@@ -11,9 +11,12 @@ from admins.models.notice import Notification
 from teacher.models import Marks
 from .index import is_class_teacher, validate_user
 from student.views.index import get_notifications
+from django.db import transaction
 import datetime
 import decimal
 
+from django.utils.decorators import method_decorator
+from throttle.decorators import throttle
 
 class All_students(View):
     def get(self, request):
@@ -75,19 +78,20 @@ class Attandance(View):
                 student = data.getlist('id')
                 attand = data.getlist('attandance')
                 academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
-                for _ in range(len(student)):
-                    user = get_object_or_404(Students, pk=int(student[_]))
-                    cls = get_object_or_404(Class, class_name=user.class_name)
-                    section = user.section
-                    attandance = Student_Attandance(
-                                            academic_year=academic,
-                                            student=user,
-                                            class_name = cls,
-                                            section = section,
-                                            attandance = attand[_],
-                                            datetime = datetime.datetime.today()
-                                                )
-                    attandance.save()
+                with transaction.atomic():
+                    for _ in range(len(student)):
+                        user = get_object_or_404(Students, pk=int(student[_]))
+                        cls = get_object_or_404(Class, class_name=user.class_name)
+                        section = user.section
+                        attandance = Student_Attandance(
+                                                academic_year=academic,
+                                                student=user,
+                                                class_name = cls,
+                                                section = section,
+                                                attandance = attand[_],
+                                                datetime = datetime.datetime.today()
+                                                    )
+                        attandance.save()
                 messages.success(request,f"Attandance for {datetime.date.today()} is marked successfully")
                 return redirect('mark_attandnce')
             else:
@@ -380,6 +384,11 @@ class Upload_marks(View):
             return redirect('teacher_login')
 
 class Save_student_marks(View):
+
+    @method_decorator(throttle(zone='default'))
+    def dispatch(self, *args, **kwargs):
+        return super(Save_student_marks, self).dispatch(*args, **kwargs)
+
     def post(self, request):
         if validate_user(request):
             academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]

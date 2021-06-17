@@ -1,5 +1,6 @@
 {% extends './basic.html' %}
 {% load static %}
+{% load join_class %}
 {% block title %}| View Marks {% endblock %}
 
  {% block head %}
@@ -138,8 +139,8 @@
                                         <td>{{ mark.student.username }}</td>
                                         <td>{{ mark.student.first_name }}</td>
                                         <td>{{ mark.student.last_name }}</td>
-                                        <td>{{ mark.obtain_marks }}</td>
-                                        <td>{{ mark.total_marks }}</td>
+                                        <td>{{ mark.obtain_marks|marks }}</td>
+                                        <td>{{ mark.total_marks|marks }}</td>
                                         <td>{{ mark.remarks }}</td>
                                         {% if update %}
                                       <td>

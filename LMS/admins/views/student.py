@@ -16,6 +16,9 @@ from tablib import Dataset
 import datetime
 import decimal
 
+from django.utils.decorators import method_decorator
+from throttle.decorators import throttle
+
 class Add_students(View):
     def get(self, request):
         if validate_user(request):
@@ -572,6 +575,11 @@ class Upload_marks(View):
             return redirect('teacher_login')
 
 class Save_student_marks(View):
+
+    @method_decorator(throttle(zone='default'))
+    def dispatch(self, *args, **kwargs):
+        return super(Save_student_marks, self).dispatch(*args, **kwargs)
+
     def post(self, request):
         if validate_user(request):
             academic = Academic_Year.objects.all().order_by('academic_year').reverse()[0]
@@ -639,8 +647,6 @@ class View_marks(View):
             clss = get_object_or_404(Class, class_name= cls)
             marks = Marks.objects.filter(academic_year=academic,class_name=clss.id, section=section, subject=subject,exam_type=type)
             _ = marks.first()
-            print("-----------------")
-            print(_)
             data = {'classes': classes, 'subjects': subjects, 'marks': marks}
             if _ is not None:
                 if _.added_by.username==teacher.username:

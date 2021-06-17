@@ -25,4 +25,16 @@ def get_name(document_name):
 
         return name.upper()
 
+@register.filter(name='marks')
+def marks(number):
+    num = str(number)
+    num = num.split(".")
+    if len(num)>1:
+        if num[1]=='0' or num[1]=='00':
+            return num[0]
+        else:
+            return str(number)
+    else:
+        return str(number)
+
 
